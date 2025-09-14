@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI T-Shirt Mockup Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bangers&family=Bebas+Neue&family=Caveat&family=Creepster&family=Dancing+Script&family=Lato&family=Lobster&family=Merriweather&family=Monoton&family=Montserrat&family=Nosifier&family=Oswald&family=Pacifico&family=Permanent+Marker&family=Playfair+Display&family=Poppins&family=Press+Start+2P&family=Roboto&family=Rock+Salt&family=Special+Elite&family=Zilla+Slab&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #111827; /* bg-gray-900 */
+      }
+      h1 {
+        /* Professional white outline + indigo glow */
+        text-shadow:
+          -0.5px -0.5px 0 rgba(255, 255, 255, 0.75),
+           0.5px -0.5px 0 rgba(255, 255, 255, 0.75),
+          -0.5px  0.5px 0 rgba(255, 255, 255, 0.75),
+           0.5px  0.5px 0 rgba(255, 255, 255, 0.75),
+           0px 0px 10px rgba(129, 140, 248, 0.6);
+      }
+      h2, h3 {
+        /* Simpler white outline for secondary titles */
+        text-shadow:
+          -0.5px -0.5px 0 rgba(255, 255, 255, 0.6),
+           0.5px -0.5px 0 rgba(255, 255, 255, 0.6),
+          -0.5px  0.5px 0 rgba(255, 255, 255, 0.6),
+           0.5px  0.5px 0 rgba(255, 255, 255, 0.6);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

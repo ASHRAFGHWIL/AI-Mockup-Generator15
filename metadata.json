@@ -1,0 +1,5 @@
+{
+  "name": "AI Mockup Generator15",
+  "description": "An AI-powered application to create realistic T-shirt mockups. Upload your logo, add text, choose a color, and let Gemini API generate a photorealistic image of your design on a model.",
+  "requestFramePermissions": []
+}
