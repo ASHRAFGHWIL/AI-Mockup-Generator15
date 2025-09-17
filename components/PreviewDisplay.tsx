@@ -1,5 +1,5 @@
 import React from 'react';
-import { WandIcon, DownloadIcon } from './icons';
+import { WandIcon, DownloadIcon, BackArrowIcon } from './icons';
 import type { ProductType, ImageMode } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -14,9 +14,11 @@ interface PreviewDisplayProps {
   onDownloadEngravingSvg: () => void;
   onDownloadMockup: () => void;
   imageMode: ImageMode;
+  isPreviewExpanded: boolean;
+  onExitPreview: () => void;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadEngravingSvg, onDownloadMockup, imageMode }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadEngravingSvg, onDownloadMockup, imageMode, isPreviewExpanded, onExitPreview }) => {
     const { t } = useTranslation();
     
     const loadingMessages = React.useMemo(() => [
@@ -43,8 +45,19 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
     }, [isLoading, loadingMessages]);
 
   return (
-    <div className="w-full lg:w-2/3 xl:w-3/4 flex-grow flex flex-col items-center justify-center gap-6">
+    <div className="w-full flex-grow flex flex-col items-center justify-center gap-6">
       <div className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}>
+        {isPreviewExpanded && generatedImage && !isLoading && (
+            <button
+                onClick={onExitPreview}
+                className="absolute top-4 left-4 rtl:left-auto rtl:right-4 z-20 bg-gray-800/70 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-opacity"
+                aria-label={t('backToEditorButton')}
+            >
+                <BackArrowIcon className="w-5 h-5" />
+                <span>{t('backToEditorButton')}</span>
+            </button>
+        )}
+        
         {isLoading && (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-10 text-white transition-opacity">
             <svg className="animate-spin h-12 w-12 text-indigo-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

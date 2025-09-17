@@ -71,6 +71,7 @@ export const en = {
   logoPngButton: "Logo PNG",
   textSvgButton: "Text SVG",
   textPngButton: "Text PNG",
+  backToEditorButton: "Back to Editor",
   loadingMsg1: "Summoning the AI designer...",
   loadingMsg2: "Stitching pixels with digital thread...",
   loadingMsg3: "Applying photorealistic magic...",

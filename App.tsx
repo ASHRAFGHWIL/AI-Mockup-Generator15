@@ -94,6 +94,7 @@ const AppContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [imageMode, setImageMode] = useState<ImageMode>('fit_blur');
+  const [isPreviewExpanded, setIsPreviewExpanded] = useState<boolean>(false);
 
   const logoFileRef = useRef<File | null>(null);
 
@@ -156,6 +157,7 @@ const AppContent: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setGeneratedImage(null);
+    setIsPreviewExpanded(false);
 
     try {
       const result = await generateMockupFromApi(
@@ -163,6 +165,7 @@ const AppContent: React.FC = () => {
         design
         );
       setGeneratedImage(result);
+      setIsPreviewExpanded(true);
     } catch (err: any) {
       setError(err.message || 'An unknown error occurred.');
     } finally {
@@ -305,15 +308,17 @@ const AppContent: React.FC = () => {
         </header>
 
         <main className="flex flex-col lg:flex-row gap-8">
-          <ControlsPanel 
-            design={design} 
-            setDesign={setDesign}
-            onGenerate={handleGenerate} 
-            isLoading={isLoading}
-            handleLogoChange={handleLogoChange}
-            imageMode={imageMode}
-            setImageMode={setImageMode}
-          />
+          {!isPreviewExpanded && (
+            <ControlsPanel 
+              design={design} 
+              setDesign={setDesign}
+              onGenerate={handleGenerate} 
+              isLoading={isLoading}
+              handleLogoChange={handleLogoChange}
+              imageMode={imageMode}
+              setImageMode={setImageMode}
+            />
+          )}
           <PreviewDisplay 
             generatedImage={generatedImage} 
             isLoading={isLoading}
@@ -325,6 +330,8 @@ const AppContent: React.FC = () => {
             onDownloadEngravingSvg={handleDownloadEngravingSvg}
             onDownloadMockup={handleDownloadMockup}
             imageMode={imageMode}
+            isPreviewExpanded={isPreviewExpanded}
+            onExitPreview={() => setIsPreviewExpanded(false)}
           />
         </main>
       </div>
