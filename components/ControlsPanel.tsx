@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, EngravingMaterial, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
-import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, ENGRAVING_MATERIALS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
+import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
+import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
 import { UploadIcon, TrashIcon, WandIcon, FitIcon, FitBlurIcon, FitTransparentIcon, CropIcon, StretchIcon, AspectRatioSquareIcon, AspectRatioHorizontalIcon, AspectRatioVerticalIcon } from './icons';
 import ColorPicker from './ColorPicker';
 import { useTranslation } from '../hooks/useTranslation';
@@ -112,7 +112,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
     if (design.productType === 'sweatshirt_teacup_scene') {
         return t('productColorLabel_sweatshirt_teacup_scene');
     }
-    // FIX: Add missing translation key to the type definition for the translation function 't' to resolve a TypeScript error.
+    // FIX: Removed a stray backslash before the template literal backtick, which was causing a major parsing error.
     const key = `productColorLabel_${design.productType}` as keyof typeof import('../i18n/en').en;
     return t(key);
   }
@@ -120,7 +120,8 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
   const productColorLabel = getProductColorLabel();
   
   const backgroundlessProducts: ProductType[] = ['flat_lay', 'jigsaw_puzzle', 'sticker', 'laser_engraving', 'halloween_tumbler', 'tumbler_trio', 'phone_case', 'poster', 'laptop_sleeve', 'wallet', 'cap', 'beanie'];
-  const proBackgroundProducts: ProductType[] = ['flat_lay', 'wallet', 'phone_case', 'sticker', 'jigsaw_puzzle', 'laptop_sleeve', 'cap', 'beanie'];
+  const proBackgroundProducts: ProductType[] = ['flat_lay', 'wallet', 'phone_case', 'sticker', 'jigsaw_puzzle', 'laptop_sleeve', 'cap', 'beanie', 'laser_engraving'];
+  const isTextProduct = design.productType !== 'frame' && design.productType !== 'mug' && design.productType !== 'sipper_glass' && design.productType !== 'jigsaw_puzzle' && design.productType !== 'laser_engraving';
 
 
   return (
@@ -213,8 +214,8 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
         <input ref={fileInputRef} type="file" className="hidden" accept="image/png, image/jpeg" onChange={handleLogoChange} />
       </div>
 
-      {/* Text controls - not for frame, mug, or sipper glass */}
-      {design.productType !== 'frame' && design.productType !== 'mug' && design.productType !== 'sipper_glass' && design.productType !== 'jigsaw_puzzle' && (
+      {/* Text controls */}
+      {isTextProduct && (
         <>
             {/* Custom Text */}
             <div>
@@ -465,11 +466,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, walletStyle: e.target.value as WalletStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {WALLET_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {WALLET_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -480,18 +481,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, walletModel: e.target.value as WalletModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {WALLET_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {WALLET_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'cap' && (
-        <>
+         <>
             <div>
                 <label htmlFor="cap-style" className="block text-sm font-medium text-gray-300">{t('capStyleLabel')}</label>
                 <select
@@ -500,11 +501,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, capStyle: e.target.value as CapStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {CAP_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {CAP_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -515,24 +516,9 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, capModel: e.target.value as CapModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {CAP_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="design-style-cap" className="block text-sm font-medium text-gray-300">{t('designStyleLabel')}</label>
-                <select
-                id="design-style-cap"
-                value={design.style}
-                onChange={(e) => setDesign(d => ({ ...d, style: e.target.value as DesignStyle }))}
-                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {DESIGN_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                {CAP_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
                     </option>
                 ))}
                 </select>
@@ -541,7 +527,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
       )}
 
       {design.productType === 'beanie' && (
-        <>
+         <>
             <div>
                 <label htmlFor="beanie-style" className="block text-sm font-medium text-gray-300">{t('beanieStyleLabel')}</label>
                 <select
@@ -550,11 +536,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, beanieStyle: e.target.value as BeanieStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {BEANIE_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {BEANIE_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -565,18 +551,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, beanieModel: e.target.value as BeanieModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {BEANIE_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {BEANIE_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'pillow' && (
-        <>
+         <>
             <div>
                 <label htmlFor="pillow-style" className="block text-sm font-medium text-gray-300">{t('pillowStyleLabel')}</label>
                 <select
@@ -585,11 +571,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, pillowStyle: e.target.value as PillowStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PILLOW_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {PILLOW_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -600,24 +586,9 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, pillowSetting: e.target.value as PillowSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PILLOW_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="design-style-pillow" className="block text-sm font-medium text-gray-300">{t('designStyleLabel')}</label>
-                <select
-                id="design-style-pillow"
-                value={design.style}
-                onChange={(e) => setDesign(d => ({ ...d, style: e.target.value as DesignStyle }))}
-                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {DESIGN_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                {PILLOW_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
                     </option>
                 ))}
                 </select>
@@ -626,43 +597,25 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
       )}
 
       {design.productType === 'flat_lay' && (
-        <>
-            <div>
-                <label htmlFor="flat-lay-style" className="block text-sm font-medium text-gray-300">{t('flatLayStyleLabel')}</label>
-                <select
-                    id="flat-lay-style"
-                    value={design.flatLayStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, flatLayStyle: e.target.value as FlatLayStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                    {FLAT_LAY_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            
-            <div>
-                <label htmlFor="design-style-flatlay" className="block text-sm font-medium text-gray-300">{t('tshirtDesignStyleLabel')}</label>
-                <select
-                  id="design-style-flatlay"
-                  value={design.style}
-                  onChange={(e) => setDesign(d => ({ ...d, style: e.target.value as DesignStyle }))}
-                  className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                  {DESIGN_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                      {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-        </>
+        <div>
+          <label htmlFor="flatlay-style" className="block text-sm font-medium text-gray-300">{t('flatLayStyleLabel')}</label>
+          <select
+            id="flatlay-style"
+            value={design.flatLayStyle}
+            onChange={(e) => setDesign(d => ({ ...d, flatLayStyle: e.target.value as FlatLayStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+          >
+            {FLAT_LAY_STYLES.map(style => (
+              <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
 
       {design.productType === 'frame' && (
-        <>
+         <>
             <div>
                 <label htmlFor="frame-style" className="block text-sm font-medium text-gray-300">{t('frameStyleLabel')}</label>
                 <select
@@ -671,11 +624,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, frameStyle: e.target.value as FrameStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {FRAME_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {FRAME_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -686,18 +639,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, frameModel: e.target.value as FrameModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {FRAME_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {FRAME_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {(design.productType === 'mug' || design.productType === 'tshirt_teacup_scene' || design.productType === 'sweatshirt_mug_scene' || design.productType === 'hoodie_teacup_scene' || design.productType === 'sweatshirt_teacup_scene') && (
-        <>
+         <>
             <div>
                 <label htmlFor="mug-style" className="block text-sm font-medium text-gray-300">{t('mugStyleLabel')}</label>
                 <select
@@ -706,14 +659,14 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, mugStyle: e.target.value as MugStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {MUG_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {MUG_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
-            {(design.productType !== 'tshirt_teacup_scene' && design.productType !== 'sweatshirt_mug_scene' && design.productType !== 'hoodie_teacup_scene' && design.productType !== 'sweatshirt_teacup_scene') && (
+            {design.productType === 'mug' && (
               <div>
                   <label htmlFor="mug-model" className="block text-sm font-medium text-gray-300">{t('mugModelLabel')}</label>
                   <select
@@ -722,11 +675,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                       onChange={(e) => setDesign(d => ({ ...d, mugModel: e.target.value as MugModel }))}
                       className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                   >
-                      {MUG_MODELS.map(model => (
-                          <option key={model.id} value={model.id}>
-                              {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                          </option>
-                      ))}
+                  {MUG_MODELS.map(model => (
+                      <option key={model.id} value={model.id}>
+                      {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                      </option>
+                  ))}
                   </select>
               </div>
             )}
@@ -734,7 +687,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
       )}
 
       {design.productType === 'sipper_glass' && (
-        <>
+         <>
             <div>
                 <label htmlFor="sipper-style" className="block text-sm font-medium text-gray-300">{t('sipperStyleLabel')}</label>
                 <select
@@ -743,11 +696,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, sipperGlassStyle: e.target.value as SipperGlassStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {SIPPER_GLASS_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {SIPPER_GLASS_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -758,18 +711,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, sipperGlassModel: e.target.value as SipperGlassModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {SIPPER_GLASS_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {SIPPER_GLASS_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'tumbler_wrap' && (
-        <>
+         <>
             <div>
                 <label htmlFor="tumbler-style" className="block text-sm font-medium text-gray-300">{t('tumblerStyleLabel')}</label>
                 <select
@@ -778,11 +731,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, tumblerStyle: e.target.value as TumblerStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {TUMBLER_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {TUMBLER_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -793,18 +746,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, tumblerModel: e.target.value as TumblerModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {TUMBLER_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                           {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {TUMBLER_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'halloween_tumbler' && (
-        <>
+         <>
             <div>
                 <label htmlFor="halloween-tumbler-style" className="block text-sm font-medium text-gray-300">{t('halloweenTumblerStyleLabel')}</label>
                 <select
@@ -813,11 +766,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerStyle: e.target.value as HalloweenTumblerStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {HALLOWEEN_TUMBLER_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {HALLOWEEN_TUMBLER_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -828,18 +781,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerSetting: e.target.value as HalloweenTumblerSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {HALLOWEEN_TUMBLER_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {HALLOWEEN_TUMBLER_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'tumbler_trio' && (
-        <>
+         <>
             <div>
                 <label htmlFor="tumbler-trio-style" className="block text-sm font-medium text-gray-300">{t('tumblerTrioStyleLabel')}</label>
                 <select
@@ -848,11 +801,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, tumblerTrioStyle: e.target.value as TumblerTrioStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {TUMBLER_TRIO_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {TUMBLER_TRIO_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -863,36 +816,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, tumblerTrioSetting: e.target.value as TumblerTrioSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {TUMBLER_TRIO_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {TUMBLER_TRIO_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
-      {design.productType === 'laser_engraving' && (
-        <div>
-            <label htmlFor="engraving-material" className="block text-sm font-medium text-gray-300">{t('engravingMaterialLabel')}</label>
-            <select
-                id="engraving-material"
-                value={design.engravingMaterial}
-                onChange={(e) => setDesign(d => ({ ...d, engravingMaterial: e.target.value as EngravingMaterial }))}
-                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-            >
-                {ENGRAVING_MATERIALS.map(material => (
-                    <option key={material.id} value={material.id}>
-                        {t(material.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-            </select>
-        </div>
-      )}
-
       {design.productType === 'phone_case' && (
-        <>
+         <>
             <div>
                 <label htmlFor="phone-case-style" className="block text-sm font-medium text-gray-300">{t('phoneCaseStyleLabel')}</label>
                 <select
@@ -901,11 +836,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, phoneCaseStyle: e.target.value as PhoneCaseStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PHONE_CASE_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {PHONE_CASE_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -916,18 +851,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, phoneCaseModel: e.target.value as PhoneCaseModel }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PHONE_CASE_MODELS.map(model => (
-                        <option key={model.id} value={model.id}>
-                            {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {PHONE_CASE_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'sticker' && (
-        <>
+         <>
             <div>
                 <label htmlFor="sticker-style" className="block text-sm font-medium text-gray-300">{t('stickerStyleLabel')}</label>
                 <select
@@ -936,11 +871,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, stickerStyle: e.target.value as StickerStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {STICKER_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {STICKER_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -951,18 +886,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, stickerSetting: e.target.value as StickerSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {STICKER_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {STICKER_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'poster' && (
-        <>
+         <>
             <div>
                 <label htmlFor="poster-style" className="block text-sm font-medium text-gray-300">{t('posterStyleLabel')}</label>
                 <select
@@ -971,11 +906,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, posterStyle: e.target.value as PosterStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {POSTER_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {POSTER_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -986,18 +921,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, posterSetting: e.target.value as PosterSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {POSTER_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {POSTER_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'jigsaw_puzzle' && (
-        <>
+         <>
             <div>
                 <label htmlFor="puzzle-style" className="block text-sm font-medium text-gray-300">{t('puzzleStyleLabel')}</label>
                 <select
@@ -1006,11 +941,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, puzzleStyle: e.target.value as PuzzleStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PUZZLE_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {PUZZLE_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -1021,18 +956,18 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, puzzleSetting: e.target.value as PuzzleSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {PUZZLE_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {PUZZLE_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
       {design.productType === 'laptop_sleeve' && (
-        <>
+         <>
             <div>
                 <label htmlFor="laptop-sleeve-style" className="block text-sm font-medium text-gray-300">{t('laptopSleeveStyleLabel')}</label>
                 <select
@@ -1041,11 +976,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, laptopSleeveStyle: e.target.value as LaptopSleeveStyle }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {LAPTOP_SLEEVE_STYLES.map(style => (
-                        <option key={style.id} value={style.id}>
-                            {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {LAPTOP_SLEEVE_STYLES.map(style => (
+                    <option key={style.id} value={style.id}>
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
             <div>
@@ -1056,51 +991,55 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                     onChange={(e) => setDesign(d => ({ ...d, laptopSleeveSetting: e.target.value as LaptopSleeveSetting }))}
                     className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {LAPTOP_SLEEVE_SETTINGS.map(setting => (
-                        <option key={setting.id} value={setting.id}>
-                            {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                        </option>
-                    ))}
+                {LAPTOP_SLEEVE_SETTINGS.map(setting => (
+                    <option key={setting.id} value={setting.id}>
+                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
                 </select>
             </div>
         </>
       )}
 
+      {design.productType !== 'laser_engraving' &&
+        <ColorPicker
+          label={productColorLabel}
+          colors={PRODUCT_COLORS}
+          selectedValue={design.productColor}
+          onChange={(color) => setDesign(d => ({ ...d, productColor: color }))}
+        />
+      }
 
-
-      <ColorPicker
-        label={productColorLabel}
-        colors={PRODUCT_COLORS}
-        selectedValue={design.productColor}
-        onChange={(color) => setDesign(d => ({ ...d, productColor: color }))}
-      />
-
+       {/* Aspect Ratio */}
       <div>
-        <label htmlFor="aspect-ratio" className="block text-sm font-medium text-gray-300">{t('photoFormatLabel')}</label>
-        <div className="mt-2 grid grid-cols-3 gap-2">
-            {aspectRatios.map(({ id, nameKey, icon: Icon }) => (
-                <button
-                    key={id}
-                    type="button"
-                    onClick={() => setDesign(d => ({ ...d, aspectRatio: id }))}
-                    className={`flex flex-col items-center justify-center p-2 rounded-md transition-colors ${design.aspectRatio === id ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
-                >
-                    <Icon className="w-6 h-6 mb-1"/>
-                    <span className="text-xs font-medium">{t(nameKey as keyof typeof import('../i18n/en').en)}</span>
-                </button>
-            ))}
+        <label className="block text-sm font-medium text-gray-300 mb-2">{t('photoFormatLabel')}</label>
+        <div className="flex items-center gap-2 rounded-lg bg-gray-700 p-1">
+          {aspectRatios.map(({ id, nameKey, icon: Icon }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setDesign(d => ({...d, aspectRatio: id}))}
+              className={`flex-1 p-2 rounded-md transition-colors text-xs flex flex-col items-center gap-1 ${design.aspectRatio === id ? 'bg-indigo-600 text-white' : 'hover:bg-gray-600 text-gray-300'}`}
+              title={t(nameKey as keyof typeof import('../i18n/en').en)}
+            >
+              <Icon className="w-5 h-5" />
+              <span>{t(nameKey as keyof typeof import('../i18n/en').en)}</span>
+            </button>
+          ))}
         </div>
       </div>
-      
-      <button
-        onClick={onGenerate}
-        disabled={isLoading || !design.logo}
-        className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:scale-100"
-      >
-        <WandIcon className="w-6 h-6" />
-        <span className="text-lg">{isLoading ? t('generatingButton') : (design.productType === 'laser_engraving' ? t('generateEngravingButton') : t('generateButton'))}</span>
-      </button>
-      {!design.logo && <p className="text-center text-sm text-yellow-400">{t('uploadLogoWarning')}</p>}
+     
+      <div className="border-t border-gray-700 pt-6">
+        <button
+          onClick={onGenerate}
+          disabled={isLoading || !design.logo}
+          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+        >
+          <WandIcon className="w-6 h-6" />
+          <span className="text-lg">{isLoading ? t('generatingButton') : (design.productType === 'laser_engraving' ? t('generateEngravingButton') : t('generateButton'))}</span>
+        </button>
+      </div>
+
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, EngravingMaterial, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -222,12 +222,6 @@ export const TUMBLER_TRIO_SETTINGS: {id: TumblerTrioSetting, nameKey: string, de
     { id: 'marble_countertop', nameKey: 'tumblerTrioSetting_marble_countertop', description: 'a clean, bright white marble countertop with soft, out-of-focus kitchen background elements' },
     { id: 'light_wood', nameKey: 'tumblerTrioSetting_light_wood', description: 'a light-colored wooden table with a soft, warm, and slightly blurred background' },
     { id: 'minimalist_shelf', nameKey: 'tumblerTrioSetting_minimalist_shelf', description: 'a simple, floating minimalist shelf against a plain, neutral-colored wall' },
-];
-
-export const ENGRAVING_MATERIALS: {id: EngravingMaterial, nameKey: string}[] = [
-    { id: 'wood_plaque', nameKey: 'engravingMaterial_wood_plaque' },
-    { id: 'slate_coaster', nameKey: 'engravingMaterial_slate_coaster' },
-    { id: 'metal_card', nameKey: 'engravingMaterial_metal_card' },
 ];
 
 export const PHONE_CASE_STYLES: {id: PhoneCaseStyle, nameKey: string}[] = [
@@ -537,6 +531,16 @@ export const PROFESSIONAL_BACKGROUNDS: {id: ProfessionalBackground, nameKey: str
     { id: 'rich_walnut', nameKey: 'professionalBackground_rich_walnut', description: 'a rich, dark walnut wood surface with a smooth, polished finish' },
     { id: 'light_oak', nameKey: 'professionalBackground_light_oak', description: 'a light-colored oak wood surface with a visible grain' },
     { id: 'whitewashed_wood', nameKey: 'professionalBackground_whitewashed_wood', description: 'a soft, whitewashed wood plank surface with a rustic, shabby-chic feel' },
+    { id: 'bamboo_wood', nameKey: 'professionalBackground_bamboo_wood', description: 'a clean, light-colored bamboo wood surface showing the characteristic grain and nodes' },
+    { id: 'cherry_wood', nameKey: 'professionalBackground_cherry_wood', description: 'a smooth, reddish-brown cherry wood surface with a fine, straight grain' },
+    { id: 'maple_wood', nameKey: 'professionalBackground_maple_wood', description: 'a creamy white to light brown maple wood surface with a subtle, smooth grain pattern' },
+    { id: 'walnut_wood_dark', nameKey: 'professionalBackground_walnut_wood_dark', description: 'a deep, dark, and luxurious walnut wood surface with rich, complex grain patterns' },
+    { id: 'pine_wood_light', nameKey: 'professionalBackground_pine_wood_light', description: 'a light-colored pine wood surface with prominent knots and a distinct grain' },
+    { id: 'acacia_wood', nameKey: 'professionalBackground_acacia_wood', description: 'a durable acacia wood surface with a distinctive, often varied grain and warm, rich tones' },
+    { id: 'olive_wood', nameKey: 'professionalBackground_olive_wood', description: 'a highly figured olive wood surface with beautiful, chaotic, and artistic grain patterns in contrasting yellow and brown tones' },
+    { id: 'rustic_reclaimed_wood', nameKey: 'professionalBackground_rustic_reclaimed_wood', description: 'a rustic surface of reclaimed wood planks, showing age, texture, nail holes, and a weathered patina' },
+    { id: 'zebrawood', nameKey: 'professionalBackground_zebrawood', description: 'a dramatic zebrawood surface with bold, contrasting dark stripes over a lighter background' },
+    { id: 'ebony_wood', nameKey: 'professionalBackground_ebony_wood', description: 'a dense, luxurious, and almost pure black ebony wood surface with a very fine, smooth texture' },
     // Metal & Glitter
     { id: 'brushed_metal', nameKey: 'professionalBackground_brushed_metal', description: 'a sleek, brushed aluminum metal surface with a non-reflective finish' },
     { id: 'polished_rose_gold', nameKey: 'professionalBackground_polished_rose_gold', description: 'a sleek, polished rose gold metal surface with soft, elegant reflections' },

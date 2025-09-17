@@ -716,6 +716,10 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const tumblerTrioSettingDescription = getTumblerTrioSettingDescription(tumblerTrioSetting);
             prompt = `Close-up commercial product photo. ${tumblerTrioStyleDescription} are standing in a neat row, side-by-side, on ${tumblerTrioSettingDescription}. They are all plain, unbranded, and have a ${getColorName(productColor)} base color. The focus is on the three tumblers, which fill a large portion of the frame, highlighting their material and reflections. The background has a beautiful bokeh effect. ${qualityPrompt}`;
             break;
+        case 'laser_engraving': {
+            prompt = `Top-down commercial product photo of ${proBackgroundDescription}. The surface is a clean, flat, high-quality slab, perfectly lit to showcase its texture and grain for a laser engraving mockup. The lighting is soft and even. ${qualityPrompt}`;
+            break;
+        }
         case 'phone_case': {
             const phoneCaseStyleDescription = getPhoneCaseStyleDescription(phoneCaseStyle);
             let sceneDescription = getPhoneCaseModelDescription(phoneCaseModel);
@@ -837,7 +841,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
     let overallStyle = `a ${style.replace(/_/g, ' ')} style.`; // Default style description
 
     // Some products don't have a "style" dropdown, so we default to 'classic' for text placement.
-    const nonStyledProducts: ProductType[] = ['bag', 'phone_case', 'sticker', 'poster', 'wallet', 'cap', 'beanie', 'pillow', 'laptop_sleeve', 'tshirt_teacup_scene', 'sweatshirt_mug_scene', 'hoodie_teacup_scene', 'sweatshirt_teacup_scene'];
+    const nonStyledProducts: ProductType[] = ['bag', 'phone_case', 'sticker', 'poster', 'wallet', 'cap', 'beanie', 'pillow', 'laptop_sleeve', 'tshirt_teacup_scene', 'sweatshirt_mug_scene', 'hoodie_teacup_scene', 'sweatshirt_teacup_scene', 'laser_engraving'];
     const effectiveStyle = nonStyledProducts.includes(productType) ? 'classic' : style;
 
     switch (effectiveStyle) {
@@ -995,6 +999,9 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
              break;
         case 'tumbler_trio':
              productInstruction = 'Apply the same design realistically to the front of all three tumblers.';
+             break;
+        case 'laser_engraving':
+             productInstruction = 'Apply the provided design onto the wooden surface. The design must look like a high-quality, precise, and clean laser engraving. The engraving should have realistic depth and a slightly darkened, burnt-in appearance that follows the material\'s grain and texture. The logo image and text must be converted into a monochrome format suitable for engraving.';
              break;
         case 'phone_case':
              productInstruction = 'Apply the design realistically onto the back of the phone case.';

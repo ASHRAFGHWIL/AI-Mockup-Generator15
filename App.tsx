@@ -70,7 +70,6 @@ const AppContent: React.FC = () => {
     halloweenTumblerSetting: 'spooky_table',
     tumblerTrioStyle: 'glossy_white',
     tumblerTrioSetting: 'marble_countertop',
-    engravingMaterial: 'wood_plaque',
     phoneCaseStyle: 'glossy',
     phoneCaseModel: 'person_holding',
     stickerStyle: 'die_cut_glossy',
@@ -157,19 +156,6 @@ const AppContent: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setGeneratedImage(null);
-
-    if (design.productType === 'laser_engraving') {
-      try {
-        const pngDataUrl = await generateDesignPng(design);
-        const base64Image = pngDataUrl.split(',')[1];
-        setGeneratedImage(base64Image);
-      } catch (err: any) {
-        setError(err.message || 'An unknown error occurred while generating the preview.');
-      } finally {
-        setIsLoading(false);
-      }
-      return;
-    }
 
     try {
       const result = await generateMockupFromApi(

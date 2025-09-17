@@ -36,8 +36,6 @@ export type HalloweenTumblerStyle = 'glossy_black' | 'matte_black' | 'stainless_
 export type HalloweenTumblerSetting = 'spooky_table' | 'haunted_house' | 'witchs_cauldron' | 'autumn_porch' | 'glam_witch_boudoir' | 'enchanted_moonlit_garden' | 'vampires_velvet_lounge' | 'pastel_goth_sweet_shop' | 'mystical_crystal_ball_reading';
 export type TumblerTrioStyle = 'glossy_white' | 'matte_white' | 'stainless_steel';
 export type TumblerTrioSetting = 'marble_countertop' | 'light_wood' | 'minimalist_shelf';
-export type EngravingMaterial = 'wood_plaque' | 'slate_coaster' | 'metal_card';
-
 // Phone Case Types
 export type PhoneCaseStyle = 'glossy' | 'matte' | 'clear';
 export type PhoneCaseModel = 'person_holding' | 'on_desk' | 'flat_lay' | 'glamorous_mirror_selfie' | 'chic_cafe_lifestyle' | 'night_out_essential' | 'cozy_bed_morning' | 'rooftop_golden_hour';
@@ -77,6 +75,7 @@ export type ProfessionalBackground =
   'white_marble' | 'black_slate' | 'pink_marble' | 'raw_concrete' | 'terrazzo_stone' | 'mother_of_pearl' |
   // Wood
   'rich_walnut' | 'light_oak' | 'whitewashed_wood' |
+  'bamboo_wood' | 'cherry_wood' | 'maple_wood' | 'walnut_wood_dark' | 'pine_wood_light' | 'acacia_wood' | 'olive_wood' | 'rustic_reclaimed_wood' | 'zebrawood' | 'ebony_wood' |
   // Metal & Glitter
   'brushed_metal' | 'polished_rose_gold' | 'rose_gold_glitter' | 'cracked_gold_leaf' | 'holographic_foil' |
   // Fabric & Textile
@@ -143,9 +142,6 @@ export interface DesignOptions {
   tumblerTrioStyle: TumblerTrioStyle;
   tumblerTrioSetting: TumblerTrioSetting;
   
-  // Laser Engraving specific
-  engravingMaterial: EngravingMaterial;
-
   // Phone Case specific
   phoneCaseStyle: PhoneCaseStyle;
   phoneCaseModel: PhoneCaseModel;

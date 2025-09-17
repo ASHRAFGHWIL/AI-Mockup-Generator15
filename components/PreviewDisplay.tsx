@@ -98,34 +98,38 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
       {generatedImage && !isLoading && (
         <div className="flex flex-col items-center gap-4">
             {/* Primary Action Button */}
-            {productType !== 'laser_engraving' ? (
-                <button
-                    onClick={onDownloadMockup}
-                    title="Download Mockup Image (PNG)"
-                    className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                >
-                    <DownloadIcon className="w-6 h-6" />
-                    <span className="text-lg">{t('downloadMockupButton')}</span>
-                </button>
-            ) : (
-                 <button
-                    onClick={onDownloadEngravingSvg}
-                    title="Download Laser Engraving SVG File"
-                    className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                >
-                    <DownloadIcon className="w-6 h-6" />
-                    <span className="text-lg">{t('downloadEngravingButton')}</span>
-                </button>
-            )}
+            <button
+                onClick={onDownloadMockup}
+                title="Download Mockup Image (PNG)"
+                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105"
+            >
+                <DownloadIcon className="w-6 h-6" />
+                <span className="text-lg">{t('downloadMockupButton')}</span>
+            </button>
 
-            {/* Asset downloads */}
-            {textBasedProducts.includes(productType) && productType !== 'laser_engraving' && (
+            {/* Asset downloads for text products */}
+            {textBasedProducts.includes(productType) && (
                 <div className="p-2 rounded-lg bg-black/30">
                     <div className="flex items-center gap-2">
                         <span className="text-xs font-semibold text-gray-400 ms-2 me-2 shrink-0">{t('assetsLabel')}</span>
                         <button onClick={onDownloadLogoPng} title="Download logo as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('logoPngButton')}</button>
                         <button onClick={onDownloadTextSvg} title="Download text as SVG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textSvgButton')}</button>
                         <button onClick={onDownloadTextPng} title="Download text as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textPngButton')}</button>
+                    </div>
+                </div>
+            )}
+            {/* Asset downloads for engraving */}
+            {productType === 'laser_engraving' && (
+                 <div className="p-2 rounded-lg bg-black/30">
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-gray-400 ms-2 me-2 shrink-0">{t('assetsLabel')}</span>
+                        <button
+                            onClick={onDownloadEngravingSvg}
+                            title="Download Laser Engraving SVG File"
+                            className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs"
+                        >
+                            {t('downloadEngravingButton')}
+                        </button>
                     </div>
                 </div>
             )}
