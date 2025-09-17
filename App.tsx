@@ -122,7 +122,7 @@ const AppContent: React.FC = () => {
       return;
     }
 
-    const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024; 
+    const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; 
     if (file.size > MAX_FILE_SIZE_BYTES) {
       setError(t('errorFileSizeExceeds'));
       setDesign(d => ({ ...d, logo: null }));
