@@ -846,23 +846,43 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
 
     switch (effectiveStyle) {
         case 'classic':
+        case 'lower_half_circle':
             designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, semi-circular arc.`;
             break;
-        case 'split':
+        case 'upper_half_circle':
+            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, semi-circular arc.`;
+            break;
+        case 'upper_oval':
+            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, oval-shaped arc.`;
+            break;
+        case 'lower_oval':
+            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, oval-shaped arc.`;
+            break;
+        case 'full_circle': {
+            const circleWords = text.split(/\s+/);
+            const circleMidPoint = Math.ceil(circleWords.length / 2);
+            const topCircleText = circleWords.slice(0, circleMidPoint).join(' ');
+            const bottomCircleText = circleWords.slice(circleMidPoint).join(' ');
+            designPlacement = `Place the logo in the center. Arc the text "${topCircleText}" above the logo, and arc the text "${bottomCircleText}" below the logo to create a full circular text effect around the logo.`;
+            break;
+        }
+        case 'split': {
             const words = text.split(/\s+/);
             const midPoint = Math.ceil(words.length / 2);
             const leftText = words.slice(0, midPoint).join(' ');
             const rightText = words.slice(midPoint).join(' ');
             designPlacement = `Place the logo in the absolute center. Place the text "${leftText}" to the left of the logo, and the text "${rightText}" to the right of the logo.`;
             break;
+        }
         case 'vintage_stamp':
-        case 'emblem':
+        case 'emblem': {
             const stampWords = text.split(/\s+/);
             const stampMidPoint = Math.ceil(stampWords.length / 2);
             const topText = stampWords.slice(0, stampMidPoint).join(' ');
             const bottomText = stampWords.slice(stampMidPoint).join(' ');
             designPlacement = `Place the logo in the center. Arc the text "${topText}" above the logo, and arc the text "${bottomText}" below the logo to create a circular emblem or stamp effect.`;
             break;
+        }
         case 'minimalist_line':
             designPlacement = `Place the logo on the left side, and place the text "${text}" vertically (rotated 90 degrees counter-clockwise) on the right side.`;
             break;

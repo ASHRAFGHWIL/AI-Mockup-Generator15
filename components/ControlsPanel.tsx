@@ -121,7 +121,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
   
   const backgroundlessProducts: ProductType[] = ['flat_lay', 'jigsaw_puzzle', 'sticker', 'laser_engraving', 'halloween_tumbler', 'tumbler_trio', 'phone_case', 'poster', 'laptop_sleeve', 'wallet', 'cap', 'beanie'];
   const proBackgroundProducts: ProductType[] = ['flat_lay', 'wallet', 'phone_case', 'sticker', 'jigsaw_puzzle', 'laptop_sleeve', 'cap', 'beanie', 'laser_engraving'];
-  const isTextProduct = design.productType !== 'frame' && design.productType !== 'mug' && design.productType !== 'sipper_glass' && design.productType !== 'jigsaw_puzzle' && design.productType !== 'laser_engraving';
+  const isTextProduct = design.productType !== 'frame' && design.productType !== 'mug' && design.productType !== 'sipper_glass' && design.productType !== 'jigsaw_puzzle';
 
 
   return (

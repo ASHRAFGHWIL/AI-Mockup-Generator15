@@ -137,6 +137,11 @@ export const en = {
   productColorLabel_laptop_sleeve: "Sleeve Color",
 
   designStyle_classic: "Classic Arc",
+  designStyle_upper_half_circle: "Upper Half Circle",
+  designStyle_lower_half_circle: "Lower Half Circle",
+  designStyle_upper_oval: "Upper Oval",
+  designStyle_lower_oval: "Lower Oval",
+  designStyle_full_circle: "Full Circle",
   designStyle_split: "Vertical Split",
   designStyle_sketch: "Gritty Sketch",
   designStyle_slasher: "Slasher Film",

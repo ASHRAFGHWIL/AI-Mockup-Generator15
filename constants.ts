@@ -431,6 +431,11 @@ export const LAPTOP_SLEEVE_SETTINGS: {id: LaptopSleeveSetting, nameKey: string, 
 
 export const DESIGN_STYLES: {id: DesignStyle, nameKey: string}[] = [
     { id: 'classic', nameKey: 'designStyle_classic' },
+    { id: 'upper_half_circle', nameKey: 'designStyle_upper_half_circle' },
+    { id: 'lower_half_circle', nameKey: 'designStyle_lower_half_circle' },
+    { id: 'upper_oval', nameKey: 'designStyle_upper_oval' },
+    { id: 'lower_oval', nameKey: 'designStyle_lower_oval' },
+    { id: 'full_circle', nameKey: 'designStyle_full_circle' },
     { id: 'split', nameKey: 'designStyle_split' },
     { id: 'sketch', nameKey: 'designStyle_sketch' },
     { id: 'slasher', nameKey: 'designStyle_slasher' },
