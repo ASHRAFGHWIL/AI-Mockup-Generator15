@@ -11,6 +11,7 @@ interface PreviewDisplayProps {
   onDownloadLogoPng: () => void;
   onDownloadTextSvg: () => void;
   onDownloadTextPng: () => void;
+  onDownloadCombinedSvg: () => void;
   onDownloadEngravingSvg: () => void;
   onDownloadMockup: () => void;
   imageMode: ImageMode;
@@ -18,7 +19,7 @@ interface PreviewDisplayProps {
   onExitPreview: () => void;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadEngravingSvg, onDownloadMockup, imageMode, isPreviewExpanded, onExitPreview }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadCombinedSvg, onDownloadEngravingSvg, onDownloadMockup, imageMode, isPreviewExpanded, onExitPreview }) => {
     const { t } = useTranslation();
     
     const loadingMessages = React.useMemo(() => [
@@ -128,6 +129,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                         <button onClick={onDownloadLogoPng} title="Download logo as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('logoPngButton')}</button>
                         <button onClick={onDownloadTextSvg} title="Download text as SVG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textSvgButton')}</button>
                         <button onClick={onDownloadTextPng} title="Download text as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textPngButton')}</button>
+                        <button onClick={onDownloadCombinedSvg} title="Download full design as SVG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('downloadDesignSvgButton')}</button>
                     </div>
                 </div>
             )}

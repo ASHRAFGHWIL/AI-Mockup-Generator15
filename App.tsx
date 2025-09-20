@@ -4,7 +4,7 @@ import PreviewDisplay from './components/PreviewDisplay';
 import { WandIcon } from './components/icons';
 import type { DesignOptions, ImageMode } from './types';
 import { generateMockup as generateMockupFromApi } from './services/geminiService';
-import { generateDesignPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
+import { generateCombinedSvg, generateDesignPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
 import { LanguageContext, useTranslation, Language } from './hooks/useTranslation';
 import { en } from './i18n/en';
 // FIX: Statically import the 'ar' translations to resolve the "Cannot find name 'require'" error, which is not available in a browser environment.
@@ -244,6 +244,29 @@ const AppContent: React.FC = () => {
     }
   };
 
+  const handleDownloadCombinedSvg = async () => {
+    if (!design.logo) {
+      setError(t('errorNoLogoForLayout'));
+      return;
+    }
+    try {
+      setError(null);
+      const svgString = await generateCombinedSvg(design);
+      const blob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'full_design.svg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error('Error generating combined design SVG:', err);
+      setError(err.message || 'Failed to generate combined SVG file.');
+    }
+  };
+
   const handleDownloadEngravingSvg = async () => {
     if (!design.logo) {
       setError(t('errorNoLogoForLayout'));
@@ -327,6 +350,7 @@ const AppContent: React.FC = () => {
             onDownloadLogoPng={handleDownloadLogoPng}
             onDownloadTextSvg={handleDownloadTextSvg}
             onDownloadTextPng={handleDownloadTextPng}
+            onDownloadCombinedSvg={handleDownloadCombinedSvg}
             onDownloadEngravingSvg={handleDownloadEngravingSvg}
             onDownloadMockup={handleDownloadMockup}
             imageMode={imageMode}

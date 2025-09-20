@@ -72,6 +72,7 @@ export const ar = {
   logoPngButton: "شعار PNG",
   textSvgButton: "نص SVG",
   textPngButton: "نص PNG",
+  downloadDesignSvgButton: "تصميم SVG",
   backToEditorButton: "العودة إلى المحرر",
   loadingMsg1: "استدعاء مصمم الذكاء الاصطناعي...",
   loadingMsg2: "خياطة البكسلات بخيط رقمي...",
