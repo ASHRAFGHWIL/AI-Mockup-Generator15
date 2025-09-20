@@ -4,7 +4,7 @@ import PreviewDisplay from './components/PreviewDisplay';
 import { WandIcon } from './components/icons';
 import type { DesignOptions, ImageMode } from './types';
 import { generateMockup as generateMockupFromApi } from './services/geminiService';
-import { generateCombinedSvg, generateDesignPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
+import { generateCombinedSvg, generateCombinedPng, generateDesignPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
 import { LanguageContext, useTranslation, Language } from './hooks/useTranslation';
 import { en } from './i18n/en';
 // FIX: Statically import the 'ar' translations to resolve the "Cannot find name 'require'" error, which is not available in a browser environment.
@@ -267,6 +267,26 @@ const AppContent: React.FC = () => {
     }
   };
 
+  const handleDownloadCombinedPng = async () => {
+    if (!design.logo) {
+      setError(t('errorNoLogoForLayout'));
+      return;
+    }
+    try {
+      setError(null);
+      const pngDataUrl = await generateCombinedPng(design);
+      const a = document.createElement('a');
+      a.href = pngDataUrl;
+      a.download = 'full_design.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (err: any) {
+      console.error('Error generating combined design PNG:', err);
+      setError(err.message || 'Failed to generate combined PNG file.');
+    }
+  };
+
   const handleDownloadEngravingSvg = async () => {
     if (!design.logo) {
       setError(t('errorNoLogoForLayout'));
@@ -351,6 +371,7 @@ const AppContent: React.FC = () => {
             onDownloadTextSvg={handleDownloadTextSvg}
             onDownloadTextPng={handleDownloadTextPng}
             onDownloadCombinedSvg={handleDownloadCombinedSvg}
+            onDownloadCombinedPng={handleDownloadCombinedPng}
             onDownloadEngravingSvg={handleDownloadEngravingSvg}
             onDownloadMockup={handleDownloadMockup}
             imageMode={imageMode}

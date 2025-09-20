@@ -73,6 +73,7 @@ export const ar = {
   textSvgButton: "نص SVG",
   textPngButton: "نص PNG",
   downloadDesignSvgButton: "تصميم SVG",
+  downloadDesignPngButton: "تصميم PNG",
   backToEditorButton: "العودة إلى المحرر",
   loadingMsg1: "استدعاء مصمم الذكاء الاصطناعي...",
   loadingMsg2: "خياطة البكسلات بخيط رقمي...",

@@ -270,52 +270,6 @@ export const generateTextOnlySvg = async (design: DesignOptions, embedFont: bool
 };
 
 /**
- * Generates a complete SVG string containing both the logo and the text part of the design.
- * @param design The current design options.
- * @returns A promise that resolves with the complete design SVG string.
- */
-export const generateCombinedSvg = async (design: DesignOptions): Promise<string> => {
-    const { logo, text, textColor, font, textStyle, gradientStartColor, gradientEndColor } = design;
-
-    if (!logo) throw new Error("Logo is required to generate the design SVG.");
-
-    const logoDims = await getLogoDimensions(logo);
-    const VIEWBOX_SIZE = 1000;
-    const center = { x: VIEWBOX_SIZE / 2, y: VIEWBOX_SIZE / 2 };
-
-    const maxLogoDim = 400;
-    const ratio = Math.min(maxLogoDim / logoDims.width, maxLogoDim / logoDims.height, 1);
-    const scaledLogo = { width: logoDims.width * ratio, height: logoDims.height * ratio };
-
-    const logoX = center.x - scaledLogo.width / 2;
-    const logoY = center.y - scaledLogo.height / 2;
-
-    const fontName = TSHIRT_FONTS.find(f => f.id === font)?.name || 'Impact';
-    // The ampersand in the URL must be escaped for the SVG to be valid XML.
-    const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@400;700&display=swap`.replace(/&/g, '&amp;');
-    const fontStyleDef = `<style>@import url('${fontUrl}');</style>`;
-    
-    const textId = "design-element";
-    const textStyleDefs = getTextStyleDefs(textStyle, textColor, gradientStartColor, gradientEndColor, textId);
-    const textElements = text.trim() ? getTextElements(design, scaledLogo, center) : '';
-
-    return `
-<svg width="${VIEWBOX_SIZE}" height="${VIEWBOX_SIZE}" viewBox="0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    ${fontStyleDef}
-    ${textStyleDefs}
-  </defs>
-  <image 
-    href="${logo}" 
-    x="${logoX}" y="${logoY}" 
-    width="${scaledLogo.width}" height="${scaledLogo.height}" 
-    preserveAspectRatio="xMidYMid meet"
-  />
-  ${textElements}
-</svg>`;
-};
-
-/**
  * Generates a PNG data URL of the text design by rendering the SVG to a canvas.
  * @param design The current design options.
  * @returns A promise that resolves with the PNG data URL.
@@ -350,6 +304,107 @@ export const generateTextOnlyPng = async (design: DesignOptions): Promise<string
         img.src = url;
     });
 };
+
+/**
+ * Generates a complete SVG string containing both the logo and the text part of the design.
+ * @param design The current design options.
+ * @param embedFont Whether to embed the font as a data URI for PNG conversion.
+ * @returns A promise that resolves with the complete design SVG string.
+ */
+export const generateCombinedSvg = async (design: DesignOptions, embedFont: boolean = false): Promise<string> => {
+    const { logo, text, textColor, font, textStyle, gradientStartColor, gradientEndColor } = design;
+
+    if (!logo) throw new Error("Logo is required to generate the design SVG.");
+
+    const logoDims = await getLogoDimensions(logo);
+    const VIEWBOX_SIZE = 1000;
+    const center = { x: VIEWBOX_SIZE / 2, y: VIEWBOX_SIZE / 2 };
+
+    const maxLogoDim = 400;
+    const ratio = Math.min(maxLogoDim / logoDims.width, maxLogoDim / logoDims.height, 1);
+    const scaledLogo = { width: logoDims.width * ratio, height: logoDims.height * ratio };
+
+    const logoX = center.x - scaledLogo.width / 2;
+    const logoY = center.y - scaledLogo.height / 2;
+
+    const fontName = TSHIRT_FONTS.find(f => f.id === font)?.name || 'Impact';
+    const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@400;700&display=swap`;
+
+    let fontStyleDef: string;
+    if (embedFont) {
+        const fontData = await fetchAndEncodeFont(fontUrl);
+        if (fontData.dataUri) {
+            fontStyleDef = `
+            <style>
+                @font-face {
+                    font-family: '${fontName}';
+                    src: url(${fontData.dataUri}) format('${fontData.format}');
+                }
+            </style>`;
+        } else {
+            fontStyleDef = `<style>@import url('${fontUrl.replace(/&/g, '&amp;')}');</style>`;
+        }
+    } else {
+        fontStyleDef = `<style>@import url('${fontUrl.replace(/&/g, '&amp;')}');</style>`;
+    }
+    
+    const textId = "design-element";
+    const textStyleDefs = getTextStyleDefs(textStyle, textColor, gradientStartColor, gradientEndColor, textId);
+    const textElements = text.trim() ? getTextElements(design, scaledLogo, center) : '';
+
+    return `
+<svg width="${VIEWBOX_SIZE}" height="${VIEWBOX_SIZE}" viewBox="0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    ${fontStyleDef}
+    ${textStyleDefs}
+  </defs>
+  <image 
+    href="${logo}" 
+    x="${logoX}" y="${logoY}" 
+    width="${scaledLogo.width}" height="${scaledLogo.height}" 
+    preserveAspectRatio="xMidYMid meet"
+  />
+  ${textElements}
+</svg>`;
+};
+
+/**
+ * Generates a PNG data URL of the combined design by rendering its SVG to a canvas.
+ * @param design The current design options.
+ * @returns A promise that resolves with the PNG data URL.
+ */
+export const generateCombinedPng = async (design: DesignOptions): Promise<string> => {
+    // Pass `true` to embed the font as a data URI for canvas rendering.
+    const svgString = await generateCombinedSvg(design, true);
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const scale = 2; // Render at 2x resolution for better quality
+            canvas.width = 1000 * scale;
+            canvas.height = 1000 * scale;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                URL.revokeObjectURL(url);
+                resolve(canvas.toDataURL('image/png'));
+            } else {
+                URL.revokeObjectURL(url);
+                reject(new Error('Could not get canvas context for PNG generation.'));
+            }
+        };
+        img.onerror = (e) => {
+            URL.revokeObjectURL(url);
+            console.error("SVG Image load error:", e);
+            reject(new Error('Failed to load SVG image for PNG conversion. It may contain unsupported features or cross-origin issues.'));
+        }
+        img.src = url;
+    });
+};
+
 
 /**
  * Generates an SVG string for laser engraving, combining a monochrome version

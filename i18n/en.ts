@@ -72,6 +72,7 @@ export const en = {
   textSvgButton: "Text SVG",
   textPngButton: "Text PNG",
   downloadDesignSvgButton: "Design SVG",
+  downloadDesignPngButton: "Design PNG",
   backToEditorButton: "Back to Editor",
   loadingMsg1: "Summoning the AI designer...",
   loadingMsg2: "Stitching pixels with digital thread...",
