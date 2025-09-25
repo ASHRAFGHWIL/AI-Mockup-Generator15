@@ -108,11 +108,11 @@ export const FRAME_MODELS: {id: FrameModel, nameKey: string, description: string
     { id: 'man_modern_loft', nameKey: 'frameModel_man_modern_loft', description: 'a stylish man in a modern, industrial-style loft apartment, hanging the frame on an exposed brick wall' },
     { id: 'woman_cozy_living_room', nameKey: 'frameModel_woman_cozy_living_room', description: 'a woman in a cozy, hygge-style living room with a fireplace, placing the frame on a wooden mantle' },
     { id: 'couple_art_store', nameKey: 'frameModel_couple_art_store', description: 'a happy young couple in a bright, well-lit art supply store, holding up the frame together' },
-    { id: 'boudoir_vanity_glamour', nameKey: 'frameModel_boudoir_vanity_glamour', description: 'a glamorous close-up shot of the frame placed on a beautiful boudoir vanity table, surrounded by elegant perfume bottles, jewelry, and soft, romantic lighting. The frame is the main focus.' },
-    { id: 'lounging_on_silk_sheets', nameKey: 'frameModel_lounging_on_silk_sheets', description: 'an intimate close-up shot focusing on an elegant woman with beautiful hands lounging on luxurious silk sheets, holding the frame prominently for the camera. The frame is the main focus of the shot.' },
+    { id: 'boudoir_vanity_glamour', nameKey: 'frameModel_boudoir_vanity_glamour', description: 'a glamorous close-up shot of the frame placed on a beautiful vanity table, surrounded by elegant perfume bottles, jewelry, and soft, romantic lighting. The frame is the main focus.' },
+    { id: 'lounging_on_silk_sheets', nameKey: 'frameModel_lounging_on_silk_sheets', description: 'a close-up shot focusing on an elegant woman with beautiful hands lounging on luxurious silk sheets, holding the frame prominently for the camera. The frame is the main focus of the shot.' },
     { id: 'parisian_cafe_chic', nameKey: 'frameModel_parisian_cafe_chic', description: 'a chic lifestyle shot of a stylish woman sitting at an outdoor Parisian café. She is holding the frame, which is the clear focus, with a beautifully blurred background of the romantic street.' },
     { id: 'floral_garden_sunlight', nameKey: 'frameModel_floral_garden_sunlight', description: 'a soft and romantic shot of a woman with elegant hands holding the frame in a beautiful, sun-drenched floral garden. The background has soft-focus flowers, creating a dreamy atmosphere. The frame is the main focus.' },
-    { id: 'rooftop_sunset_glamour', nameKey: 'frameModel_rooftop_sunset_glamour', description: 'a glamorous and sexy shot of a woman holding the frame on a rooftop bar at sunset. The warm glow of the sun creates a beautiful ambiance with a blurred city skyline. The frame is the main focus.' },
+    { id: 'rooftop_sunset_glamour', nameKey: 'frameModel_rooftop_sunset_glamour', description: 'a glamorous and stylish shot of a woman holding the frame on a rooftop bar at sunset. The warm glow of the sun creates a beautiful ambiance with a blurred city skyline. The frame is the main focus.' },
 ];
 
 export const MUG_STYLES: {id: MugStyle, nameKey: string}[] = [
@@ -189,9 +189,9 @@ export const TUMBLER_MODELS: {id: TumblerModel, nameKey: string, description: st
     { id: 'student_desk', nameKey: 'tumblerModel_student_desk', description: 'a student studying at a desk in a well-lit room, with the tumbler nearby' },
     { id: 'woman_yoga_studio_close_up', nameKey: 'tumblerModel_woman_yoga_studio_close_up', description: 'a close-up shot of an athletic woman in a serene, sunlit yoga studio, holding the tumbler post-workout. The focus is on her relaxed expression and the tumbler, which takes up a large portion of the frame.' },
     { id: 'woman_luxury_spa_relaxing', nameKey: 'tumblerModel_woman_luxury_spa_relaxing', description: 'a close-up lifestyle shot of a woman relaxing at a luxury spa, with the tumbler on a marble side table next to her. The atmosphere is serene and pampering, with soft lighting. The tumbler is the main focus and fills the frame.' },
-    { id: 'woman_beach_sunset_glow', nameKey: 'tumblerModel_woman_beach_sunset_glow', description: 'a glamorous close-up of a woman on a beautiful beach at sunset, holding the tumbler. The warm, golden hour light creates a soft, sexy glow. The tumbler is the central focus and takes up a large area of the image.' },
+    { id: 'woman_beach_sunset_glow', nameKey: 'tumblerModel_woman_beach_sunset_glow', description: 'a glamorous close-up of a woman on a beautiful beach at sunset, holding the tumbler. The warm, golden hour light creates a soft, beautiful glow. The tumbler is the central focus and takes up a large area of the image.' },
     { id: 'woman_chic_home_office_break', nameKey: 'tumblerModel_woman_chic_home_office_break', description: 'a stylish close-up shot of a woman taking a break in her chic, modern home office. She is holding the tumbler, and the background is tastefully blurred. The focus is on the tumbler, which is prominently featured.' },
-    { id: 'woman_rooftop_lounge_glam', nameKey: 'tumblerModel_woman_rooftop_lounge_glam', description: 'a sexy, glamorous shot of a woman in a rooftop lounge at dusk, with blurred city lights in the background. She is holding the tumbler, which is prominently featured and catches the city lights\' reflections. The tumbler takes up a large portion of the frame.' },
+    { id: 'woman_rooftop_lounge_glam', nameKey: 'tumblerModel_woman_rooftop_lounge_glam', description: 'a stylish, glamorous shot of a woman in a rooftop lounge at dusk, with blurred city lights in the background. She is holding the tumbler, which is prominently featured and catches the city lights\' reflections. The tumbler takes up a large portion of the frame.' },
 ];
 
 export const HALLOWEEN_TUMBLER_STYLES: {id: HalloweenTumblerStyle, nameKey: string}[] = [
@@ -205,9 +205,9 @@ export const HALLOWEEN_TUMBLER_SETTINGS: {id: HalloweenTumblerSetting, nameKey: 
     { id: 'haunted_house', nameKey: 'halloweenTumblerSetting_haunted_house', description: 'a moody, atmospheric setting in front of a slightly blurred, spooky haunted house at dusk' },
     { id: 'witchs_cauldron', nameKey: 'halloweenTumblerSetting_witchs_cauldron', description: 'a magical setting next to a bubbling witch\'s cauldron with glowing green smoke and potion ingredients scattered around' },
     { id: 'autumn_porch', nameKey: 'halloweenTumblerSetting_autumn_porch', description: 'a cozy autumn scene on a porch, surrounded by fall leaves, mums, and rustic decorations' },
-    { id: 'glam_witch_boudoir', nameKey: 'halloweenTumblerSetting_glam_witch_boudoir', description: 'a close-up shot of the tumbler on a glamorous witch\'s vanity table, surrounded by elegant, out-of-focus items like velvet, silk, sparkling crystals, and romantic, soft candlelight. The atmosphere is mysterious, feminine, and sexy.' },
+    { id: 'glam_witch_boudoir', nameKey: 'halloweenTumblerSetting_glam_witch_boudoir', description: 'a close-up shot of the tumbler on a glamorous witch\'s vanity table, surrounded by elegant, out-of-focus items like velvet, silk, sparkling crystals, and romantic, soft candlelight. The atmosphere is mysterious, feminine, and elegant.' },
     { id: 'enchanted_moonlit_garden', nameKey: 'halloweenTumblerSetting_enchanted_moonlit_garden', description: 'a dreamy, close-up shot of the tumbler in an enchanted garden at night. The scene is illuminated by soft, magical moonlight and glowing, out-of-focus flowers. The atmosphere is soft, feminine, and mysterious, with the tumbler as the main focus.' },
-    { id: 'vampires_velvet_lounge', nameKey: 'halloweenTumblerSetting_vampires_velvet_lounge', description: 'a sexy and luxurious close-up of the tumbler resting on a plush, deep-red velvet surface in a gothic vampire\'s lounge. The background is dark and moody, with out-of-focus candelabras casting a warm, romantic glow. The tumbler is the central, glamorous focus.' },
+    { id: 'vampires_velvet_lounge', nameKey: 'halloweenTumblerSetting_vampires_velvet_lounge', description: 'a chic and luxurious close-up of the tumbler resting on a plush, deep-red velvet surface in a gothic vampire\'s lounge. The background is dark and moody, with out-of-focus candelabras casting a warm, romantic glow. The tumbler is the central, glamorous focus.' },
     { id: 'pastel_goth_sweet_shop', nameKey: 'halloweenTumblerSetting_pastel_goth_sweet_shop', description: 'a chic and feminine close-up shot of the tumbler in a pastel goth sweet shop setting. The background features soft-focus, cute Halloween-themed candies and treats in pastel pinks, lavenders, and blacks. The overall vibe is soft, trendy, and sweet with an edgy twist.' },
     { id: 'mystical_crystal_ball_reading', nameKey: 'halloweenTumblerSetting_mystical_crystal_ball_reading', description: 'an alluring close-up of the tumbler on a dark wood table next to a softly glowing crystal ball. Wisps of incense smoke and out-of-focus tarot cards create a mystical and intimate atmosphere. The lighting is warm and focused on the tumbler, making it the star of the scene.' },
 ];
@@ -234,11 +234,11 @@ export const PHONE_CASE_MODELS: {id: PhoneCaseModel, nameKey: string, descriptio
     { id: 'person_holding', nameKey: 'phoneCaseModel_person_holding', description: 'a person with natural-looking hands holding a modern smartphone, showcasing the case' },
     { id: 'on_desk', nameKey: 'phoneCaseModel_on_desk', description: 'a modern smartphone in a case, placed on a stylish surface next to a laptop and a coffee mug, with a blurred background' },
     { id: 'flat_lay', nameKey: 'phoneCaseModel_flat_lay', description: 'a flat lay photo of a modern smartphone in a case on a clean, minimalist surface' },
-    { id: 'glamorous_mirror_selfie', nameKey: 'phoneCaseModel_glamorous_mirror_selfie', description: 'a glamorous close-up shot of a woman\'s manicured hands holding a modern smartphone, taking a mirror selfie in a beautiful, elegant boudoir. The phone case is the clear focus of the image and takes up a large portion of the frame.' },
+    { id: 'glamorous_mirror_selfie', nameKey: 'phoneCaseModel_glamorous_mirror_selfie', description: 'a glamorous close-up shot of a woman\'s manicured hands holding a modern smartphone, taking a mirror selfie in a beautiful, elegant setting. The phone case is the clear focus of the image and takes up a large portion of the frame.' },
     { id: 'chic_cafe_lifestyle', nameKey: 'phoneCaseModel_chic_cafe_lifestyle', description: 'a chic, close-up lifestyle shot of a woman at an outdoor Parisian café. The smartphone is placed prominently on the marble table, showcasing the case. The background is beautifully blurred. The phone case is the main focus.' },
-    { id: 'night_out_essential', nameKey: 'phoneCaseModel_night_out_essential', description: 'a sexy, glamorous close-up of a woman\'s manicured hands holding a modern smartphone, alongside a stylish clutch bag. The background is a blur of city lights at night, creating a sophisticated "night out" vibe. The phone case is the central focus.' },
+    { id: 'night_out_essential', nameKey: 'phoneCaseModel_night_out_essential', description: 'a stylish, glamorous close-up of a woman\'s manicured hands holding a modern smartphone, alongside a stylish clutch bag. The background is a blur of city lights at night, creating a sophisticated "night out" vibe. The phone case is the central focus.' },
     { id: 'cozy_bed_morning', nameKey: 'phoneCaseModel_cozy_bed_morning', description: 'a soft and intimate close-up shot of a woman lounging in a cozy bed with plush, white silk sheets, holding her smartphone. The morning light is soft and romantic. The focus is on the phone case, which is prominently displayed.' },
-    { id: 'rooftop_golden_hour', nameKey: 'phoneCaseModel_rooftop_golden_hour', description: 'an attractive and sexy close-up of a woman holding her smartphone on a rooftop during the golden hour sunset. The warm light creates a beautiful glow. The focus is on the phone case, which takes up a large portion of the image.' },
+    { id: 'rooftop_golden_hour', nameKey: 'phoneCaseModel_rooftop_golden_hour', description: 'an attractive and stylish close-up of a woman holding her smartphone on a rooftop during the golden hour sunset. The warm light creates a beautiful glow. The focus is on the phone case, which takes up a large portion of the image.' },
 ];
 
 export const STICKER_STYLES: {id: StickerStyle, nameKey: string}[] = [
@@ -286,9 +286,9 @@ export const WALLET_MODELS: {id: WalletModel, nameKey: string, description: stri
     { id: 'in_pocket', nameKey: 'walletModel_in_pocket', description: 'a modern leather wallet peeking out of the back pocket of a pair of stylish jeans' },
     { id: 'lounging_on_silk_sheets', nameKey: 'walletModel_lounging_on_silk_sheets', description: 'an elegant woman with beautiful hands lounging on luxurious silk sheets, holding the wallet close to the camera so it is the main focus' },
     { id: 'parisian_cafe_chic', nameKey: 'walletModel_parisian_cafe_chic', description: 'a stylish woman sitting at an outdoor Parisian café, with the wallet placed prominently on the table next to a cup of coffee and a croissant' },
-    { id: 'boudoir_vanity_table', nameKey: 'walletModel_boudoir_vanity_table', description: 'a close-up flat lay of the wallet on a beautiful boudoir vanity table, surrounded by perfume bottles, jewelry, and soft lighting' },
+    { id: 'boudoir_vanity_table', nameKey: 'walletModel_boudoir_vanity_table', description: 'a close-up flat lay of the wallet on a beautiful vanity table, surrounded by perfume bottles, jewelry, and soft lighting' },
     { id: 'floral_garden_sunlight', nameKey: 'walletModel_floral_garden_sunlight', description: 'a woman with elegant hands holding the wallet in a beautiful, sun-drenched floral garden, with soft-focus flowers in the background' },
-    { id: 'rooftop_sunset_glamour', nameKey: 'walletModel_rooftop_sunset_glamour', description: 'a glamorous woman holding the wallet on a rooftop bar at sunset, with the warm glow of the sun creating a beautiful, sexy ambiance and a blurred city skyline' },
+    { id: 'rooftop_sunset_glamour', nameKey: 'walletModel_rooftop_sunset_glamour', description: 'a glamorous woman holding the wallet on a rooftop bar at sunset, with the warm glow of the sun creating a beautiful, chic ambiance and a blurred city skyline' },
 ];
 
 export const CAP_STYLES: {id: CapStyle, nameKey: string}[] = [
@@ -393,7 +393,7 @@ export const FLAT_LAY_STYLES: {id: FlatLayStyle, nameKey: string, description: s
     { id: 'flat_lay_draped_close_up', nameKey: 'flatLayStyle_flat_lay_draped_close_up', description: 'an artistic, close-up shot of the t-shirt artfully draped with soft wrinkles, with the design area as the main focus.' },
     { id: 'flat_lay_pocket_region_close_up', nameKey: 'flatLayStyle_flat_lay_pocket_region_close_up', description: 'an extreme close-up shot focused on the upper chest/pocket area of the t-shirt, ideal for showcasing smaller logos.' },
     { id: 'flat_lay_texture_close_up', nameKey: 'flatLayStyle_flat_lay_texture_close_up', description: 'an extreme close-up, macro-style shot showcasing the design on the detailed texture of the fabric (e.g., cotton weave).' },
-    { id: 'boudoir_vanity_glamour', nameKey: 'flatLayStyle_boudoir_vanity_glamour', description: "a close-up, glamorous flat lay of the t-shirt artfully arranged on a beautiful boudoir vanity table. The scene is surrounded by elegant, out-of-focus props like perfume bottles, delicate jewelry, and a silk robe under soft, romantic lighting." },
+    { id: 'boudoir_vanity_glamour', nameKey: 'flatLayStyle_boudoir_vanity_glamour', description: "a close-up, glamorous flat lay of the t-shirt artfully arranged on a beautiful vanity table. The scene is surrounded by elegant, out-of-focus props like perfume bottles, delicate jewelry, and a silk robe under soft, romantic lighting." },
     { id: 'parisian_cafe_lifestyle', nameKey: 'flatLayStyle_parisian_cafe_lifestyle', description: "a chic, close-up lifestyle flat lay of the t-shirt neatly folded on a marble Parisian café table. The scene includes beautifully blurred, out-of-focus props like a cup of coffee, a croissant, and a vintage book." },
     { id: 'silk_sheets_romance', nameKey: 'flatLayStyle_silk_sheets_romance', description: "a soft and romantic close-up flat lay of the t-shirt casually draped on luxurious, rumpled silk or satin sheets. The scene is accented with scattered, out-of-focus rose petals and soft morning light." },
     { id: 'cherry_blossom_dreamscape', nameKey: 'flatLayStyle_cherry_blossom_dreamscape', description: "a dreamy, close-up flat lay of the t-shirt on a soft, light-colored surface. The scene is framed with delicate, out-of-focus cherry blossom branches and scattered petals, creating a soft and feminine atmosphere." },
@@ -603,6 +603,16 @@ export const MODEL_POSES: {id: ModelPose, nameKey: string}[] = [
     { id: 'arms_crossed', nameKey: 'modelPose_arms_crossed' },
     { id: 'thinking', nameKey: 'modelPose_thinking' },
     { id: 'hands_in_pockets', nameKey: 'modelPose_hands_in_pockets' },
+    { id: 'sitting_floor_relaxed', nameKey: 'modelPose_sitting_floor_relaxed' },
+    { id: 'sitting_cross_legged_side', nameKey: 'modelPose_sitting_cross_legged_side' },
+    { id: 'leaning_on_floor', nameKey: 'modelPose_leaning_on_floor' },
+    { id: 'standing_three_quarter_hands_pockets', nameKey: 'modelPose_standing_three_quarter_hands_pockets' },
+    { id: 'standing_rear_three_quarter', nameKey: 'modelPose_standing_rear_three_quarter' },
+    { id: 'sitting_top_down', nameKey: 'modelPose_sitting_top_down' },
+    { id: 'low_angle_arms_crossed', nameKey: 'modelPose_low_angle_arms_crossed' },
+    { id: 'closeup_chest_design', nameKey: 'modelPose_closeup_chest_design' },
+    { id: 'full_body_slouched', nameKey: 'modelPose_full_body_slouched' },
+    { id: 'sitting_on_chair_dynamic', nameKey: 'modelPose_sitting_on_chair_dynamic' },
 ];
 
 export const MODEL_AUDIENCES: {id: ModelAudience, nameKey: string, description: string}[] = [

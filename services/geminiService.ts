@@ -179,22 +179,32 @@ const getPoseDescription = (pose: ModelPose): string => {
         case 'arms_crossed': return 'standing with arms crossed confidently,';
         case 'thinking': return 'pensive pose, hand to chin as if in thought,';
         case 'hands_in_pockets': return 'casual standing pose with hands in pockets,';
-        case 'closeup_casual': return 'a casual, close-up shot from the chest up against a clean, neutral studio background, focusing clearly on the garment,';
-        case 'sultry_shoulder_look': return 'a sultry pose, looking over one shoulder at the camera with a soft, confident expression,';
+        case 'closeup_casual': return 'a casual, close-up shot from the torso up against a clean, neutral studio background, focusing clearly on the garment,';
+        case 'sultry_shoulder_look': return 'an elegant pose, looking over one shoulder at the camera with a soft, confident expression,';
         case 'gentle_touch_face': return 'a soft and gentle pose, with one hand delicately touching the cheek or jawline, looking serene,';
         case 'windswept_hair_dreamy': return 'a dreamy, romantic pose with hair appearing gently windswept, looking off-camera with a soft expression,';
-        case 'lounging_on_silk': return 'lounging gracefully on a luxurious surface like silk sheets or a velvet couch, looking relaxed and alluring,';
+        case 'lounging_on_silk': return 'lounging gracefully on a luxurious surface like silk sheets or a velvet couch, looking relaxed and elegant,';
         case 'playful_peekaboo': return 'a playful pose, peeking from behind a hand or over the edge of something, with a cute and flirtatious smile,';
         case 'cozy_sweater_hug': return 'a close-up, intimate shot of a beautiful woman with a soft expression, gently hugging herself in a cozy setting. The focus is on her serene face and the garment, which fills a large part of the frame,';
-        case 'sun_kissed_glow_portrait': return 'a warm and attractive close-up portrait of a woman backlit by the golden hour sun, creating a soft, sexy glow on her hair and skin. The garment is the central focus and takes up a large area of the image,';
+        case 'sun_kissed_glow_portrait': return 'a warm and attractive close-up portrait of a woman backlit by the golden hour sun, creating a soft, beautiful glow on her hair and skin. The garment is the central focus and takes up a large area of the image,';
         case 'playful_hair_toss_laugh': return 'a dynamic and attractive close-up shot of a woman laughing genuinely as she playfully tosses her hair. The shot captures a moment of pure joy and confidence. The focus is on the garment, which is prominently featured,';
         case 'meadow_daydream_top_down': return 'a dreamy, romantic top-down close-up of a woman lying in a meadow of soft wildflowers, looking up at the camera with a gentle, daydreaming expression. The garment is clearly visible and takes up a large portion of the frame,';
-        case 'city_lights_glamour': return 'a chic and glamorous close-up shot of a woman at night, with a beautifully blurred background of city lights creating a bokeh effect. She has a confident, alluring expression. The garment is the main focus and catches the ambient light,';
+        case 'city_lights_glamour': return 'a chic and glamorous close-up shot of a woman at night, with a beautifully blurred background of city lights creating a bokeh effect. She has a confident, elegant expression. The garment is the main focus and catches the ambient light,';
         case 'delicate_flower_touch': return 'a close-up, romantic shot of a woman gently touching a delicate flower near her face, with a soft, dreamy expression,';
         case 'parisian_balcony_daydream': return 'a beautiful woman daydreaming on a Parisian balcony, leaning on the railing with a soft smile, with the Eiffel Tower heavily blurred in the background,';
         case 'cozy_cafe_window_rain': return 'a woman sitting by a cozy cafe window on a rainy day, looking out thoughtfully, with soft reflections of raindrops on the glass,';
         case 'secret_garden_reading': return 'a woman engrossed in a book while sitting in a secluded, magical-looking secret garden filled with soft-focus flowers,';
         case 'vintage_car_glamour': return 'a glamorous woman leaning against a classic vintage car, dressed elegantly, with a sophisticated, timeless look,';
+        case 'sitting_floor_relaxed': return 'front view, sitting on the floor with legs slightly bent in a relaxed pose, with direct eye contact,';
+        case 'sitting_cross_legged_side': return 'left side view, sitting cross-legged and looking slightly down,';
+        case 'leaning_on_floor': return 'right side view, leaning with one arm on the floor and looking at the camera,';
+        case 'standing_three_quarter_hands_pockets': return 'front three-quarter view, standing straight with hands in pockets,';
+        case 'standing_rear_three_quarter': return 'rear three-quarter view, standing with head slightly tilted toward the camera,';
+        case 'sitting_top_down': return 'top-down angle, sitting cross-legged and looking up at the camera,';
+        case 'low_angle_arms_crossed': return 'low angle, confident pose with arms crossed,';
+        case 'closeup_chest_design': return 'a close-up shot focused on the upper torso to showcase the garment\'s central design area, with no face visible,';
+        case 'full_body_slouched': return 'full-body shot with a slouched stance and one leg bent, against a simple studio background,';
+        case 'sitting_on_chair_dynamic': return 'dynamic sitting position on a chair, slightly leaning forward with a natural appearance,';
         // flat_lay_simple is handled directly in generateBaseImage and doesn't use this function.
         case 'flat_lay_simple': return ''; 
         default: return 'standing pose,';
@@ -214,10 +224,10 @@ const getBackgroundDescription = (style: BackgroundStyle): string => {
         case 'luxury_silk_drape': return 'The background is composed of luxurious, soft silk or satin fabric, artfully draped with gentle folds and heavily blurred with strong bokeh.';
         case 'rose_petal_bed': return 'The background is a soft, romantic surface covered in scattered, out-of-focus rose petals, creating a delicate and alluring setting with strong bokeh.';
         case 'sunset_beach_glow': return 'The background is a warm, golden hour sunset on a beautiful beach, heavily blurred to create a soft, romantic glow and beautiful bokeh from the glistening water.';
-        case 'elegant_boudoir': return 'The background is a tasteful and elegant boudoir or dressing room setting, featuring soft lighting and luxurious textures, all heavily blurred with strong bokeh.';
+        case 'elegant_boudoir': return 'The background is a tasteful and elegant bedroom or dressing room setting, featuring soft lighting and luxurious textures, all heavily blurred with strong bokeh.';
         case 'plush_velvet_couch': return 'The background is a luxurious, plush velvet couch in a soft color, with gentle, artistic folds in the fabric, all heavily blurred with a strong bokeh effect.';
         case 'cherry_blossom_dreamscape': return 'The background is a dreamy, romantic scene of soft-focus, pink cherry blossom branches, creating a beautiful and delicate atmosphere, all heavily blurred with a strong bokeh effect.';
-        case 'satin_sheets_boudoir': return 'The background is an alluring and elegant boudoir setting, featuring luxurious, rumpled satin sheets that catch the light beautifully, all heavily blurred with a strong and soft bokeh effect.';
+        case 'satin_sheets_boudoir': return 'The background is an alluring and elegant bedroom setting, featuring luxurious, rumpled satin sheets that catch the light beautifully, all heavily blurred with a strong and soft bokeh effect.';
         case 'golden_hour_meadow': return 'The background is a warm, romantic meadow during the golden hour sunset, with tall grass and wildflowers catching the light, all heavily blurred to create a soft, glowing bokeh effect.';
         case 'sparkling_champagne_bokeh': return 'The background is a glamorous and celebratory scene of sparkling, golden bokeh lights that look like champagne bubbles, creating a festive and chic atmosphere.';
         case 'ethereal_clouds_sky': return 'The background is a dreamy, ethereal sky filled with soft, pastel-colored clouds at sunrise or sunset, heavily blurred with strong bokeh.';
@@ -285,7 +295,7 @@ const getMugStyleDescription = (style: MugStyle): string => {
         case 'gold_rimmed_porcelain': return 'an elegant, fine porcelain teacup-style mug with a delicate, hand-painted gold rim';
         case 'matte_pink_heart_handle': return 'a chic, modern ceramic mug with a soft matte pink finish and a unique, cute heart-shaped handle';
         case 'scalloped_edge_teacup': return 'a delicate, vintage-inspired porcelain teacup with a beautiful scalloped or fluted rim, evoking a sense of soft romance';
-        case 'rose_gold_metallic': return 'a glamorous and sexy mug with a highly reflective, polished rose gold metallic finish';
+        case 'rose_gold_metallic': return 'a glamorous and stylish mug with a highly reflective, polished rose gold metallic finish';
         default: return 'a high-quality mug';
     }
 }
@@ -323,7 +333,7 @@ const getTumblerStyleDescription = (style: TumblerStyle): string => {
         case 'pearlized_marble': return 'an elegant tumbler with a soft, swirling white and grey marble pattern and an iridescent, pearlized finish';
         case 'satin_finish_blush_pink': return 'a chic tumbler with a smooth, non-glossy satin finish in a delicate blush pink color';
         case 'lace_etched_crystal': return 'a romantic, high-quality crystal-clear tumbler with a delicate floral lace pattern intricately etched into its surface';
-        case 'holographic_chrome': return 'a sexy and modern tumbler with a vibrant, highly reflective holographic chrome finish that shifts colors';
+        case 'holographic_chrome': return 'a stylish and modern tumbler with a vibrant, highly reflective holographic chrome finish that shifts colors';
         case 'soft_touch_lilac': return 'a modern, minimalist tumbler with a smooth, soft-touch silicone-like finish in a gentle lilac color';
         case 'brushed_rose_gold': return 'a sophisticated tumbler with a finely brushed rose gold metallic finish, giving it a subtle, elegant texture and sheen';
         case 'watercolor_peony': return 'a beautiful tumbler featuring a soft, artistic watercolor design of blooming peony flowers in shades of pink and white';
@@ -433,10 +443,10 @@ const getWalletStyleDescription = (style: WalletStyle): string => {
         case 'quilted_leather_chain': return 'an elegant, luxurious quilted leather wallet with a sophisticated gold chain strap';
         case 'pastel_pink_saffiano': return 'a chic Saffiano leather wallet in a soft pastel pink color, with a high-fashion, cross-hatch texture';
         case 'floral_embroidered_clutch': return 'a beautiful clutch-style wallet with delicate, intricate floral embroidery on a fabric surface';
-        case 'rose_gold_metallic': return 'a glamorous and sexy wallet with a shimmering, reflective rose gold metallic finish';
+        case 'rose_gold_metallic': return 'a glamorous and stylish wallet with a shimmering, reflective rose gold metallic finish';
         case 'plush_velvet_pearl': return 'a soft, plush velvet wallet with a romantic feel, featuring an elegant pearl clasp closure';
         case 'satin_bow_clutch': return 'an elegant, clutch-style wallet made from shimmering satin fabric, featuring a large, beautifully tied bow on the front as a closure';
-        case 'lace_and_silk_wallet': return 'a romantic and sexy wallet made from luxurious silk, with an intricate and delicate black or white lace overlay';
+        case 'lace_and_silk_wallet': return 'a romantic and stylish wallet made from luxurious silk, with an intricate and delicate black or white lace overlay';
         case 'pearl_encrusted_cardholder': return 'a chic and sophisticated cardholder, beautifully embellished with a dense scattering of small, elegant pearls';
         case 'holographic_mermaid_wallet': return 'a trendy and magical wallet with a shimmering, iridescent holographic finish that mimics mermaid scales';
         case 'plush_faux_fur_clutch': return 'a soft, glamorous, and touchable clutch-style wallet made from high-quality, plush faux fur';
@@ -480,7 +490,7 @@ const getBeanieStyleDescription = (style: BeanieStyle): string => {
         case 'chenille_heart_knit': return 'a plush, velvety chenille beanie featuring a subtle, romantic cable knit pattern with interlocking hearts';
         case 'slouchy_cashmere': return 'an exquisitely soft, luxurious cashmere beanie with a relaxed, stylish slouchy fit';
         case 'luxe_faux_fur_pompom': return 'a chic ribbed-knit beanie topped with an oversized, fluffy, and luxurious faux fur pom-pom';
-        case 'satin_lined_slouchy': return 'a soft knit slouchy beanie with a glimpse of a smooth, sexy satin lining on the inside edge';
+        case 'satin_lined_slouchy': return 'a soft knit slouchy beanie with a glimpse of a smooth, elegant satin lining on the inside edge';
         case 'floral_embroidery': return 'a finely knit beanie with delicate, intricate, photorealistic floral embroidery across the front';
         case 'sequin_knit': return 'a soft knit beanie subtly interwoven with delicate, sparkling sequins for a glamorous and elegant look';
         case 'veiled_beanie': return 'a chic and mysterious soft knit beanie with a delicate, short birdcage veil attached to the front';
@@ -627,7 +637,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             } else {
                 const audienceDescription = getAudienceDescription(audience);
                 const poseDescription = getPoseDescription(pose);
-                prompt = `Commercial product mockup photo, close-up portrait from the chest up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment} with detailed fabric weave and texture visible. The garment is shown clearly for a mockup and takes up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+                prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment} with detailed fabric weave and texture visible. The garment is shown clearly for a mockup and takes up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             }
             break;
         }
@@ -638,7 +648,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            prompt = `Commercial product mockup photo, close-up portrait from the chest up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'sweatshirt_mug_scene': {
@@ -648,7 +658,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            prompt = `Commercial product mockup photo, close-up portrait from the chest up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a mug. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a mug. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'sweatshirt_teacup_scene': {
@@ -658,7 +668,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-            prompt = `Commercial product mockup photo, close-up portrait from the chest up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'hoodie_teacup_scene': {
@@ -668,7 +678,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-            prompt = `Commercial product mockup photo, close-up portrait from the chest up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} hoodie with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} hoodie with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'bag': {
@@ -954,11 +964,11 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
             designPlacement = `Place the logo and text centrally. Frame the design with elegant, soft-focus cherry blossom branches that appear to be gently blowing in the wind, with a few petals scattered across the design.`;
             break;
         case 'satin_lace_trim':
-            overallStyle = 'a sexy, luxurious, and elegant boudoir-inspired style.';
+            overallStyle = 'a stylish, luxurious, and elegant boudoir-inspired style.';
             designPlacement = `Place the logo and text in the center. Create a sophisticated border around the design using a combination of shimmering satin ribbon and delicate, intricate black or white lace.`;
             break;
         case 'rose_gold_glitter':
-            overallStyle = 'a glamorous, chic, and sexy style.';
+            overallStyle = 'a glamorous, chic, and stylish style.';
             designPlacement = `Place the logo and text in the center. The design should be accented with a spray of fine, shimmering rose gold glitter that looks like it was just sprinkled on, with some particles catching the light.`;
             break;
         case 'dreamy_angel_wings':
@@ -966,7 +976,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
             designPlacement = `Place the logo and text in the center. Position a pair of large, soft, and ethereal white feathered angel wings so they gracefully arch around the central design.`;
             break;
         case 'sensual_smoke_perfume':
-            overallStyle = 'a sensual, mysterious, and alluring style.';
+            overallStyle = 'a mysterious, elegant, and alluring style.';
             designPlacement = `Place the logo and text in the center. Have wisps of soft, colored smoke (in shades of deep purple and soft pink, like perfume) swirling elegantly around and partially through the design, creating a sense of mystery and allure.`;
             break;
         default:
