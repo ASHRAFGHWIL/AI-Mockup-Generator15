@@ -237,6 +237,7 @@ export const en = {
   modelAudience_teenager_female_skater: "Teen (Skater)",
   modelAudience_woman_20s_barista: "Woman (20s, Barista)",
   modelAudience_woman_20s_urban_fashion: "Woman (20s, Urban Fashion)",
+  modelAudience_woman_stylish_redhead: "Woman (Stylish Redhead)",
   modelAudience_woman_20s_athletic: "Woman (20s, Athletic)",
   modelAudience_woman_30s_casual: "Woman (30s, Casual)",
   modelAudience_woman_30s_yogi: "Woman (30s, Yogi)",

@@ -6,7 +6,7 @@ export type ModelPose = 'flat_lay_simple' | 'standing' | 'sitting' | 'sitting_fl
 export type ModelAudience = 
   // Female
   'teenager_female_skater' |
-  'woman_20s_athletic' | 'woman_20s_urban_fashion' | 'woman_20s_barista' |
+  'woman_20s_athletic' | 'woman_20s_urban_fashion' | 'woman_20s_barista' | 'woman_stylish_redhead' |
   'woman_30s_casual' | 'woman_30s_yogi' | 'woman_30s_plus_size_confident' |
   'woman_40s_professional' | 'woman_40s_edgy_tattoos' | 'middle_aged_woman_artist' |
   'woman_50s_elegant' | 'woman_50s_traveler' |

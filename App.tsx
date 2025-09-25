@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import ControlsPanel from './components/ControlsPanel';
 import PreviewDisplay from './components/PreviewDisplay';
 import { WandIcon } from './components/icons';
@@ -9,6 +9,7 @@ import { LanguageContext, useTranslation, Language } from './hooks/useTranslatio
 import { en } from './i18n/en';
 // FIX: Statically import the 'ar' translations to resolve the "Cannot find name 'require'" error, which is not available in a browser environment.
 import { ar } from './i18n/ar';
+import { SAMPLE_LOGO_B64 } from './sample';
 
 const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
@@ -42,16 +43,16 @@ const AppContent: React.FC = () => {
   const { t, language, setLanguage } = useTranslation();
 
   const [design, setDesign] = useState<DesignOptions>({
-    productType: 'tshirt',
-    logo: null,
-    text: 'YOUR TEXT HERE',
+    productType: 'sweatshirt',
+    logo: SAMPLE_LOGO_B64,
+    text: 'BOO',
     productColor: '#FFFFFF',
-    textColor: '#FFFFFF',
-    style: 'classic',
-    pose: 'standing',
-    audience: 'woman_30s_casual',
-    font: 'impact',
-    textStyle: 'outline',
+    textColor: '#A78BFA',
+    style: 'distressed_vintage',
+    pose: 'sitting_floor_relaxed',
+    audience: 'woman_stylish_redhead',
+    font: 'creepster',
+    textStyle: 'none',
     gradientStartColor: '#2563EB',
     gradientEndColor: '#B91C1C',
     aspectRatio: '1:1',
@@ -98,6 +99,25 @@ const AppContent: React.FC = () => {
 
   const logoFileRef = useRef<File | null>(null);
 
+  useEffect(() => {
+    // On initial load, convert the sample base64 logo to a File object
+    // so the app is ready to generate immediately.
+    const initializeSampleLogo = async () => {
+      if (design.logo === SAMPLE_LOGO_B64 && !logoFileRef.current) {
+        try {
+          const response = await fetch(SAMPLE_LOGO_B64);
+          const blob = await response.blob();
+          const file = new File([blob], 'sample_logo.svg', { type: 'image/svg+xml' });
+          logoFileRef.current = file;
+        } catch (err) {
+          console.error("Failed to initialize sample logo:", err);
+          setError("Could not load the sample logo.");
+        }
+      }
+    };
+    initializeSampleLogo();
+  }, [design.logo]);
+
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'ar' : 'en');
   };
@@ -114,7 +134,7 @@ const AppContent: React.FC = () => {
       return;
     }
 
-    const ALLOWED_TYPES = ['image/png', 'image/jpeg'];
+    const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
     if (!ALLOWED_TYPES.includes(file.type)) {
       setError(t('errorUnsupportedFileType'));
       setDesign(d => ({ ...d, logo: null }));

@@ -620,6 +620,7 @@ export const MODEL_AUDIENCES: {id: ModelAudience, nameKey: string, description: 
     { id: 'teenager_female_skater', nameKey: 'modelAudience_teenager_female_skater', description: 'a female teenager with a cool skater style' },
     { id: 'woman_20s_barista', nameKey: 'modelAudience_woman_20s_barista', description: 'a young woman with a friendly barista style, perhaps with an apron' },
     { id: 'woman_20s_urban_fashion', nameKey: 'modelAudience_woman_20s_urban_fashion', description: 'a young woman in trendy, stylish urban fashion' },
+    { id: 'woman_stylish_redhead', nameKey: 'modelAudience_woman_stylish_redhead', description: 'a stylish young woman with orange-red hair styled with bangs' },
     { id: 'woman_20s_athletic', nameKey: 'modelAudience_woman_20s_athletic', description: 'a woman with an athletic build, in sporty-casual clothing' },
     { id: 'woman_30s_casual', nameKey: 'modelAudience_woman_30s_casual', description: 'a woman with a relaxed and casual style' },
     { id: 'woman_30s_yogi', nameKey: 'modelAudience_woman_30s_yogi', description: 'a woman in comfortable activewear, with a calm and serene yogi vibe' },

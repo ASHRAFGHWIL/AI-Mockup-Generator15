@@ -1,0 +1,3 @@
+// A sample SVG logo of a spooky face, encoded in base64.
+// This is used to initialize the app with a default design.
+export const SAMPLE_LOGO_B64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cG9seWdvbiBwb2ludHM9IjEwLDQwIDQwLDQwIDI1LDEwIiBmaWxsPSIjRkJCRjI0Ii8+PHBvbHlnb24gcG9pbnRzPSI2MCw0MCA5MCw0MCA3NSwxMCIgZmlsbD0iI0ZCQkYyNCIvPjxwb2x5Z29uIHBvaW50cz0iNDUsNjAgNTUsNjAgNTAsNDUiIGZpbGw9IiNGQkJGMjQiLz48L3N2Zz4=';

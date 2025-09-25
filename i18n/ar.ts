@@ -238,6 +238,7 @@ export const ar = {
   modelAudience_teenager_female_skater: "مراهقة (متزلجة)",
   modelAudience_woman_20s_barista: "امرأة (عشرينات، باريستا)",
   modelAudience_woman_20s_urban_fashion: "امرأة (عشرينات، أزياء حضرية)",
+  modelAudience_woman_stylish_redhead: "امرأة (شعر أحمر أنيق)",
   modelAudience_woman_20s_athletic: "امرأة (عشرينات، رياضية)",
   modelAudience_woman_30s_casual: "امرأة (ثلاثينات، عادية)",
   modelAudience_woman_30s_yogi: "امرأة (ثلاثينات، يوغي)",
