@@ -112,7 +112,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
       </div>
 
       {generatedImage && !isLoading && (
-        <div className="flex flex-col items-center gap-4 w-full">
+        <div className="flex flex-col items-center gap-3 w-full">
             {/* Mockup Download Section */}
             <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
                 <div className="flex items-center justify-center gap-4">
@@ -135,8 +135,33 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                     </button>
                 </div>
             </div>
+
+            {/* Design Download Section */}
+            {textBasedProducts.includes(productType) && (
+              <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
+                  <div className="flex items-center justify-center gap-4">
+                      <span className="text-lg font-semibold text-gray-200 shrink-0">{t('downloadDesignLabel')}</span>
+                      <button
+                          onClick={onDownloadCombinedSvg}
+                          title="Download Design as SVG"
+                          className="flex-1 flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
+                      >
+                          <DownloadIcon className="w-5 h-5" />
+                          <span>{t('downloadDesignSvgButton')}</span>
+                      </button>
+                      <button
+                          onClick={onDownloadCombinedPng}
+                          title="Download Design as PNG"
+                          className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
+                      >
+                          <DownloadIcon className="w-5 h-5" />
+                          <span>{t('downloadDesignPngButton')}</span>
+                      </button>
+                  </div>
+              </div>
+            )}
             
-            {/* Assets Download Section */}
+            {/* Individual Assets Download Section */}
             <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
                 <div className="flex items-center justify-center gap-4">
                     <span className="text-sm font-semibold text-gray-400 shrink-0">{t('assetsLabel')}</span>
@@ -146,8 +171,6 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                         <>
                         <button onClick={onDownloadTextSvg} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textSvgButton')}</button>
                         <button onClick={onDownloadTextPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textPngButton')}</button>
-                        <button onClick={onDownloadCombinedSvg} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('downloadDesignSvgButton')}</button>
-                        <button onClick={onDownloadCombinedPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('downloadDesignPngButton')}</button>
                         </>
                     )}
 
