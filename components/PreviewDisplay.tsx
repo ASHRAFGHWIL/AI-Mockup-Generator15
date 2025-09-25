@@ -14,13 +14,14 @@ interface PreviewDisplayProps {
   onDownloadCombinedSvg: () => void;
   onDownloadCombinedPng: () => void;
   onDownloadEngravingSvg: () => void;
-  onDownloadMockup: () => void;
+  onDownloadMockupPng: () => void;
+  onDownloadMockupJpg: () => void;
   imageMode: ImageMode;
   isPreviewExpanded: boolean;
   onExitPreview: () => void;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockup, imageMode, isPreviewExpanded, onExitPreview }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview }) => {
     const { t } = useTranslation();
     
     const loadingMessages = React.useMemo(() => [
@@ -111,45 +112,53 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
       </div>
 
       {generatedImage && !isLoading && (
-        <div className="flex flex-col items-center gap-4">
-            {/* Primary Action Button */}
-            <button
-                onClick={onDownloadMockup}
-                title="Download Mockup Image (PNG)"
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105"
-            >
-                <DownloadIcon className="w-6 h-6" />
-                <span className="text-lg">{t('downloadMockupButton')}</span>
-            </button>
+        <div className="flex flex-col items-center gap-4 w-full">
+            {/* Mockup Download Section */}
+            <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
+                <div className="flex items-center justify-center gap-4">
+                    <span className="text-lg font-semibold text-gray-200 shrink-0">{t('downloadMockupLabel')}</span>
+                    <button
+                        onClick={onDownloadMockupPng}
+                        title="Download Mockup as PNG"
+                        className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50"
+                    >
+                        <DownloadIcon className="w-5 h-5" />
+                        <span>{t('downloadPngButton')}</span>
+                    </button>
+                    <button
+                        onClick={onDownloadMockupJpg}
+                        title="Download Mockup as JPG"
+                        className="flex-1 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50"
+                    >
+                        <DownloadIcon className="w-5 h-5" />
+                        <span>{t('downloadJpgButton')}</span>
+                    </button>
+                </div>
+            </div>
+            
+            {/* Assets Download Section */}
+            <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
+                <div className="flex items-center justify-center gap-4">
+                    <span className="text-sm font-semibold text-gray-400 shrink-0">{t('assetsLabel')}</span>
+                    <button onClick={onDownloadLogoPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('logoPngButton')}</button>
+                    
+                    {textBasedProducts.includes(productType) && (
+                        <>
+                        <button onClick={onDownloadTextSvg} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textSvgButton')}</button>
+                        <button onClick={onDownloadTextPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textPngButton')}</button>
+                        <button onClick={onDownloadCombinedSvg} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('downloadDesignSvgButton')}</button>
+                        <button onClick={onDownloadCombinedPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('downloadDesignPngButton')}</button>
+                        </>
+                    )}
 
-            {/* Asset downloads for text products */}
-            {textBasedProducts.includes(productType) && (
-                <div className="p-2 rounded-lg bg-black/30">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                        <span className="text-xs font-semibold text-gray-400 ms-2 me-2 shrink-0">{t('assetsLabel')}</span>
-                        <button onClick={onDownloadLogoPng} title="Download logo as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('logoPngButton')}</button>
-                        <button onClick={onDownloadTextSvg} title="Download text as SVG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textSvgButton')}</button>
-                        <button onClick={onDownloadTextPng} title="Download text as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('textPngButton')}</button>
-                        <button onClick={onDownloadCombinedSvg} title="Download full design as SVG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('downloadDesignSvgButton')}</button>
-                        <button onClick={onDownloadCombinedPng} title="Download full design as PNG" className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs">{t('downloadDesignPngButton' as keyof typeof import('../i18n/en').en)}</button>
-                    </div>
-                </div>
-            )}
-            {/* Asset downloads for engraving */}
-            {productType === 'laser_engraving' && (
-                 <div className="p-2 rounded-lg bg-black/30">
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-gray-400 ms-2 me-2 shrink-0">{t('assetsLabel')}</span>
-                        <button
-                            onClick={onDownloadEngravingSvg}
-                            title="Download Laser Engraving SVG File"
-                            className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-md shadow-lg transition-all text-xs"
-                        >
-                            {t('downloadEngravingButton')}
+                    {productType === 'laser_engraving' && (
+                        <button onClick={onDownloadEngravingSvg} className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-all transform hover:scale-105">
+                            <DownloadIcon className="w-5 h-5" />
+                            <span>{t('downloadEngravingButton')}</span>
                         </button>
-                    </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
       )}
     </div>

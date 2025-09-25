@@ -331,7 +331,7 @@ const AppContent: React.FC = () => {
     }
   };
 
-  const handleDownloadMockup = () => {
+  const handleDownloadMockupPng = () => {
     if (!generatedImage) {
       setError(t('errorNoMockupToDownload'));
       return;
@@ -345,8 +345,51 @@ const AppContent: React.FC = () => {
       a.click();
       document.body.removeChild(a);
     } catch (err: any) {
-      console.error('Error downloading mockup:', err);
+      console.error('Error downloading mockup PNG:', err);
       setError(err.message || 'Failed to download mockup image.');
+    }
+  };
+
+  const handleDownloadMockupJpg = () => {
+    if (!generatedImage) {
+        setError(t('errorNoMockupToDownload'));
+        return;
+    }
+    try {
+        setError(null);
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                // Since PNG can have transparency, we fill the background
+                // with white for the JPG.
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                
+                const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95); // 95% quality
+                
+                const a = document.createElement('a');
+                a.href = jpgDataUrl;
+                a.download = `mockup_${design.productType}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                throw new Error('Could not get canvas context for JPG conversion.');
+            }
+        };
+        img.onerror = () => {
+             setError('Failed to load image for JPG conversion.');
+        };
+        img.src = `data:image/png;base64,${generatedImage}`;
+
+    } catch (err: any) {
+        console.error('Error downloading mockup JPG:', err);
+        setError(err.message || 'Failed to download mockup image as JPG.');
     }
   };
 
@@ -393,7 +436,8 @@ const AppContent: React.FC = () => {
             onDownloadCombinedSvg={handleDownloadCombinedSvg}
             onDownloadCombinedPng={handleDownloadCombinedPng}
             onDownloadEngravingSvg={handleDownloadEngravingSvg}
-            onDownloadMockup={handleDownloadMockup}
+            onDownloadMockupPng={handleDownloadMockupPng}
+            onDownloadMockupJpg={handleDownloadMockupJpg}
             imageMode={imageMode}
             isPreviewExpanded={isPreviewExpanded}
             onExitPreview={() => setIsPreviewExpanded(false)}

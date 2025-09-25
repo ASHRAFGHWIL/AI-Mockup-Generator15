@@ -1,4 +1,3 @@
-
 export const ar = {
   headerTitle: "مولّد النماذج بالذكاء الاصطناعي",
   headerSubtitle: "أضف الحياة إلى تصميماتك بقوة Gemini",
@@ -66,7 +65,9 @@ export const ar = {
   previewPlaceholderTitle: "يظهر نموذجك هنا",
   previewPlaceholderSubtitle: "خصص تصميمك وانقر على 'إنشاء'",
   generationFailedTitle: "فشل الإنشاء",
-  downloadMockupButton: "تحميل النموذج",
+  downloadMockupLabel: "تحميل النموذج",
+  downloadPngButton: "PNG",
+  downloadJpgButton: "JPG",
   downloadEngravingButton: "تحميل SVG للنقش",
   assetsLabel: "الأصول:",
   logoPngButton: "شعار PNG",
