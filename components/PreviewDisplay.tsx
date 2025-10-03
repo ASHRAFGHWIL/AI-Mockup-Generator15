@@ -50,16 +50,6 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
   return (
     <div className="w-full flex-grow flex flex-col items-center justify-center gap-6">
       <div className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}>
-        {isPreviewExpanded && generatedImage && !isLoading && (
-            <button
-                onClick={onExitPreview}
-                className="absolute top-4 left-4 rtl:left-auto rtl:right-4 z-20 bg-gray-800/70 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-opacity"
-                aria-label={t('backToEditorButton')}
-            >
-                <BackArrowIcon className="w-5 h-5 rtl:scale-x-[-1]" />
-                <span>{t('backToEditorButton')}</span>
-            </button>
-        )}
         
         {isLoading && (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-10 text-white transition-opacity">
@@ -111,16 +101,23 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
         )}
       </div>
 
-      {generatedImage && !isLoading && (
+      {isPreviewExpanded && generatedImage && !isLoading && (
         <div className="flex flex-col items-center gap-3 w-full">
             {/* Mockup Download Section */}
             <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
-                <div className="flex items-center justify-center gap-4">
-                    <span className="text-lg font-semibold text-gray-200 shrink-0">{t('downloadMockupLabel')}</span>
+                <div className="flex items-center justify-center gap-2">
+                    <button
+                        onClick={onExitPreview}
+                        aria-label={t('backToEditorButton')}
+                        className="flex-1 flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-colors"
+                    >
+                        <BackArrowIcon className="w-5 h-5 rtl:scale-x-[-1]" />
+                        <span>{t('backToEditorButton')}</span>
+                    </button>
                     <button
                         onClick={onDownloadMockupPng}
                         title="Download Mockup as PNG"
-                        className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50"
+                        className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
                     >
                         <DownloadIcon className="w-5 h-5" />
                         <span>{t('downloadPngButton')}</span>
@@ -128,7 +125,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                     <button
                         onClick={onDownloadMockupJpg}
                         title="Download Mockup as JPG"
-                        className="flex-1 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50"
+                        className="flex-1 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
                     >
                         <DownloadIcon className="w-5 h-5" />
                         <span>{t('downloadJpgButton')}</span>

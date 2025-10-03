@@ -1,3 +1,4 @@
+
 export const en = {
   headerTitle: "AI Mockup Generator",
   headerSubtitle: "Bring your designs to life with the power of Gemini",
@@ -345,6 +346,9 @@ export const en = {
   frameModel_parisian_cafe_chic: "Parisian Café Chic",
   frameModel_floral_garden_sunlight: "Floral Garden Sunlight",
   frameModel_rooftop_sunset_glamour: "Rooftop Sunset Glamour",
+  frameModel_school_counselor_office: "School Counselor Office",
+  frameModel_psychologist_office: "Psychologist Office",
+  frameModel_luxurious_american_office: "Luxury American Office",
 
   mugStyle_classic_ceramic: "Classic Ceramic",
   mugStyle_modern_glass: "Modern Glass",
@@ -640,4 +644,13 @@ export const en = {
   template_funny_1: "Funny - Energy Saving Mode",
   template_inspirational_1: "Inspirational - Good Vibes Only",
   template_inspirational_2: "Inspirational - Dream Big",
+
+  frameDimension_8_5x11: "8.5x11 (Portrait)",
+  frameDimension_14x11: "14x11 (Landscape)",
+  frameDimension_20x16: "20x16 (Landscape)",
+  frameDimension_36x24: "36x24 (Landscape)",
+  frameDimension_A1: "A1 (Portrait)",
+  frameDimension_A2: "A2 (Portrait)",
+  frameDimension_A3: "A3 (Landscape)",
+  frameDimension_A4: "A4 (Portrait)",
 };

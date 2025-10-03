@@ -700,12 +700,19 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             prompt = `Close-up commercial product photo of a plain, unbranded ${walletStyleDescription} in a ${getColorName(productColor)} color, taking up a large area of the image and highlighting the detailed leather texture. Scene: ${sceneDescription}. The background is beautifully blurred with strong bokeh. ${qualityPrompt}`;
             break;
         }
-        case 'frame':
+        case 'frame': {
             const frameStyleDescription = getFrameStyleDescription(frameStyle);
             const frameModelDescription = getFrameModelDescription(frameModel);
             const frameDimensionDescription = getFrameDimensionDescription(frameDimension);
-            prompt = `Close-up commercial product photo. A hyperrealistic model, ${frameModelDescription}, with natural skin texture, is holding up a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
+            
+            // Check for scene-based descriptions (office, vanity) vs model-based descriptions
+            if (frameModel.includes('office') || frameModelDescription.includes('vanity table') || frameModelDescription.includes('on a wall') || frameModelDescription.includes('as a central mural')) {
+                 prompt = `Commercial product photo of a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The scene is: ${frameModelDescription}. The focus is on the empty frame, which takes up a large portion of the image. The lighting is professional and enhances the frame's texture. The background has a beautiful, soft bokeh effect. ${qualityPrompt}`;
+            } else {
+                 prompt = `Close-up commercial product photo. A hyperrealistic model, ${frameModelDescription}, with natural skin texture, is holding up a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
+            }
             break;
+        }
         case 'mug':
             const mugStyleDescription = getMugStyleDescription(mugStyle);
             const mugModelDescription = getMugModelDescription(mugModel);
