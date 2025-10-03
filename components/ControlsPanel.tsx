@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
-import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
+import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
+import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
 import { UploadIcon, TrashIcon, WandIcon, FitIcon, FitBlurIcon, FitTransparentIcon, CropIcon, StretchIcon, AspectRatioSquareIcon, AspectRatioHorizontalIcon, AspectRatioVerticalIcon } from './icons';
 import ColorPicker from './ColorPicker';
 import { useTranslation } from '../hooks/useTranslation';
@@ -356,92 +356,41 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
         </>
       )}
 
-      {(design.productType === 'tshirt' || design.productType === 'sweatshirt' || design.productType === 'hoodie' || design.productType === 'tshirt_teacup_scene' || design.productType === 'sweatshirt_mug_scene' || design.productType === 'hoodie_teacup_scene' || design.productType === 'sweatshirt_teacup_scene') && (
-        <>
-          <div>
-            <label htmlFor="design-style-apparel" className="block text-sm font-medium text-gray-300">{t('designStyleLabel')}</label>
-            <select
-              id="design-style-apparel"
-              value={design.style}
-              onChange={(e) => setDesign(d => ({ ...d, style: e.target.value as DesignStyle }))}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-            >
-              {DESIGN_STYLES.map(style => (
-                <option key={style.id} value={style.id}>
-                  {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="model-pose" className="block text-sm font-medium text-gray-300">{t('presentationStyleLabel')}</label>
-            <select
-              id="model-pose"
-              value={design.pose}
-              onChange={(e) => setDesign(d => ({ ...d, pose: e.target.value as ModelPose }))}
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-            >
-              {MODEL_POSES
-                .filter(p => (design.productType !== 'tshirt_teacup_scene' && design.productType !== 'sweatshirt_mug_scene' && design.productType !== 'hoodie_teacup_scene' && design.productType !== 'sweatshirt_teacup_scene') || p.id !== 'flat_lay_simple')
-                .map(pose => (
-                <option key={pose.id} value={pose.id}>
-                  {t(pose.nameKey as keyof typeof import('../i18n/en').en)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {design.pose !== 'flat_lay_simple' && (
-            <div>
-              <label htmlFor="model-audience" className="block text-sm font-medium text-gray-300">{t('modelLabel')}</label>
-              <select
-                id="model-audience"
-                value={design.audience}
-                onChange={(e) => setDesign(d => ({ ...d, audience: e.target.value as ModelAudience }))}
-                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-              >
-                <optgroup label={t('femaleModels')}>
-                  {femaleAudiences.map(audience => (
-                    <option key={audience.id} value={audience.id}>
-                      {t(audience.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                  ))}
-                </optgroup>
-                <optgroup label={t('maleModels')}>
-                  {maleAudiences.map(audience => (
-                    <option key={audience.id} value={audience.id}>
-                      {t(audience.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                  ))}
-                </optgroup>
-              </select>
-            </div>
-          )}
-        </>
+      {/* Product Color */}
+      {design.productType !== 'jigsaw_puzzle' && design.productType !== 'poster' && design.productType !== 'sticker' && design.productType !== 'laser_engraving' && (
+         <ColorPicker
+            label={productColorLabel}
+            colors={PRODUCT_COLORS}
+            selectedValue={design.productColor}
+            onChange={(color) => setDesign(d => ({ ...d, productColor: color }))}
+        />
       )}
 
-      {design.productType === 'bag' && (
+      {/* Aspect Ratio */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">{t('photoFormatLabel')}</label>
+        <div className="flex items-center gap-2">
+            {aspectRatios.map(({ id, nameKey, icon: Icon }) => (
+                <button
+                    key={id}
+                    type="button"
+                    onClick={() => setDesign(d => ({ ...d, aspectRatio: id }))}
+                    className={`flex-1 p-2 rounded-md transition-colors ${design.aspectRatio === id ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                    title={t(nameKey as keyof typeof import('../i18n/en').en)}
+                >
+                    <Icon className="w-6 h-6 mx-auto" />
+                </button>
+            ))}
+        </div>
+      </div>
+     
+      {/* T-shirt/Sweatshirt/Hoodie Specific */}
+      {(design.productType === 'tshirt' || design.productType === 'sweatshirt' || design.productType === 'hoodie' || design.productType === 'tshirt_teacup_scene' || design.productType === 'sweatshirt_mug_scene' || design.productType === 'hoodie_teacup_scene' || design.productType === 'sweatshirt_teacup_scene') && (
         <>
             <div>
-              <label htmlFor="bag-material" className="block text-sm font-medium text-gray-300">{t('bagMaterialLabel')}</label>
-              <select
-                id="bag-material"
-                value={design.bagMaterial}
-                onChange={(e) => setDesign(d => ({ ...d, bagMaterial: e.target.value as BagMaterial }))}
-                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-              >
-                {BAG_MATERIALS.map(material => (
-                  <option key={material.id} value={material.id}>
-                    {t(material.nameKey as keyof typeof import('../i18n/en').en)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-                <label htmlFor="design-style-bag" className="block text-sm font-medium text-gray-300">{t('designStyleLabel')}</label>
+                <label htmlFor="design-style" className="block text-sm font-medium text-gray-300">{t('designStyleLabel')}</label>
                 <select
-                id="design-style-bag"
+                id="design-style"
                 value={design.style}
                 onChange={(e) => setDesign(d => ({ ...d, style: e.target.value as DesignStyle }))}
                 className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
@@ -453,595 +402,660 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                 ))}
                 </select>
             </div>
+            <div>
+                <label htmlFor="model-pose" className="block text-sm font-medium text-gray-300">{t('presentationStyleLabel')}</label>
+                <select
+                id="model-pose"
+                value={design.pose}
+                onChange={(e) => setDesign(d => ({ ...d, pose: e.target.value as ModelPose }))}
+                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+                >
+                {MODEL_POSES.map(pose => (
+                    <option key={pose.id} value={pose.id}>
+                    {t(pose.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
+                </select>
+            </div>
+            <div>
+                <label htmlFor="model-audience" className="block text-sm font-medium text-gray-300">{t('modelLabel')}</label>
+                <select
+                id="model-audience"
+                value={design.audience}
+                onChange={(e) => setDesign(d => ({ ...d, audience: e.target.value as ModelAudience }))}
+                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+                >
+                    <optgroup label={t('femaleModels')}>
+                         {femaleAudiences.map(audience => (
+                            <option key={audience.id} value={audience.id}>
+                            {t(audience.nameKey as keyof typeof import('../i18n/en').en)}
+                            </option>
+                        ))}
+                    </optgroup>
+                    <optgroup label={t('maleModels')}>
+                        {maleAudiences.map(audience => (
+                            <option key={audience.id} value={audience.id}>
+                            {t(audience.nameKey as keyof typeof import('../i18n/en').en)}
+                            </option>
+                        ))}
+                    </optgroup>
+                </select>
+            </div>
         </>
       )}
-      
+
+      {/* Bag Specific */}
+      {design.productType === 'bag' && (
+        <div>
+            <label htmlFor="bag-material" className="block text-sm font-medium text-gray-300">{t('bagMaterialLabel')}</label>
+            <select
+            id="bag-material"
+            value={design.bagMaterial}
+            onChange={(e) => setDesign(d => ({ ...d, bagMaterial: e.target.value as BagMaterial }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {BAG_MATERIALS.map(mat => (
+                <option key={mat.id} value={mat.id}>
+                {t(mat.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+      )}
+
+      {/* Frame Specific */}
+      {design.productType === 'frame' && (
+        <>
+        <div>
+            <label htmlFor="frame-style" className="block text-sm font-medium text-gray-300">{t('frameStyleLabel')}</label>
+            <select
+            id="frame-style"
+            value={design.frameStyle}
+            onChange={(e) => setDesign(d => ({ ...d, frameStyle: e.target.value as FrameStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {FRAME_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="frame-model" className="block text-sm font-medium text-gray-300">{t('frameModelLabel')}</label>
+            <select
+            id="frame-model"
+            value={design.frameModel}
+            onChange={(e) => setDesign(d => ({ ...d, frameModel: e.target.value as FrameModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {FRAME_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="frame-dimension" className="block text-sm font-medium text-gray-300">{t('photoFormatLabel')}</label>
+            <select
+            id="frame-dimension"
+            value={design.frameDimension}
+            onChange={(e) => setDesign(d => ({ ...d, frameDimension: e.target.value as FrameDimension }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {FRAME_DIMENSIONS.map(dim => (
+                <option key={dim.id} value={dim.id}>
+                {t(dim.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Mug Specific */}
+      {(design.productType === 'mug' || design.productType === 'tshirt_teacup_scene' || design.productType === 'sweatshirt_mug_scene' || design.productType === 'hoodie_teacup_scene' || design.productType === 'sweatshirt_teacup_scene') && (
+        <>
+        <div>
+            <label htmlFor="mug-style" className="block text-sm font-medium text-gray-300">{t('mugStyleLabel')}</label>
+            <select
+            id="mug-style"
+            value={design.mugStyle}
+            onChange={(e) => setDesign(d => ({ ...d, mugStyle: e.target.value as MugStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {MUG_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        {design.productType === 'mug' && (
+            <div>
+                <label htmlFor="mug-model" className="block text-sm font-medium text-gray-300">{t('mugModelLabel')}</label>
+                <select
+                id="mug-model"
+                value={design.mugModel}
+                onChange={(e) => setDesign(d => ({ ...d, mugModel: e.target.value as MugModel }))}
+                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+                >
+                {MUG_MODELS.map(model => (
+                    <option key={model.id} value={model.id}>
+                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                    </option>
+                ))}
+                </select>
+            </div>
+        )}
+        </>
+      )}
+
+      {/* Sipper Glass Specific */}
+      {design.productType === 'sipper_glass' && (
+        <>
+        <div>
+            <label htmlFor="sipper-style" className="block text-sm font-medium text-gray-300">{t('sipperStyleLabel')}</label>
+            <select
+            id="sipper-style"
+            value={design.sipperGlassStyle}
+            onChange={(e) => setDesign(d => ({ ...d, sipperGlassStyle: e.target.value as SipperGlassStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {SIPPER_GLASS_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="sipper-model" className="block text-sm font-medium text-gray-300">{t('sipperModelLabel')}</label>
+            <select
+            id="sipper-model"
+            value={design.sipperGlassModel}
+            onChange={(e) => setDesign(d => ({ ...d, sipperGlassModel: e.target.value as SipperGlassModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {SIPPER_GLASS_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Tumbler Wrap Specific */}
+      {design.productType === 'tumbler_wrap' && (
+        <>
+        <div>
+            <label htmlFor="tumbler-style" className="block text-sm font-medium text-gray-300">{t('tumblerStyleLabel')}</label>
+            <select
+            id="tumbler-style"
+            value={design.tumblerStyle}
+            onChange={(e) => setDesign(d => ({ ...d, tumblerStyle: e.target.value as TumblerStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {TUMBLER_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="tumbler-model" className="block text-sm font-medium text-gray-300">{t('tumblerModelLabel')}</label>
+            <select
+            id="tumbler-model"
+            value={design.tumblerModel}
+            onChange={(e) => setDesign(d => ({ ...d, tumblerModel: e.target.value as TumblerModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {TUMBLER_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Halloween Tumbler Specific */}
+      {design.productType === 'halloween_tumbler' && (
+        <>
+        <div>
+            <label htmlFor="halloween-tumbler-style" className="block text-sm font-medium text-gray-300">{t('halloweenTumblerStyleLabel')}</label>
+            <select
+            id="halloween-tumbler-style"
+            value={design.halloweenTumblerStyle}
+            onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerStyle: e.target.value as HalloweenTumblerStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {HALLOWEEN_TUMBLER_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="halloween-tumbler-setting" className="block text-sm font-medium text-gray-300">{t('halloweenTumblerSettingLabel')}</label>
+            <select
+            id="halloween-tumbler-setting"
+            value={design.halloweenTumblerSetting}
+            onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerSetting: e.target.value as HalloweenTumblerSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {HALLOWEEN_TUMBLER_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+       {/* Tumbler Trio Specific */}
+       {design.productType === 'tumbler_trio' && (
+        <>
+        <div>
+            <label htmlFor="tumbler-trio-style" className="block text-sm font-medium text-gray-300">{t('tumblerTrioStyleLabel')}</label>
+            <select
+            id="tumbler-trio-style"
+            value={design.tumblerTrioStyle}
+            onChange={(e) => setDesign(d => ({ ...d, tumblerTrioStyle: e.target.value as TumblerTrioStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {TUMBLER_TRIO_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="tumbler-trio-setting" className="block text-sm font-medium text-gray-300">{t('tumblerTrioSettingLabel')}</label>
+            <select
+            id="tumbler-trio-setting"
+            value={design.tumblerTrioSetting}
+            onChange={(e) => setDesign(d => ({ ...d, tumblerTrioSetting: e.target.value as TumblerTrioSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {TUMBLER_TRIO_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Phone Case Specific */}
+      {design.productType === 'phone_case' && (
+        <>
+        <div>
+            <label htmlFor="phone-case-style" className="block text-sm font-medium text-gray-300">{t('phoneCaseStyleLabel')}</label>
+            <select
+            id="phone-case-style"
+            value={design.phoneCaseStyle}
+            onChange={(e) => setDesign(d => ({ ...d, phoneCaseStyle: e.target.value as PhoneCaseStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PHONE_CASE_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="phone-case-model" className="block text-sm font-medium text-gray-300">{t('phoneCaseModelLabel')}</label>
+            <select
+            id="phone-case-model"
+            value={design.phoneCaseModel}
+            onChange={(e) => setDesign(d => ({ ...d, phoneCaseModel: e.target.value as PhoneCaseModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PHONE_CASE_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Sticker Specific */}
+      {design.productType === 'sticker' && (
+        <>
+        <div>
+            <label htmlFor="sticker-style" className="block text-sm font-medium text-gray-300">{t('stickerStyleLabel')}</label>
+            <select
+            id="sticker-style"
+            value={design.stickerStyle}
+            onChange={(e) => setDesign(d => ({ ...d, stickerStyle: e.target.value as StickerStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {STICKER_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="sticker-setting" className="block text-sm font-medium text-gray-300">{t('stickerSettingLabel')}</label>
+            <select
+            id="sticker-setting"
+            value={design.stickerSetting}
+            onChange={(e) => setDesign(d => ({ ...d, stickerSetting: e.target.value as StickerSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {STICKER_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Poster Specific */}
+      {design.productType === 'poster' && (
+        <>
+        <div>
+            <label htmlFor="poster-style" className="block text-sm font-medium text-gray-300">{t('posterStyleLabel')}</label>
+            <select
+            id="poster-style"
+            value={design.posterStyle}
+            onChange={(e) => setDesign(d => ({ ...d, posterStyle: e.target.value as PosterStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {POSTER_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="poster-setting" className="block text-sm font-medium text-gray-300">{t('posterSettingLabel')}</label>
+            <select
+            id="poster-setting"
+            value={design.posterSetting}
+            onChange={(e) => setDesign(d => ({ ...d, posterSetting: e.target.value as PosterSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {POSTER_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Wallet Specific */}
       {design.productType === 'wallet' && (
         <>
-            <div>
-                <label htmlFor="wallet-style" className="block text-sm font-medium text-gray-300">{t('walletStyleLabel')}</label>
-                <select
-                    id="wallet-style"
-                    value={design.walletStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, walletStyle: e.target.value as WalletStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {WALLET_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="wallet-model" className="block text-sm font-medium text-gray-300">{t('walletModelLabel')}</label>
-                <select
-                    id="wallet-model"
-                    value={design.walletModel}
-                    onChange={(e) => setDesign(d => ({ ...d, walletModel: e.target.value as WalletModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {WALLET_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'cap' && (
-         <>
-            <div>
-                <label htmlFor="cap-style" className="block text-sm font-medium text-gray-300">{t('capStyleLabel')}</label>
-                <select
-                    id="cap-style"
-                    value={design.capStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, capStyle: e.target.value as CapStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {CAP_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="cap-model" className="block text-sm font-medium text-gray-300">{t('capModelLabel')}</label>
-                <select
-                    id="cap-model"
-                    value={design.capModel}
-                    onChange={(e) => setDesign(d => ({ ...d, capModel: e.target.value as CapModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {CAP_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'beanie' && (
-         <>
-            <div>
-                <label htmlFor="beanie-style" className="block text-sm font-medium text-gray-300">{t('beanieStyleLabel')}</label>
-                <select
-                    id="beanie-style"
-                    value={design.beanieStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, beanieStyle: e.target.value as BeanieStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {BEANIE_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="beanie-model" className="block text-sm font-medium text-gray-300">{t('beanieModelLabel')}</label>
-                <select
-                    id="beanie-model"
-                    value={design.beanieModel}
-                    onChange={(e) => setDesign(d => ({ ...d, beanieModel: e.target.value as BeanieModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {BEANIE_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'pillow' && (
-         <>
-            <div>
-                <label htmlFor="pillow-style" className="block text-sm font-medium text-gray-300">{t('pillowStyleLabel')}</label>
-                <select
-                    id="pillow-style"
-                    value={design.pillowStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, pillowStyle: e.target.value as PillowStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PILLOW_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="pillow-setting" className="block text-sm font-medium text-gray-300">{t('pillowSettingLabel')}</label>
-                <select
-                    id="pillow-setting"
-                    value={design.pillowSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, pillowSetting: e.target.value as PillowSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PILLOW_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'flat_lay' && (
         <div>
-          <label htmlFor="flatlay-style" className="block text-sm font-medium text-gray-300">{t('flatLayStyleLabel')}</label>
-          <select
-            id="flatlay-style"
+            <label htmlFor="wallet-style" className="block text-sm font-medium text-gray-300">{t('walletStyleLabel')}</label>
+            <select
+            id="wallet-style"
+            value={design.walletStyle}
+            onChange={(e) => setDesign(d => ({ ...d, walletStyle: e.target.value as WalletStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {WALLET_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="wallet-model" className="block text-sm font-medium text-gray-300">{t('walletModelLabel')}</label>
+            <select
+            id="wallet-model"
+            value={design.walletModel}
+            onChange={(e) => setDesign(d => ({ ...d, walletModel: e.target.value as WalletModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {WALLET_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Cap Specific */}
+      {design.productType === 'cap' && (
+        <>
+        <div>
+            <label htmlFor="cap-style" className="block text-sm font-medium text-gray-300">{t('capStyleLabel')}</label>
+            <select
+            id="cap-style"
+            value={design.capStyle}
+            onChange={(e) => setDesign(d => ({ ...d, capStyle: e.target.value as CapStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {CAP_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="cap-model" className="block text-sm font-medium text-gray-300">{t('capModelLabel')}</label>
+            <select
+            id="cap-model"
+            value={design.capModel}
+            onChange={(e) => setDesign(d => ({ ...d, capModel: e.target.value as CapModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {CAP_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Beanie Specific */}
+      {design.productType === 'beanie' && (
+        <>
+        <div>
+            <label htmlFor="beanie-style" className="block text-sm font-medium text-gray-300">{t('beanieStyleLabel')}</label>
+            <select
+            id="beanie-style"
+            value={design.beanieStyle}
+            onChange={(e) => setDesign(d => ({ ...d, beanieStyle: e.target.value as BeanieStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {BEANIE_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="beanie-model" className="block text-sm font-medium text-gray-300">{t('beanieModelLabel')}</label>
+            <select
+            id="beanie-model"
+            value={design.beanieModel}
+            onChange={(e) => setDesign(d => ({ ...d, beanieModel: e.target.value as BeanieModel }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {BEANIE_MODELS.map(model => (
+                <option key={model.id} value={model.id}>
+                {t(model.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+      {/* Pillow Specific */}
+      {design.productType === 'pillow' && (
+        <>
+        <div>
+            <label htmlFor="pillow-style" className="block text-sm font-medium text-gray-300">{t('pillowStyleLabel')}</label>
+            <select
+            id="pillow-style"
+            value={design.pillowStyle}
+            onChange={(e) => setDesign(d => ({ ...d, pillowStyle: e.target.value as PillowStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PILLOW_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="pillow-setting" className="block text-sm font-medium text-gray-300">{t('pillowSettingLabel')}</label>
+            <select
+            id="pillow-setting"
+            value={design.pillowSetting}
+            onChange={(e) => setDesign(d => ({ ...d, pillowSetting: e.target.value as PillowSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PILLOW_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+       {/* Flat Lay Specific */}
+      {design.productType === 'flat_lay' && (
+        <>
+        <div>
+            <label htmlFor="flat-lay-style" className="block text-sm font-medium text-gray-300">{t('flatLayStyleLabel')}</label>
+            <select
+            id="flat-lay-style"
             value={design.flatLayStyle}
             onChange={(e) => setDesign(d => ({ ...d, flatLayStyle: e.target.value as FlatLayStyle }))}
             className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-          >
-            {FLAT_LAY_STYLES.map(style => (
-              <option key={style.id} value={style.id}>
-                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {design.productType === 'frame' && (
-         <>
-            <div>
-                <label htmlFor="frame-style" className="block text-sm font-medium text-gray-300">{t('frameStyleLabel')}</label>
-                <select
-                    id="frame-style"
-                    value={design.frameStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, frameStyle: e.target.value as FrameStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {FRAME_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="frame-model" className="block text-sm font-medium text-gray-300">{t('frameModelLabel')}</label>
-                <select
-                    id="frame-model"
-                    value={design.frameModel}
-                    onChange={(e) => setDesign(d => ({ ...d, frameModel: e.target.value as FrameModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {FRAME_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {(design.productType === 'mug' || design.productType === 'tshirt_teacup_scene' || design.productType === 'sweatshirt_mug_scene' || design.productType === 'hoodie_teacup_scene' || design.productType === 'sweatshirt_teacup_scene') && (
-         <>
-            <div>
-                <label htmlFor="mug-style" className="block text-sm font-medium text-gray-300">{t('mugStyleLabel')}</label>
-                <select
-                    id="mug-style"
-                    value={design.mugStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, mugStyle: e.target.value as MugStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {MUG_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            {design.productType === 'mug' && (
-              <div>
-                  <label htmlFor="mug-model" className="block text-sm font-medium text-gray-300">{t('mugModelLabel')}</label>
-                  <select
-                      id="mug-model"
-                      value={design.mugModel}
-                      onChange={(e) => setDesign(d => ({ ...d, mugModel: e.target.value as MugModel }))}
-                      className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                  >
-                  {MUG_MODELS.map(model => (
-                      <option key={model.id} value={model.id}>
-                      {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                      </option>
-                  ))}
-                  </select>
-              </div>
-            )}
-        </>
-      )}
-
-      {design.productType === 'sipper_glass' && (
-         <>
-            <div>
-                <label htmlFor="sipper-style" className="block text-sm font-medium text-gray-300">{t('sipperStyleLabel')}</label>
-                <select
-                    id="sipper-style"
-                    value={design.sipperGlassStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, sipperGlassStyle: e.target.value as SipperGlassStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {SIPPER_GLASS_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="sipper-model" className="block text-sm font-medium text-gray-300">{t('sipperModelLabel')}</label>
-                <select
-                    id="sipper-model"
-                    value={design.sipperGlassModel}
-                    onChange={(e) => setDesign(d => ({ ...d, sipperGlassModel: e.target.value as SipperGlassModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {SIPPER_GLASS_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'tumbler_wrap' && (
-         <>
-            <div>
-                <label htmlFor="tumbler-style" className="block text-sm font-medium text-gray-300">{t('tumblerStyleLabel')}</label>
-                <select
-                    id="tumbler-style"
-                    value={design.tumblerStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, tumblerStyle: e.target.value as TumblerStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {TUMBLER_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="tumbler-model" className="block text-sm font-medium text-gray-300">{t('tumblerModelLabel')}</label>
-                <select
-                    id="tumbler-model"
-                    value={design.tumblerModel}
-                    onChange={(e) => setDesign(d => ({ ...d, tumblerModel: e.target.value as TumblerModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {TUMBLER_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'halloween_tumbler' && (
-         <>
-            <div>
-                <label htmlFor="halloween-tumbler-style" className="block text-sm font-medium text-gray-300">{t('halloweenTumblerStyleLabel')}</label>
-                <select
-                    id="halloween-tumbler-style"
-                    value={design.halloweenTumblerStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerStyle: e.target.value as HalloweenTumblerStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {HALLOWEEN_TUMBLER_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="halloween-tumbler-setting" className="block text-sm font-medium text-gray-300">{t('halloweenTumblerSettingLabel')}</label>
-                <select
-                    id="halloween-tumbler-setting"
-                    value={design.halloweenTumblerSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, halloweenTumblerSetting: e.target.value as HalloweenTumblerSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {HALLOWEEN_TUMBLER_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'tumbler_trio' && (
-         <>
-            <div>
-                <label htmlFor="tumbler-trio-style" className="block text-sm font-medium text-gray-300">{t('tumblerTrioStyleLabel')}</label>
-                <select
-                    id="tumbler-trio-style"
-                    value={design.tumblerTrioStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, tumblerTrioStyle: e.target.value as TumblerTrioStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {TUMBLER_TRIO_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="tumbler-trio-setting" className="block text-sm font-medium text-gray-300">{t('tumblerTrioSettingLabel')}</label>
-                <select
-                    id="tumbler-trio-setting"
-                    value={design.tumblerTrioSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, tumblerTrioSetting: e.target.value as TumblerTrioSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {TUMBLER_TRIO_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'phone_case' && (
-         <>
-            <div>
-                <label htmlFor="phone-case-style" className="block text-sm font-medium text-gray-300">{t('phoneCaseStyleLabel')}</label>
-                <select
-                    id="phone-case-style"
-                    value={design.phoneCaseStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, phoneCaseStyle: e.target.value as PhoneCaseStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PHONE_CASE_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="phone-case-model" className="block text-sm font-medium text-gray-300">{t('phoneCaseModelLabel')}</label>
-                <select
-                    id="phone-case-model"
-                    value={design.phoneCaseModel}
-                    onChange={(e) => setDesign(d => ({ ...d, phoneCaseModel: e.target.value as PhoneCaseModel }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PHONE_CASE_MODELS.map(model => (
-                    <option key={model.id} value={model.id}>
-                    {t(model.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'sticker' && (
-         <>
-            <div>
-                <label htmlFor="sticker-style" className="block text-sm font-medium text-gray-300">{t('stickerStyleLabel')}</label>
-                <select
-                    id="sticker-style"
-                    value={design.stickerStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, stickerStyle: e.target.value as StickerStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {STICKER_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="sticker-setting" className="block text-sm font-medium text-gray-300">{t('stickerSettingLabel')}</label>
-                <select
-                    id="sticker-setting"
-                    value={design.stickerSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, stickerSetting: e.target.value as StickerSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {STICKER_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'poster' && (
-         <>
-            <div>
-                <label htmlFor="poster-style" className="block text-sm font-medium text-gray-300">{t('posterStyleLabel')}</label>
-                <select
-                    id="poster-style"
-                    value={design.posterStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, posterStyle: e.target.value as PosterStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {POSTER_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="poster-setting" className="block text-sm font-medium text-gray-300">{t('posterSettingLabel')}</label>
-                <select
-                    id="poster-setting"
-                    value={design.posterSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, posterSetting: e.target.value as PosterSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {POSTER_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'jigsaw_puzzle' && (
-         <>
-            <div>
-                <label htmlFor="puzzle-style" className="block text-sm font-medium text-gray-300">{t('puzzleStyleLabel')}</label>
-                <select
-                    id="puzzle-style"
-                    value={design.puzzleStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, puzzleStyle: e.target.value as PuzzleStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PUZZLE_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="puzzle-setting" className="block text-sm font-medium text-gray-300">{t('puzzleSettingLabel')}</label>
-                <select
-                    id="puzzle-setting"
-                    value={design.puzzleSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, puzzleSetting: e.target.value as PuzzleSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {PUZZLE_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType === 'laptop_sleeve' && (
-         <>
-            <div>
-                <label htmlFor="laptop-sleeve-style" className="block text-sm font-medium text-gray-300">{t('laptopSleeveStyleLabel')}</label>
-                <select
-                    id="laptop-sleeve-style"
-                    value={design.laptopSleeveStyle}
-                    onChange={(e) => setDesign(d => ({ ...d, laptopSleeveStyle: e.target.value as LaptopSleeveStyle }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {LAPTOP_SLEEVE_STYLES.map(style => (
-                    <option key={style.id} value={style.id}>
-                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="laptop-sleeve-setting" className="block text-sm font-medium text-gray-300">{t('laptopSleeveSettingLabel')}</label>
-                <select
-                    id="laptop-sleeve-setting"
-                    value={design.laptopSleeveSetting}
-                    onChange={(e) => setDesign(d => ({ ...d, laptopSleeveSetting: e.target.value as LaptopSleeveSetting }))}
-                    className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
-                >
-                {LAPTOP_SLEEVE_SETTINGS.map(setting => (
-                    <option key={setting.id} value={setting.id}>
-                    {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </>
-      )}
-
-      {design.productType !== 'laser_engraving' &&
-        <ColorPicker
-          label={productColorLabel}
-          colors={PRODUCT_COLORS}
-          selectedValue={design.productColor}
-          onChange={(color) => setDesign(d => ({ ...d, productColor: color }))}
-        />
-      }
-
-       {/* Aspect Ratio */}
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">{t('photoFormatLabel')}</label>
-        <div className="flex items-center gap-2 rounded-lg bg-gray-700 p-1">
-          {aspectRatios.map(({ id, nameKey, icon: Icon }) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setDesign(d => ({...d, aspectRatio: id}))}
-              className={`flex-1 p-2 rounded-md transition-colors text-xs flex flex-col items-center gap-1 ${design.aspectRatio === id ? 'bg-indigo-600 text-white' : 'hover:bg-gray-600 text-gray-300'}`}
-              title={t(nameKey as keyof typeof import('../i18n/en').en)}
             >
-              <Icon className="w-5 h-5" />
-              <span>{t(nameKey as keyof typeof import('../i18n/en').en)}</span>
-            </button>
-          ))}
+            {FLAT_LAY_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
         </div>
-      </div>
-     
-      <div className="border-t border-gray-700 pt-6">
+        </>
+      )}
+
+       {/* Puzzle Specific */}
+      {design.productType === 'jigsaw_puzzle' && (
+        <>
+        <div>
+            <label htmlFor="puzzle-style" className="block text-sm font-medium text-gray-300">{t('puzzleStyleLabel')}</label>
+            <select
+            id="puzzle-style"
+            value={design.puzzleStyle}
+            onChange={(e) => setDesign(d => ({ ...d, puzzleStyle: e.target.value as PuzzleStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PUZZLE_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="puzzle-setting" className="block text-sm font-medium text-gray-300">{t('puzzleSettingLabel')}</label>
+            <select
+            id="puzzle-setting"
+            value={design.puzzleSetting}
+            onChange={(e) => setDesign(d => ({ ...d, puzzleSetting: e.target.value as PuzzleSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {PUZZLE_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+
+       {/* Laptop Sleeve Specific */}
+      {design.productType === 'laptop_sleeve' && (
+        <>
+        <div>
+            <label htmlFor="laptop-sleeve-style" className="block text-sm font-medium text-gray-300">{t('laptopSleeveStyleLabel')}</label>
+            <select
+            id="laptop-sleeve-style"
+            value={design.laptopSleeveStyle}
+            onChange={(e) => setDesign(d => ({ ...d, laptopSleeveStyle: e.target.value as LaptopSleeveStyle }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {LAPTOP_SLEEVE_STYLES.map(style => (
+                <option key={style.id} value={style.id}>
+                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
+            <label htmlFor="laptop-sleeve-setting" className="block text-sm font-medium text-gray-300">{t('laptopSleeveSettingLabel')}</label>
+            <select
+            id="laptop-sleeve-setting"
+            value={design.laptopSleeveSetting}
+            onChange={(e) => setDesign(d => ({ ...d, laptopSleeveSetting: e.target.value as LaptopSleeveSetting }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {LAPTOP_SLEEVE_SETTINGS.map(setting => (
+                <option key={setting.id} value={setting.id}>
+                {t(setting.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        </>
+      )}
+      
+      {/* Generate Button */}
+      <div className="pt-4">
         <button
           onClick={onGenerate}
           disabled={isLoading || !design.logo}
-          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
         >
-          <WandIcon className="w-6 h-6" />
-          <span className="text-lg">{isLoading ? t('generatingButton') : (design.productType === 'laser_engraving' ? t('generateEngravingButton') : t('generateButton'))}</span>
+          <WandIcon className="w-5 h-5" />
+          <span>{isLoading ? t('generatingButton') : (design.productType === 'laser_engraving' ? t('generateEngravingButton') : t('generateButton'))}</span>
         </button>
+        {!design.logo && <p className="text-xs text-yellow-400 mt-2 text-center">{t('uploadLogoWarning')}</p>}
       </div>
-
     </div>
   );
 };
 
+// FIX: Add a default export for the ControlsPanel component.
 export default ControlsPanel;

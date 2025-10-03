@@ -1,8 +1,8 @@
 // FIX: Import `GenerateImagesResponse` to correctly type the response from the image generation API.
 // FIX: Removed HarmCategory and HarmBlockThreshold as safetySettings are not supported on these API calls.
 import { GoogleGenAI, GenerateContentResponse, GenerateImagesResponse, Part, Modality } from "@google/genai";
-import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground } from "../types";
-import { MODEL_AUDIENCES, FRAME_MODELS, MUG_MODELS, SIPPER_GLASS_MODELS, TUMBLER_MODELS, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_SETTINGS, PHONE_CASE_MODELS, STICKER_SETTINGS, POSTER_SETTINGS, WALLET_MODELS, CAP_MODELS, BEANIE_MODELS, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_SETTINGS, PRODUCT_COLORS, TSHIRT_FONTS, PROFESSIONAL_BACKGROUNDS } from "../constants";
+import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground } from "../types";
+import { MODEL_AUDIENCES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_MODELS, SIPPER_GLASS_MODELS, TUMBLER_MODELS, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_SETTINGS, PHONE_CASE_MODELS, STICKER_SETTINGS, POSTER_SETTINGS, WALLET_MODELS, CAP_MODELS, BEANIE_MODELS, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_SETTINGS, PRODUCT_COLORS, TSHIRT_FONTS, PROFESSIONAL_BACKGROUNDS } from "../constants";
 
 // IMPORTANT: This key is read from environment variables and should not be hardcoded.
 const API_KEY = process.env.API_KEY;
@@ -279,6 +279,11 @@ const getFrameStyleDescription = (style: FrameStyle): string => {
         case 'shabby_chic_distressed': return 'a romantic, shabby chic style wooden frame with a distressed, soft pastel paint finish and gently worn edges';
         default: return 'a high-quality wooden frame';
     }
+}
+
+const getFrameDimensionDescription = (dimension: FrameDimension): string => {
+    const dimensionData = FRAME_DIMENSIONS.find(d => d.id === dimension);
+    return dimensionData ? dimensionData.description : 'an 8.5 by 11 inch portrait frame';
 }
 
 const getFrameModelDescription = (model: FrameModel): string => {
@@ -614,7 +619,7 @@ const getTextStyleDescription = (style: TextStyle, contrastColor: 'white' | 'bla
  * This uses a text-to-image model to create a safe "canvas" for editing.
  */
 const generateBaseImage = async (options: DesignOptions): Promise<string> => {
-    const { productType, productColor, pose, audience, backgroundStyle, professionalBackground, bagMaterial, frameStyle, frameModel, mugStyle, mugModel, sipperGlassStyle, sipperGlassModel, tumblerStyle, tumblerModel, halloweenTumblerStyle, halloweenTumblerSetting, tumblerTrioStyle, tumblerTrioSetting, phoneCaseStyle, phoneCaseModel, stickerStyle, stickerSetting, posterStyle, posterSetting, walletStyle, walletModel, capStyle, capModel, beanieStyle, beanieModel, pillowStyle, pillowSetting, flatLayStyle, puzzleStyle, puzzleSetting, laptopSleeveStyle, laptopSleeveSetting, aspectRatio } = options;
+    const { productType, productColor, pose, audience, backgroundStyle, professionalBackground, bagMaterial, frameStyle, frameModel, frameDimension, mugStyle, mugModel, sipperGlassStyle, sipperGlassModel, tumblerStyle, tumblerModel, halloweenTumblerStyle, halloweenTumblerSetting, tumblerTrioStyle, tumblerTrioSetting, phoneCaseStyle, phoneCaseModel, stickerStyle, stickerSetting, posterStyle, posterSetting, walletStyle, walletModel, capStyle, capModel, beanieStyle, beanieModel, pillowStyle, pillowSetting, flatLayStyle, puzzleStyle, puzzleSetting, laptopSleeveStyle, laptopSleeveSetting, aspectRatio } = options;
     let prompt;
     const backgroundDescription = getBackgroundDescription(backgroundStyle);
     const proBackgroundDescription = getProfessionalBackgroundDescription(professionalBackground);
@@ -698,7 +703,8 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
         case 'frame':
             const frameStyleDescription = getFrameStyleDescription(frameStyle);
             const frameModelDescription = getFrameModelDescription(frameModel);
-            prompt = `Close-up commercial product photo. A hyperrealistic model, ${frameModelDescription}, with natural skin texture, is holding up a plain, empty ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
+            const frameDimensionDescription = getFrameDimensionDescription(frameDimension);
+            prompt = `Close-up commercial product photo. A hyperrealistic model, ${frameModelDescription}, with natural skin texture, is holding up a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
             break;
         case 'mug':
             const mugStyleDescription = getMugStyleDescription(mugStyle);

@@ -26,6 +26,7 @@ export type BagMaterial = 'canvas' | 'leather' | 'nylon' | 'denim' | 'soft_pink_
 export type TextStyle = 'none' | 'outline' | 'shadow' | 'glow' | '3d' | 'metallic' | 'gradient' | 'distressed' | 'fire' | 'comic' | 'glitch' | 'pastel_rainbow' | 'neon' | 'chrome' | 'ice' | 'wooden' | 'script' | 'varsity';
 export type FrameStyle = 'classic_ornate' | 'modern_minimalist' | 'rustic_barnwood' | 'modern_mahogany' | 'rose_gold_ornate' | 'pearl_inlay_minimalist' | 'velvet_lined_shadow_box' | 'lace_carved_wood' | 'shabby_chic_distressed';
 export type FrameModel = 'elegant_woman_street' | 'art_curator_gallery' | 'craftsman_workshop' | 'man_modern_loft' | 'woman_cozy_living_room' | 'couple_art_store' | 'boudoir_vanity_glamour' | 'lounging_on_silk_sheets' | 'parisian_cafe_chic' | 'floral_garden_sunlight' | 'rooftop_sunset_glamour';
+export type FrameDimension = '8.5x11' | '14x11' | '20x16' | '36x24' | 'A1' | 'A2' | 'A3' | 'A4';
 export type MugStyle = 'classic_ceramic' | 'modern_glass' | 'vintage_enamel' | 'pearl_lustre_ceramic' | 'gold_rimmed_porcelain' | 'matte_pink_heart_handle' | 'scalloped_edge_teacup' | 'rose_gold_metallic';
 export type MugModel = 'woman_cafe' | 'man_office' | 'person_cozy_home';
 export type SipperGlassStyle = 'classic_can_shape' | 'modern_tapered' | 'frosted_finish' | 'rose_gold_rim_crystal' | 'iridescent_holographic' | 'etched_lace_pattern' | 'frosted_pink_ombre' | 'stemless_pearl_finish';
@@ -121,6 +122,7 @@ export interface DesignOptions {
   // Frame specific
   frameStyle: FrameStyle;
   frameModel: FrameModel;
+  frameDimension: FrameDimension;
 
   // Mug specific
   mugStyle: MugStyle;

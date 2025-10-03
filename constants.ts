@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -99,6 +99,17 @@ export const FRAME_STYLES: {id: FrameStyle, nameKey: string}[] = [
     { id: 'velvet_lined_shadow_box', nameKey: 'frameStyle_velvet_lined_shadow_box' },
     { id: 'lace_carved_wood', nameKey: 'frameStyle_lace_carved_wood' },
     { id: 'shabby_chic_distressed', nameKey: 'frameStyle_shabby_chic_distressed' },
+];
+
+export const FRAME_DIMENSIONS: {id: FrameDimension, nameKey: string, description: string}[] = [
+    { id: '8.5x11', nameKey: 'frameDimension_8_5x11', description: 'an 8.5 by 11 inch portrait frame' },
+    { id: '14x11', nameKey: 'frameDimension_14x11', description: 'a 14 by 11 inch landscape frame' },
+    { id: '20x16', nameKey: 'frameDimension_20x16', description: 'a 20 by 16 inch landscape frame' },
+    { id: '36x24', nameKey: 'frameDimension_36x24', description: 'a 36 by 24 inch landscape frame' },
+    { id: 'A1', nameKey: 'frameDimension_A1', description: 'an A1 size portrait frame' },
+    { id: 'A2', nameKey: 'frameDimension_A2', description: 'an A2 size portrait frame' },
+    { id: 'A3', nameKey: 'frameDimension_A3', description: 'an A3 size landscape frame' },
+    { id: 'A4', nameKey: 'frameDimension_A4', description: 'an A4 size portrait frame' },
 ];
 
 export const FRAME_MODELS: {id: FrameModel, nameKey: string, description: string}[] = [

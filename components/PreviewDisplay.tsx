@@ -56,7 +56,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                 className="absolute top-4 left-4 rtl:left-auto rtl:right-4 z-20 bg-gray-800/70 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-opacity"
                 aria-label={t('backToEditorButton')}
             >
-                <BackArrowIcon className="w-5 h-5" />
+                <BackArrowIcon className="w-5 h-5 rtl:scale-x-[-1]" />
                 <span>{t('backToEditorButton')}</span>
             </button>
         )}
