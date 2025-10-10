@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { WandIcon, DownloadIcon, BackArrowIcon } from './icons';
 import type { ProductType, ImageMode } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
@@ -8,9 +8,6 @@ interface PreviewDisplayProps {
   isLoading: boolean;
   error: string | null;
   productType: ProductType;
-  onDownloadLogoPng: () => void;
-  onDownloadTextSvg: () => void;
-  onDownloadTextPng: () => void;
   onDownloadCombinedSvg: () => void;
   onDownloadCombinedPng: () => void;
   onDownloadEngravingSvg: () => void;
@@ -21,8 +18,10 @@ interface PreviewDisplayProps {
   onExitPreview: () => void;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadLogoPng, onDownloadTextSvg, onDownloadTextPng, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview }) => {
     const { t } = useTranslation();
+    const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
+    const downloadMenuRef = useRef<HTMLDivElement>(null);
     
     const loadingMessages = React.useMemo(() => [
         t('loadingMsg1'),
@@ -46,6 +45,24 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
             return () => clearInterval(interval);
         }
     }, [isLoading, loadingMessages]);
+
+    // Close dropdown on outside click
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (downloadMenuRef.current && !downloadMenuRef.current.contains(event.target as Node)) {
+          setIsDownloadMenuOpen(false);
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+
+    const handleDownloadClick = (downloadFn: () => void) => {
+      downloadFn();
+      setIsDownloadMenuOpen(false);
+    };
 
   return (
     <div className="w-full flex-grow flex flex-col items-center justify-center gap-6">
@@ -102,82 +119,48 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
       </div>
 
       {isPreviewExpanded && generatedImage && !isLoading && (
-        <div className="flex flex-col items-center gap-3 w-full">
-            {/* Mockup Download Section */}
-            <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
-                <div className="flex items-center justify-center gap-2">
-                    <button
-                        onClick={onExitPreview}
-                        aria-label={t('backToEditorButton')}
-                        className="flex-1 flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-colors"
-                    >
-                        <BackArrowIcon className="w-5 h-5 rtl:scale-x-[-1]" />
-                        <span>{t('backToEditorButton')}</span>
-                    </button>
-                    <button
-                        onClick={onDownloadMockupPng}
-                        title="Download Mockup as PNG"
-                        className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                    >
-                        <DownloadIcon className="w-5 h-5" />
-                        <span>{t('downloadPngButton')}</span>
-                    </button>
-                    <button
-                        onClick={onDownloadMockupJpg}
-                        title="Download Mockup as JPG"
-                        className="flex-1 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                    >
-                        <DownloadIcon className="w-5 h-5" />
-                        <span>{t('downloadJpgButton')}</span>
-                    </button>
-                </div>
-            </div>
+        <div className="flex items-center gap-3 w-full justify-center">
+            <button
+                onClick={onExitPreview}
+                aria-label={t('backToEditorButton')}
+                className="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-colors"
+            >
+                <BackArrowIcon className="w-5 h-5 rtl:scale-x-[-1]" />
+                <span>{t('backToEditorButton')}</span>
+            </button>
 
-            {/* Design Download Section */}
-            {textBasedProducts.includes(productType) && (
-              <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
-                  <div className="flex items-center justify-center gap-4">
-                      <span className="text-lg font-semibold text-gray-200 shrink-0">{t('downloadDesignLabel')}</span>
-                      <button
-                          onClick={onDownloadCombinedSvg}
-                          title="Download Design as SVG"
-                          className="flex-1 flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                      >
-                          <DownloadIcon className="w-5 h-5" />
-                          <span>{t('downloadDesignSvgButton')}</span>
-                      </button>
-                      <button
-                          onClick={onDownloadCombinedPng}
-                          title="Download Design as PNG"
-                          className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
-                      >
-                          <DownloadIcon className="w-5 h-5" />
-                          <span>{t('downloadDesignPngButton')}</span>
-                      </button>
-                  </div>
-              </div>
-            )}
-            
-            {/* Individual Assets Download Section */}
-            <div className="p-3 rounded-lg bg-black/30 w-full max-w-md">
-                <div className="flex items-center justify-center gap-4">
-                    <span className="text-sm font-semibold text-gray-400 shrink-0">{t('assetsLabel')}</span>
-                    <button onClick={onDownloadLogoPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('logoPngButton')}</button>
-                    
-                    {textBasedProducts.includes(productType) && (
-                        <>
-                        <button onClick={onDownloadTextSvg} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textSvgButton')}</button>
-                        <button onClick={onDownloadTextPng} className="flex-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-3 rounded-md transition-colors">{t('textPngButton')}</button>
-                        </>
-                    )}
-
-                    {productType === 'laser_engraving' && (
-                        <button onClick={onDownloadEngravingSvg} className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-all transform hover:scale-105">
-                            <DownloadIcon className="w-5 h-5" />
-                            <span>{t('downloadEngravingButton')}</span>
-                        </button>
-                    )}
+            <div className="relative" ref={downloadMenuRef}>
+              <button
+                  onClick={() => setIsDownloadMenuOpen(prev => !prev)}
+                  className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all transform hover:scale-105"
+              >
+                  <DownloadIcon className="w-5 h-5" />
+                  <span>{t('downloadButton')}</span>
+              </button>
+              
+              {isDownloadMenuOpen && (
+                <div className="absolute bottom-full mb-2 w-56 bg-gray-700 rounded-lg shadow-2xl overflow-hidden z-20 border border-gray-600">
+                  {productType === 'laser_engraving' ? (
+                     <a
+                      href="#"
+                      onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadEngravingSvg); }}
+                      className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors"
+                    >
+                      {t('downloadEngravingSvg')}
+                    </a>
+                  ) : (
+                    <>
+                      <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">{t('downloadMockupLabel')}</div>
+                      <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadMockupPng); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadMockupPng')}</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadMockupJpg); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadMockupJpg')}</a>
+                      <div className="border-t border-gray-600 my-1"></div>
+                      <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">{t('downloadDesignLabel')}</div>
+                      <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadCombinedSvg); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadDesignSvg')}</a>
+                      <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadCombinedPng); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadDesignPng')}</a>
+                    </>
+                  )}
                 </div>
+              )}
             </div>
         </div>
       )}

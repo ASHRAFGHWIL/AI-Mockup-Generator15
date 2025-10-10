@@ -180,7 +180,7 @@ const getPoseDescription = (pose: ModelPose): string => {
         case 'thinking': return 'pensive pose, hand to chin as if in thought,';
         case 'hands_in_pockets': return 'casual standing pose with hands in pockets,';
         case 'closeup_casual': return 'a casual, close-up shot from the torso up against a clean, neutral studio background, focusing clearly on the garment,';
-        case 'sultry_shoulder_look': return 'an elegant pose, looking over one shoulder at the camera with a soft, confident expression,';
+        case 'elegant_shoulder_look': return 'an elegant pose, looking over one shoulder at the camera with a soft, confident expression,';
         case 'gentle_touch_face': return 'a soft and gentle pose, with one hand delicately touching the cheek or jawline, looking serene,';
         case 'windswept_hair_dreamy': return 'a dreamy, romantic pose with hair appearing gently windswept, looking off-camera with a soft expression,';
         case 'lounging_on_silk': return 'lounging gracefully on a luxurious surface like silk sheets or a velvet couch, looking relaxed and elegant,';
@@ -224,10 +224,10 @@ const getBackgroundDescription = (style: BackgroundStyle): string => {
         case 'luxury_silk_drape': return 'The background is composed of luxurious, soft silk or satin fabric, artfully draped with gentle folds and heavily blurred with strong bokeh.';
         case 'rose_petal_bed': return 'The background is a soft, romantic surface covered in scattered, out-of-focus rose petals, creating a delicate and alluring setting with strong bokeh.';
         case 'sunset_beach_glow': return 'The background is a warm, golden hour sunset on a beautiful beach, heavily blurred to create a soft, romantic glow and beautiful bokeh from the glistening water.';
-        case 'elegant_boudoir': return 'The background is a tasteful and elegant bedroom or dressing room setting, featuring soft lighting and luxurious textures, all heavily blurred with strong bokeh.';
+        case 'elegant_bedroom': return 'The background is a tasteful and elegant bedroom or dressing room setting, featuring soft lighting and luxurious textures, all heavily blurred with strong bokeh.';
         case 'plush_velvet_couch': return 'The background is a luxurious, plush velvet couch in a soft color, with gentle, artistic folds in the fabric, all heavily blurred with a strong bokeh effect.';
         case 'cherry_blossom_dreamscape': return 'The background is a dreamy, romantic scene of soft-focus, pink cherry blossom branches, creating a beautiful and delicate atmosphere, all heavily blurred with a strong bokeh effect.';
-        case 'satin_sheets_boudoir': return 'The background is an alluring and elegant bedroom setting, featuring luxurious, rumpled satin sheets that catch the light beautifully, all heavily blurred with a strong and soft bokeh effect.';
+        case 'satin_sheets_boudoir': return 'The background is an elegant bedroom setting, featuring luxurious, rumpled satin sheets that catch the light beautifully, all heavily blurred with a strong and soft bokeh effect.';
         case 'golden_hour_meadow': return 'The background is a warm, romantic meadow during the golden hour sunset, with tall grass and wildflowers catching the light, all heavily blurred to create a soft, glowing bokeh effect.';
         case 'sparkling_champagne_bokeh': return 'The background is a glamorous and celebratory scene of sparkling, golden bokeh lights that look like champagne bubbles, creating a festive and chic atmosphere.';
         case 'ethereal_clouds_sky': return 'The background is a dreamy, ethereal sky filled with soft, pastel-colored clouds at sunrise or sunset, heavily blurred with strong bokeh.';
@@ -670,7 +670,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             } else {
                 const audienceDescription = getAudienceDescription(audience);
                 const poseDescription = getPoseDescription(pose);
-                prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment} with detailed fabric weave and texture visible. The garment is shown clearly for a mockup and takes up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+                prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment} with detailed fabric weave and texture visible. The garment is shown clearly for a mockup and takes up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             }
             break;
         }
@@ -681,7 +681,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'sweatshirt_mug_scene': {
@@ -691,7 +691,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a mug. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a mug. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'sweatshirt_teacup_scene': {
@@ -701,7 +701,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'hoodie_teacup_scene': {
@@ -711,12 +711,12 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A hyperrealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model has extremely detailed, natural skin texture with subtle pores and looks completely authentic. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} hoodie with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing a plain, unbranded, high-quality ${getColorName(productColor)} hoodie with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'bag': {
              const bagMaterialDescription = getBagMaterialDescription(bagMaterial);
-             prompt = `Close-up commercial product lifestyle photo. A person's hand and arm with hyperrealistic, natural skin texture, holding a plain, unbranded bag made of ${bagMaterialDescription} in ${getColorName(productColor)}. The focus is on the bag, which takes up a large area of the image, highlighting its detailed material texture. ${backgroundDescription} ${qualityPrompt}`;
+             prompt = `Close-up commercial product lifestyle photo. A person's hand and arm with natural skin texture, holding a plain, unbranded bag made of ${bagMaterialDescription} in ${getColorName(productColor)}. The focus is on the bag, which takes up a large area of the image, highlighting its detailed material texture. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'wallet': {
@@ -737,25 +737,25 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             if (frameModel.includes('office') || frameModelDescription.includes('vanity table') || frameModelDescription.includes('on a wall') || frameModelDescription.includes('as a central mural')) {
                  prompt = `Commercial product photo of a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The scene is: ${frameModelDescription}. The focus is on the empty frame, which takes up a large portion of the image. The lighting is professional and enhances the frame's texture. The background has a beautiful, soft bokeh effect. ${qualityPrompt}`;
             } else {
-                 prompt = `Close-up commercial product photo. A hyperrealistic model, ${frameModelDescription}, with natural skin texture, is holding up a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
+                 prompt = `Close-up commercial product photo. A photorealistic model, ${frameModelDescription}, is holding up a plain, empty ${frameDimensionDescription}. The frame is a ${frameStyleDescription} in a ${getColorName(productColor)} finish. The focus is on the empty frame, which takes up most of the image area, showing its detailed wood grain. ${backgroundDescription} ${qualityPrompt}`;
             }
             break;
         }
         case 'mug':
             const mugStyleDescription = getMugStyleDescription(mugStyle);
             const mugModelDescription = getMugModelDescription(mugModel);
-            prompt = `Close-up commercial product photo. A hyperrealistic model, ${mugModelDescription}, with natural skin texture, is holding a plain, unbranded ${mugStyleDescription} in a ${getColorName(productColor)} color. The focus is on the mug, which takes up a large portion of the image, showing its texture. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Close-up commercial product photo. A photorealistic model, ${mugModelDescription}, is holding a plain, unbranded ${mugStyleDescription} in a ${getColorName(productColor)} color. The focus is on the mug, which takes up a large portion of the image, showing its texture. ${backgroundDescription} ${qualityPrompt}`;
             break;
         case 'sipper_glass':
             const sipperStyleDescription = getSipperGlassStyleDescription(sipperGlassStyle);
             const sipperModelDescription = getSipperGlassModelDescription(sipperGlassModel);
             const beverageColor = productColor === '#FFFFFF' ? 'clear' : getColorName(productColor);
-            prompt = `Close-up commercial product photo. A hyperrealistic model, ${sipperModelDescription}, holding a plain, unbranded ${sipperStyleDescription} containing a ${beverageColor} beverage. The focus is on the sipper glass, which takes up a large portion of the image, showing realistic condensation and reflections. ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Close-up commercial product photo. A photorealistic model, ${sipperModelDescription}, holding a plain, unbranded ${sipperStyleDescription} containing a ${beverageColor} beverage. The focus is on the sipper glass, which takes up a large portion of the image, showing realistic condensation and reflections. ${backgroundDescription} ${qualityPrompt}`;
             break;
         case 'tumbler_wrap':
             const tumblerStyleDescription = getTumblerStyleDescription(tumblerStyle);
             const tumblerModelDescription = getTumblerModelDescription(tumblerModel);
-            prompt = `Close-up commercial product photo. A hyperrealistic model, ${tumblerModelDescription}, holding a plain, unbranded ${tumblerStyleDescription} in a ${getColorName(productColor)} color. The focus is on the tumbler, which takes up a large portion of the image, highlighting its material finish (matte, steel). ${backgroundDescription} ${qualityPrompt}`;
+            prompt = `Close-up commercial product photo. A photorealistic model, ${tumblerModelDescription}, holding a plain, unbranded ${tumblerStyleDescription} in a ${getColorName(productColor)} color. The focus is on the tumbler, which takes up a large portion of the image, highlighting its material finish (matte, steel). ${backgroundDescription} ${qualityPrompt}`;
             break;
         case 'halloween_tumbler':
             const halloweenTumblerStyleDescription = getHalloweenTumblerStyleDescription(halloweenTumblerStyle);
@@ -1017,8 +1017,8 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
             overallStyle = 'a soft, ethereal, and dreamy angelic style.';
             designPlacement = `Place the logo and text in the center. Position a pair of large, soft, and ethereal white feathered angel wings so they gracefully arch around the central design.`;
             break;
-        case 'sensual_smoke_perfume':
-            overallStyle = 'a mysterious, elegant, and alluring style.';
+        case 'mystical_smoke_perfume':
+            overallStyle = 'a mysterious, elegant, and mystical style.';
             designPlacement = `Place the logo and text in the center. Have wisps of soft, colored smoke (in shades of deep purple and soft pink, like perfume) swirling elegantly around and partially through the design, creating a sense of mystery and allure.`;
             break;
         default:

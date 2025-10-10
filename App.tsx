@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import ControlsPanel from './components/ControlsPanel';
 import PreviewDisplay from './components/PreviewDisplay';
-import { WandIcon } from './components/icons';
+import { WandIcon, UndoIcon, RedoIcon, ResetIcon } from './components/icons';
 import type { DesignOptions, ImageMode } from './types';
 import { generateMockup as generateMockupFromApi } from './services/geminiService';
 import { generateCombinedSvg, generateCombinedPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
@@ -39,10 +39,7 @@ const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children })
   );
 };
 
-const AppContent: React.FC = () => {
-  const { t, language, setLanguage } = useTranslation();
-
-  const [design, setDesign] = useState<DesignOptions>({
+const initialDesignState: DesignOptions = {
     productType: 'sweatshirt',
     logo: SAMPLE_LOGO_B64,
     text: 'BOO',
@@ -81,7 +78,6 @@ const AppContent: React.FC = () => {
     posterStyle: 'glossy_finish',
     posterSetting: 'framed_on_wall',
     walletStyle: 'bifold',
-    // FIX: Completed the missing properties in the initial state object.
     walletModel: 'person_holding',
     capStyle: 'structured_baseball',
     capModel: 'person_forwards',
@@ -94,7 +90,50 @@ const AppContent: React.FC = () => {
     puzzleSetting: 'on_wooden_table',
     laptopSleeveStyle: 'neoprene',
     laptopSleeveSetting: 'on_desk_modern',
-  });
+};
+
+const AppContent: React.FC = () => {
+  const { t, language, setLanguage } = useTranslation();
+  
+  const [history, setHistory] = useState<DesignOptions[]>([initialDesignState]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+
+  const design = history[historyIndex];
+
+  const setDesign = (newDesign: DesignOptions | ((prevState: DesignOptions) => DesignOptions)) => {
+    const newState = typeof newDesign === 'function' ? newDesign(design) : newDesign;
+
+    // Prevent adding identical states to history
+    if (JSON.stringify(newState) === JSON.stringify(design)) {
+      return;
+    }
+
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(newState);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+  };
+
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
+
+  const handleUndo = useCallback(() => {
+    if (canUndo) {
+      setHistoryIndex(prevIndex => prevIndex - 1);
+    }
+  }, [canUndo]);
+
+  const handleRedo = useCallback(() => {
+    if (canRedo) {
+      setHistoryIndex(prevIndex => prevIndex + 1);
+    }
+  }, [canRedo]);
+
+  const handleReset = useCallback(() => {
+    setHistory([initialDesignState]);
+    setHistoryIndex(0);
+  }, []);
+
 
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -309,12 +348,28 @@ const AppContent: React.FC = () => {
               <p className="text-xs text-gray-400">{t('headerSubtitle')}</p>
             </div>
           </div>
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors px-3 py-1 rounded-md bg-indigo-500/10 hover:bg-indigo-500/20"
-          >
-            {t('languageToggleButton')}
-          </button>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <button onClick={handleUndo} disabled={!canUndo} title={t('undo')} aria-label={t('undo')} className="p-2 rounded-md bg-gray-700/50 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  <UndoIcon className="w-5 h-5" />
+              </button>
+              <button onClick={handleRedo} disabled={!canRedo} title={t('redo')} aria-label={t('redo')} className="p-2 rounded-md bg-gray-700/50 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  <RedoIcon className="w-5 h-5" />
+              </button>
+              <button onClick={handleReset} title={t('reset')} aria-label={t('reset')} className="p-2 rounded-md bg-gray-700/50 hover:bg-gray-700 transition-colors">
+                  <ResetIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+              className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors px-3 py-1 rounded-md bg-indigo-500/10 hover:bg-indigo-500/20"
+            >
+              {t('languageToggleButton')}
+            </button>
+          </div>
+
         </div>
       </header>
 
@@ -334,9 +389,6 @@ const AppContent: React.FC = () => {
             isLoading={isLoading} 
             error={error}
             productType={design.productType}
-            onDownloadLogoPng={onDownloadLogoPng}
-            onDownloadTextSvg={onDownloadTextSvg}
-            onDownloadTextPng={onDownloadTextPng}
             onDownloadCombinedSvg={onDownloadCombinedSvg}
             onDownloadCombinedPng={onDownloadCombinedPng}
             onDownloadEngravingSvg={onDownloadEngravingSvg}
@@ -356,9 +408,6 @@ const AppContent: React.FC = () => {
               isLoading={isLoading} 
               error={error}
               productType={design.productType}
-              onDownloadLogoPng={onDownloadLogoPng}
-              onDownloadTextSvg={onDownloadTextSvg}
-              onDownloadTextPng={onDownloadTextPng}
               onDownloadCombinedSvg={onDownloadCombinedSvg}
               onDownloadCombinedPng={onDownloadCombinedPng}
               onDownloadEngravingSvg={onDownloadEngravingSvg}

@@ -61,6 +61,24 @@ const IconProps = {
   strokeWidth: 1.5,
 };
 
+export const UndoIcon = ({ className }: { className?: string }) => (
+    <svg {...IconProps} className={className} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 17l-4-4 4-4m12 8h-8a4 4 0 01-4-4V5" />
+    </svg>
+);
+
+export const RedoIcon = ({ className }: { className?: string }) => (
+    <svg {...IconProps} className={className} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 17l4-4-4-4M4 13h8a4 4 0 004-4V5" />
+    </svg>
+);
+
+export const ResetIcon = ({ className }: { className?: string }) => (
+  <svg {...IconProps} className={className} viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m10.5 2c0 4.142-3.358 7.5-7.5 7.5s-7.5-3.358-7.5-7.5 3.358-7.5 7.5-7.5c2.478 0 4.675 1.2 6.01 3.018" />
+  </svg>
+);
+
 export const FitIcon = ({ className }: { className?: string }) => (
   <svg {...IconProps} className={className} viewBox="0 0 24 24">
     <rect x="2" y="2" width="20" height="20" rx="2" strokeDasharray="4 2" strokeWidth="2" />

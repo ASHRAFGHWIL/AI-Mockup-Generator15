@@ -127,7 +127,7 @@ export const FRAME_MODELS: {id: FrameModel, nameKey: string, description: string
     { id: 'man_modern_loft', nameKey: 'frameModel_man_modern_loft', description: 'a stylish man in a modern, industrial-style loft apartment, hanging the frame on an exposed brick wall' },
     { id: 'woman_cozy_living_room', nameKey: 'frameModel_woman_cozy_living_room', description: 'a woman in a cozy, hygge-style living room with a fireplace, placing the frame on a wooden mantle' },
     { id: 'couple_art_store', nameKey: 'frameModel_couple_art_store', description: 'a happy young couple in a bright, well-lit art supply store, holding up the frame together' },
-    { id: 'boudoir_vanity_glamour', nameKey: 'frameModel_boudoir_vanity_glamour', description: 'a glamorous close-up shot of the frame placed on a beautiful vanity table, surrounded by elegant perfume bottles, jewelry, and soft, romantic lighting. The frame is the main focus.' },
+    { id: 'boudoir_vanity_glamour', nameKey: 'frameModel_boudoir_vanity_glamour', description: 'a glamorous close-up shot of the frame placed on a beautiful vanity table, surrounded by elegant perfume bottles, jewelry, and soft lighting. The frame is the main focus.' },
     { id: 'lounging_on_silk_sheets', nameKey: 'frameModel_lounging_on_silk_sheets', description: 'a close-up shot focusing on an elegant woman with beautiful hands lounging on luxurious silk sheets, holding the frame prominently for the camera. The frame is the main focus of the shot.' },
     { id: 'parisian_cafe_chic', nameKey: 'frameModel_parisian_cafe_chic', description: 'a chic lifestyle shot of a stylish woman sitting at an outdoor Parisian café. She is holding the frame, which is the clear focus, with a beautifully blurred background of the romantic street.' },
     { id: 'floral_garden_sunlight', nameKey: 'frameModel_floral_garden_sunlight', description: 'a soft and romantic shot of a woman with elegant hands holding the frame in a beautiful, sun-drenched floral garden. The background has soft-focus flowers, creating a dreamy atmosphere. The frame is the main focus.' },
@@ -227,11 +227,11 @@ export const HALLOWEEN_TUMBLER_SETTINGS: {id: HalloweenTumblerSetting, nameKey: 
     { id: 'haunted_house', nameKey: 'halloweenTumblerSetting_haunted_house', description: 'a moody, atmospheric setting in front of a slightly blurred, spooky haunted house at dusk' },
     { id: 'witchs_cauldron', nameKey: 'halloweenTumblerSetting_witchs_cauldron', description: 'a magical setting next to a bubbling witch\'s cauldron with glowing green smoke and potion ingredients scattered around' },
     { id: 'autumn_porch', nameKey: 'halloweenTumblerSetting_autumn_porch', description: 'a cozy autumn scene on a porch, surrounded by fall leaves, mums, and rustic decorations' },
-    { id: 'glam_witch_boudoir', nameKey: 'halloweenTumblerSetting_glam_witch_boudoir', description: 'a close-up shot of the tumbler on a glamorous witch\'s vanity table, surrounded by elegant, out-of-focus items like velvet, silk, sparkling crystals, and romantic, soft candlelight. The atmosphere is mysterious, feminine, and elegant.' },
+    { id: 'glam_witch_boudoir', nameKey: 'halloweenTumblerSetting_glam_witch_boudoir', description: 'a close-up shot of the tumbler on a witch\'s vanity table, surrounded by out-of-focus items like velvet, crystals, and soft candlelight. The atmosphere is mysterious and elegant.' },
     { id: 'enchanted_moonlit_garden', nameKey: 'halloweenTumblerSetting_enchanted_moonlit_garden', description: 'a dreamy, close-up shot of the tumbler in an enchanted garden at night. The scene is illuminated by soft, magical moonlight and glowing, out-of-focus flowers. The atmosphere is soft, feminine, and mysterious, with the tumbler as the main focus.' },
-    { id: 'vampires_velvet_lounge', nameKey: 'halloweenTumblerSetting_vampires_velvet_lounge', description: 'a chic and luxurious close-up of the tumbler resting on a plush, deep-red velvet surface in a gothic vampire\'s lounge. The background is dark and moody, with out-of-focus candelabras casting a warm, romantic glow. The tumbler is the central, glamorous focus.' },
+    { id: 'vampires_velvet_lounge', nameKey: 'halloweenTumblerSetting_vampires_velvet_lounge', description: 'a close-up of the tumbler resting on a plush, deep-red velvet surface in a gothic lounge. The background is dark and moody, with out-of-focus candelabras casting a warm glow. The tumbler is the central focus.' },
     { id: 'pastel_goth_sweet_shop', nameKey: 'halloweenTumblerSetting_pastel_goth_sweet_shop', description: 'a chic and feminine close-up shot of the tumbler in a pastel goth sweet shop setting. The background features soft-focus, cute Halloween-themed candies and treats in pastel pinks, lavenders, and blacks. The overall vibe is soft, trendy, and sweet with an edgy twist.' },
-    { id: 'mystical_crystal_ball_reading', nameKey: 'halloweenTumblerSetting_mystical_crystal_ball_reading', description: 'an alluring close-up of the tumbler on a dark wood table next to a softly glowing crystal ball. Wisps of incense smoke and out-of-focus tarot cards create a mystical and intimate atmosphere. The lighting is warm and focused on the tumbler, making it the star of the scene.' },
+    { id: 'mystical_crystal_ball_reading', nameKey: 'halloweenTumblerSetting_mystical_crystal_ball_reading', description: 'a close-up of the tumbler on a dark wood table next to a softly glowing crystal ball. Wisps of incense smoke and out-of-focus tarot cards create a mystical and intimate atmosphere. The lighting is warm and focused on the tumbler, making it the star of the scene.' },
 ];
 
 export const TUMBLER_TRIO_STYLES: {id: TumblerTrioStyle, nameKey: string}[] = [
@@ -382,7 +382,7 @@ export const PILLOW_SETTINGS: {id: PillowSetting, nameKey: string, description: 
     { id: 'on_sofa', nameKey: 'pillowSetting_on_sofa', description: 'a stylish, modern sofa in a well-lit living room' },
     { id: 'on_bed', nameKey: 'pillowSetting_on_bed', description: 'a neatly made bed with plush duvets in a cozy bedroom' },
     { id: 'on_armchair', nameKey: 'pillowSetting_on_armchair', description: 'a comfortable armchair in a reading nook' },
-    { id: 'luxury_boudoir_bed', nameKey: 'pillowSetting_luxury_boudoir_bed', description: 'a luxurious bed with soft, rumpled silk or satin sheets and romantic, diffused lighting. This is a close-up shot where the pillow is the main focus.' },
+    { id: 'luxury_bedroom_setting', nameKey: 'pillowSetting_luxury_bedroom_setting', description: 'a luxurious bed with soft, rumpled silk or satin sheets and soft, diffused lighting. This is a close-up shot where the pillow is the main focus.' },
     { id: 'plush_window_nook', nameKey: 'pillowSetting_plush_window_nook', description: 'a cozy, plush window seat with soft morning light filtering through sheer curtains. This is a close-up shot where the pillow is the main focus.' },
     { id: 'chic_velvet_sofa', nameKey: 'pillowSetting_chic_velvet_sofa', description: 'a chic, modern velvet sofa, with a soft cashmere throw draped artfully nearby. This is a close-up shot where the pillow is the main focus.' },
     { id: 'faux_fur_rug_romance', nameKey: 'pillowSetting_faux_fur_rug_romance', description: 'a plush, soft white faux fur rug, with a few out-of-focus, delicate flower petals scattered around. This is a close-up, top-down shot where the pillow is the main focus.' },
@@ -415,7 +415,7 @@ export const FLAT_LAY_STYLES: {id: FlatLayStyle, nameKey: string, description: s
     { id: 'flat_lay_draped_close_up', nameKey: 'flatLayStyle_flat_lay_draped_close_up', description: 'an artistic, close-up shot of the t-shirt artfully draped with soft wrinkles, with the design area as the main focus.' },
     { id: 'flat_lay_pocket_region_close_up', nameKey: 'flatLayStyle_flat_lay_pocket_region_close_up', description: 'an extreme close-up shot focused on the upper chest/pocket area of the t-shirt, ideal for showcasing smaller logos.' },
     { id: 'flat_lay_texture_close_up', nameKey: 'flatLayStyle_flat_lay_texture_close_up', description: 'an extreme close-up, macro-style shot showcasing the design on the detailed texture of the fabric (e.g., cotton weave).' },
-    { id: 'boudoir_vanity_glamour', nameKey: 'flatLayStyle_boudoir_vanity_glamour', description: "a close-up, glamorous flat lay of the t-shirt artfully arranged on a beautiful vanity table. The scene is surrounded by elegant, out-of-focus props like perfume bottles, delicate jewelry, and a silk robe under soft, romantic lighting." },
+    { id: 'boudoir_vanity_glamour', nameKey: 'flatLayStyle_boudoir_vanity_glamour', description: "a close-up, glamorous flat lay of the t-shirt artfully arranged on a beautiful vanity table. The scene is surrounded by elegant, out-of-focus props like perfume bottles, delicate jewelry, and a silk robe under soft lighting." },
     { id: 'parisian_cafe_lifestyle', nameKey: 'flatLayStyle_parisian_cafe_lifestyle', description: "a chic, close-up lifestyle flat lay of the t-shirt neatly folded on a marble Parisian café table. The scene includes beautifully blurred, out-of-focus props like a cup of coffee, a croissant, and a vintage book." },
     { id: 'silk_sheets_romance', nameKey: 'flatLayStyle_silk_sheets_romance', description: "a soft and romantic close-up flat lay of the t-shirt casually draped on luxurious, rumpled silk or satin sheets. The scene is accented with scattered, out-of-focus rose petals and soft morning light." },
     { id: 'cherry_blossom_dreamscape', nameKey: 'flatLayStyle_cherry_blossom_dreamscape', description: "a dreamy, close-up flat lay of the t-shirt on a soft, light-colored surface. The scene is framed with delicate, out-of-focus cherry blossom branches and scattered petals, creating a soft and feminine atmosphere." },
@@ -497,7 +497,7 @@ export const DESIGN_STYLES: {id: DesignStyle, nameKey: string}[] = [
     { id: 'satin_lace_trim', nameKey: 'designStyle_satin_lace_trim' },
     { id: 'rose_gold_glitter', nameKey: 'designStyle_rose_gold_glitter' },
     { id: 'dreamy_angel_wings', nameKey: 'designStyle_dreamy_angel_wings' },
-    { id: 'sensual_smoke_perfume', nameKey: 'designStyle_sensual_smoke_perfume' },
+    { id: 'mystical_smoke_perfume', nameKey: 'designStyle_mystical_smoke_perfume' },
 ];
 
 export const TEXT_STYLES: {id: TextStyle, nameKey: string}[] = [
@@ -537,7 +537,7 @@ export const BACKGROUND_STYLES: {id: BackgroundStyle, nameKey: string}[] = [
     { id: 'luxury_silk_drape', nameKey: 'backgroundStyle_luxury_silk_drape' },
     { id: 'rose_petal_bed', nameKey: 'backgroundStyle_rose_petal_bed' },
     { id: 'sunset_beach_glow', nameKey: 'backgroundStyle_sunset_beach_glow' },
-    { id: 'elegant_boudoir', nameKey: 'backgroundStyle_elegant_boudoir' },
+    { id: 'elegant_bedroom', nameKey: 'backgroundStyle_elegant_bedroom' },
     { id: 'plush_velvet_couch', nameKey: 'backgroundStyle_plush_velvet_couch' },
     { id: 'cherry_blossom_dreamscape', nameKey: 'backgroundStyle_cherry_blossom_dreamscape' },
     { id: 'satin_sheets_boudoir', nameKey: 'backgroundStyle_satin_sheets_boudoir' },
@@ -602,7 +602,7 @@ export const MODEL_POSES: {id: ModelPose, nameKey: string}[] = [
     { id: 'sitting_floor_cozy', nameKey: 'modelPose_sitting_floor_cozy' },
     { id: 'sitting_hand_hip', nameKey: 'modelPose_sitting_hand_hip' },
     { id: 'sitting_on_counter', nameKey: 'modelPose_sitting_on_counter' },
-    { id: 'sultry_shoulder_look', nameKey: 'modelPose_sultry_shoulder_look' },
+    { id: 'elegant_shoulder_look', nameKey: 'modelPose_elegant_shoulder_look' },
     { id: 'gentle_touch_face', nameKey: 'modelPose_gentle_touch_face' },
     { id: 'windswept_hair_dreamy', nameKey: 'modelPose_windswept_hair_dreamy' },
     { id: 'lounging_on_silk', nameKey: 'modelPose_lounging_on_silk' },
