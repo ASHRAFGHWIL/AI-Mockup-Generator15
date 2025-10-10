@@ -94,6 +94,8 @@ export const ar = {
   errorNoTextForSvg: "لا يوجد نص لإنشاء SVG له.",
   errorNoLogoForLayout: "لا يمكن إنشاء ملف نصي بدون شعار للتخطيط.",
   errorNoMockupToDownload: "لا توجد صورة نموذج لتنزيلها.",
+  zoomIn: "تكبير",
+  zoomOut: "تصغير",
   productType_tshirt: "تيشيرت",
   productType_tshirt_teacup_scene: "مشهد تيشيرت وكوب شاي",
   productType_sweatshirt: "سويت شيرت",

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export const UploadIcon = ({ className }: { className?: string }) => (
@@ -147,5 +146,17 @@ export const AspectRatioHorizontalIcon = ({ className }: { className?: string })
 export const AspectRatioVerticalIcon = ({ className }: { className?: string }) => (
   <svg {...IconProps} className={className} viewBox="0 0 24 24">
     <rect x="7" y="2" width="10" height="20" rx="2" />
+  </svg>
+);
+
+export const ZoomInIcon = ({ className }: { className?: string }) => (
+  <svg {...IconProps} className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3h-6" />
+  </svg>
+);
+
+export const ZoomOutIcon = ({ className }: { className?: string }) => (
+  <svg {...IconProps} className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
   </svg>
 );

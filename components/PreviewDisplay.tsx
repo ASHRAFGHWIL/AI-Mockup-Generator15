@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { WandIcon, DownloadIcon, BackArrowIcon } from './icons';
+import { WandIcon, DownloadIcon, BackArrowIcon, ZoomInIcon, ZoomOutIcon } from './icons';
 import type { ProductType, ImageMode } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -22,6 +22,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
     const { t } = useTranslation();
     const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
     const downloadMenuRef = useRef<HTMLDivElement>(null);
+    const [isZoomed, setIsZoomed] = useState(false);
     
     const loadingMessages = React.useMemo(() => [
         t('loadingMsg1'),
@@ -64,9 +65,17 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
       setIsDownloadMenuOpen(false);
     };
 
+    const effectiveImageMode = isZoomed ? 'crop' : imageMode;
+    const imageClasses = `
+      transition-all duration-500 ease-in-out rounded-lg shadow-2xl relative
+      ${(effectiveImageMode === 'fit' || effectiveImageMode === 'fit_blur' || effectiveImageMode === 'fit_transparent') ? 'max-w-full max-h-full object-contain' : ''}
+      ${effectiveImageMode === 'crop' ? 'w-full h-full object-cover' : ''}
+      ${effectiveImageMode === 'stretch' ? 'w-full h-full object-fill' : ''}
+    `;
+
   return (
     <div className="w-full flex-grow flex flex-col items-center justify-center gap-6">
-      <div className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}>
+      <div className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center overflow-hidden transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}>
         
         {isLoading && (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-10 text-white transition-opacity">
@@ -96,7 +105,7 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
 
         {generatedImage && (
           <>
-            {imageMode === 'fit_blur' && (
+            {imageMode === 'fit_blur' && !isZoomed && (
                 <img 
                     src={imageUrl} 
                     alt=""
@@ -107,13 +116,16 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
             <img 
               src={imageUrl}
               alt="Generated mockup" 
-              className={
-                `transition-all duration-300 rounded-lg shadow-2xl relative
-                ${(imageMode === 'fit' || imageMode === 'fit_blur' || imageMode === 'fit_transparent') ? 'max-w-full max-h-full object-contain' : ''}
-                ${imageMode === 'crop' ? 'w-full h-full object-cover' : ''}
-                ${imageMode === 'stretch' ? 'w-full h-full object-fill' : ''}`
-              }
+              className={imageClasses}
             />
+            <button
+              onClick={() => setIsZoomed(!isZoomed)}
+              className="absolute bottom-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-all backdrop-blur-sm"
+              aria-label={isZoomed ? t('zoomOut') : t('zoomIn')}
+              title={isZoomed ? t('zoomOut') : t('zoomIn')}
+            >
+              {isZoomed ? <ZoomOutIcon className="w-6 h-6" /> : <ZoomInIcon className="w-6 h-6" />}
+            </button>
           </>
         )}
       </div>

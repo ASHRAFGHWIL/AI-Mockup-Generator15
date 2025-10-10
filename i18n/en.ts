@@ -94,6 +94,8 @@ export const en = {
   errorNoTextForSvg: "There is no text to generate an SVG for.",
   errorNoLogoForLayout: "Cannot generate text file without a logo for layout.",
   errorNoMockupToDownload: "There is no mockup image to download.",
+  zoomIn: "Zoom In",
+  zoomOut: "Zoom Out",
 
   productType_tshirt: "T-Shirt",
   productType_tshirt_teacup_scene: "T-Shirt & Teacup Scene",
