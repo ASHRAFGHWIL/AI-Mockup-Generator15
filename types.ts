@@ -98,6 +98,8 @@ export type WritingTemplateCategory = {
   templates: WritingTemplate[];
 };
 
+export type ArtisticFilter = 'none' | 'sepia' | 'grayscale' | 'vintage' | 'noir';
+
 export interface DesignOptions {
   productType: ProductType;
   logo: string | null;
@@ -111,6 +113,7 @@ export interface DesignOptions {
   aspectRatio: AspectRatio;
   backgroundStyle: BackgroundStyle;
   professionalBackground: ProfessionalBackground;
+  artisticFilter: ArtisticFilter;
   
   // T-shirt specific
   style: DesignStyle;

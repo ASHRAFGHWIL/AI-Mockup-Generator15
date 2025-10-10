@@ -4,7 +4,7 @@ import PreviewDisplay from './components/PreviewDisplay';
 import { WandIcon } from './components/icons';
 import type { DesignOptions, ImageMode } from './types';
 import { generateMockup as generateMockupFromApi } from './services/geminiService';
-import { generateCombinedSvg, generateCombinedPng, generateDesignPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
+import { generateCombinedSvg, generateCombinedPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
 import { LanguageContext, useTranslation, Language } from './hooks/useTranslation';
 import { en } from './i18n/en';
 // FIX: Statically import the 'ar' translations to resolve the "Cannot find name 'require'" error, which is not available in a browser environment.
@@ -58,6 +58,7 @@ const AppContent: React.FC = () => {
     aspectRatio: '1:1',
     backgroundStyle: 'studio',
     professionalBackground: 'white_marble',
+    artisticFilter: 'none',
     bagMaterial: 'canvas',
     frameStyle: 'classic_ornate',
     frameModel: 'elegant_woman_street',
@@ -80,6 +81,7 @@ const AppContent: React.FC = () => {
     posterStyle: 'glossy_finish',
     posterSetting: 'framed_on_wall',
     walletStyle: 'bifold',
+    // FIX: Completed the missing properties in the initial state object.
     walletModel: 'person_holding',
     capStyle: 'structured_baseball',
     capModel: 'person_forwards',
@@ -93,82 +95,55 @@ const AppContent: React.FC = () => {
     laptopSleeveStyle: 'neoprene',
     laptopSleeveSetting: 'on_desk_modern',
   });
+
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [imageMode, setImageMode] = useState<ImageMode>('fit_blur');
-  const [isPreviewExpanded, setIsPreviewExpanded] = useState<boolean>(false);
-
+  const [isPreviewExpanded, setIsPreviewExpanded] = useState(false);
   const logoFileRef = useRef<File | null>(null);
 
   useEffect(() => {
-    // On initial load, convert the sample base64 logo to a File object
-    // so the app is ready to generate immediately.
+    // Initialize with sample logo
     const initializeSampleLogo = async () => {
-      if (design.logo === SAMPLE_LOGO_B64 && !logoFileRef.current) {
-        try {
-          const response = await fetch(SAMPLE_LOGO_B64);
-          const blob = await response.blob();
-          const file = new File([blob], 'sample_logo.svg', { type: 'image/svg+xml' });
-          logoFileRef.current = file;
-        } catch (err) {
-          console.error("Failed to initialize sample logo:", err);
-          setError("Could not load the sample logo.");
-        }
+      try {
+        const response = await fetch(SAMPLE_LOGO_B64);
+        const blob = await response.blob();
+        const file = new File([blob], "sample_logo.svg", { type: "image/svg+xml" });
+        logoFileRef.current = file;
+      } catch (e) {
+        console.error("Failed to fetch sample logo:", e);
       }
     };
     initializeSampleLogo();
-  }, [design.logo]);
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ar' : 'en');
-  };
-
+  }, []);
+  
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const input = e.target;
-
-    setError(null);
-
-    if (!file) {
-      setDesign(d => ({ ...d, logo: null }));
-      logoFileRef.current = null;
-      return;
-    }
-
-    const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      setError(t('errorUnsupportedFileType'));
-      setDesign(d => ({ ...d, logo: null }));
-      logoFileRef.current = null;
-      if (input) input.value = '';
-      return;
-    }
-
-    const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; 
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      setError(t('errorFileSizeExceeds'));
-      setDesign(d => ({ ...d, logo: null }));
-      logoFileRef.current = null;
-      if (input) input.value = '';
-      return;
-    }
-
-    const reader = new FileReader();
-    
-    reader.onload = (event) => {
+    if (file) {
+      if (!['image/png', 'image/jpeg', 'image/svg+xml'].includes(file.type)) {
+        setError(t('errorUnsupportedFileType'));
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) { // 10MB
+        setError(t('errorFileSizeExceeds'));
+        return;
+      }
       logoFileRef.current = file;
-      setDesign(d => ({ ...d, logo: event.target?.result as string }));
-    };
-    
-    reader.onerror = () => {
-      setError(t('errorCouldNotReadFile'));
-      setDesign(d => ({ ...d, logo: null }));
-      logoFileRef.current = null;
-      if (input) input.value = '';
-    };
-    
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setDesign(d => ({ ...d, logo: event.target!.result as string }));
+          setError(null);
+        } else {
+          setError(t('errorCouldNotReadFile'));
+        }
+      };
+      reader.onerror = () => {
+        setError(t('errorCouldNotReadFile'));
+      }
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleGenerate = async () => {
@@ -179,281 +154,233 @@ const AppContent: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setGeneratedImage(null);
-    setIsPreviewExpanded(false);
-
     try {
-      const result = await generateMockupFromApi(
-        logoFileRef.current, 
-        design
-        );
-      setGeneratedImage(result);
+      const imageB64 = await generateMockupFromApi(logoFileRef.current, design);
+      setGeneratedImage(imageB64);
       setIsPreviewExpanded(true);
-    } catch (err: any) {
-      setError(err.message || 'An unknown error occurred.');
+    } catch (e: any) {
+      console.error(e);
+      setError(e.message || 'An unknown error occurred.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  const downloadFile = (dataUrl: string, filename: string) => {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   
-  const handleDownloadLogoPng = () => {
+  const onDownloadLogoPng = () => {
     if (!design.logo) {
       setError(t('errorNoLogoToDownload'));
       return;
     }
-    try {
-      setError(null);
-      const a = document.createElement('a');
-      a.href = design.logo;
-      a.download = logoFileRef.current?.name ?? 'logo.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (err: any) {
-      console.error('Error downloading logo:', err);
-      setError(err.message || 'Failed to download logo.');
-    }
+    downloadFile(design.logo, 'logo.png');
   };
 
-  const handleDownloadTextSvg = async () => {
-    if (!design.logo) {
-      setError(t('errorNoLogoForLayout'));
-      return;
-    }
+  const onDownloadTextSvg = async () => {
     if (!design.text.trim()) {
       setError(t('errorNoTextForSvg'));
       return;
     }
+    if (!design.logo) { // Needed for layout
+      setError(t('errorNoLogoForLayout'));
+      return;
+    }
     try {
-      setError(null);
       const svgString = await generateTextOnlySvg(design);
-      const blob = new Blob([svgString], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'design_text.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(svgBlob);
+      downloadFile(url, 'text_design.svg');
       URL.revokeObjectURL(url);
-    } catch (err: any) {
-      console.error('Error generating text SVG:', err);
-      setError(err.message || 'Failed to generate text SVG file.');
+    } catch(e: any) {
+      setError(e.message);
+    }
+  };
+
+  const onDownloadTextPng = async () => {
+    if (!design.text.trim()) {
+      setError(t('errorNoTextForSvg'));
+      return;
+    }
+    if (!design.logo) {
+      setError(t('errorNoLogoForLayout'));
+      return;
+    }
+    try {
+      const pngDataUrl = await generateTextOnlyPng(design);
+      downloadFile(pngDataUrl, 'text_design.png');
+    } catch(e: any) {
+      setError(e.message);
     }
   };
   
-  const handleDownloadTextPng = async () => {
-    if (!design.logo) {
-      setError(t('errorNoLogoForLayout'));
-      return;
-    }
-    if (!design.text.trim()) {
-      setError(t('errorNoTextForSvg'));
+  const onDownloadCombinedSvg = async () => {
+     if (!design.logo) {
+      setError(t('errorNoLogo'));
       return;
     }
     try {
-      setError(null);
-      const pngDataUrl = await generateTextOnlyPng(design);
-      
-      const a = document.createElement('a');
-      a.href = pngDataUrl;
-      a.download = 'design_text.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (err: any) {
-      console.error('Error generating text PNG:', err);
-      setError(err.message || 'Failed to generate text PNG file.');
-    }
-  };
-
-  const handleDownloadCombinedSvg = async () => {
-    if (!design.logo) {
-      setError(t('errorNoLogoForLayout'));
-      return;
-    }
-    try {
-      setError(null);
       const svgString = await generateCombinedSvg(design);
-      const blob = new Blob([svgString], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'full_design.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(svgBlob);
+      downloadFile(url, 'combined_design.svg');
       URL.revokeObjectURL(url);
-    } catch (err: any) {
-      console.error('Error generating combined design SVG:', err);
-      setError(err.message || 'Failed to generate combined SVG file.');
+    } catch(e: any) {
+      setError(e.message);
     }
   };
 
-  const handleDownloadCombinedPng = async () => {
+  const onDownloadCombinedPng = async () => {
     if (!design.logo) {
-      setError(t('errorNoLogoForLayout'));
+      setError(t('errorNoLogo'));
       return;
     }
     try {
-      setError(null);
       const pngDataUrl = await generateCombinedPng(design);
-      const a = document.createElement('a');
-      a.href = pngDataUrl;
-      a.download = 'full_design.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (err: any) {
-      console.error('Error generating combined design PNG:', err);
-      setError(err.message || 'Failed to generate combined PNG file.');
+      downloadFile(pngDataUrl, 'combined_design.png');
+    } catch(e: any) {
+      setError(e.message);
     }
   };
 
-  const handleDownloadEngravingSvg = async () => {
+  const onDownloadEngravingSvg = async () => {
     if (!design.logo) {
-      setError(t('errorNoLogoForLayout'));
+      setError(t('errorNoLogo'));
       return;
     }
     try {
-      setError(null);
       const svgString = await generateEngravingSvg(design);
-      const blob = new Blob([svgString], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      // FIX: The anchor element 'a' was used without being declared. This has been corrected.
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'engraving_design.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(svgBlob);
+      downloadFile(url, 'engraving_design.svg');
       URL.revokeObjectURL(url);
-    } catch (err: any) {
-      console.error('Error generating engraving SVG:', err);
-      setError(err.message || 'Failed to generate engraving SVG file.');
+    } catch(e: any) {
+      setError(e.message);
     }
   };
-
-  const handleDownloadMockupPng = () => {
+  
+  const onDownloadMockupPng = () => {
     if (!generatedImage) {
       setError(t('errorNoMockupToDownload'));
       return;
     }
-    try {
-      setError(null);
-      const a = document.createElement('a');
-      a.href = `data:image/png;base64,${generatedImage}`;
-      a.download = `mockup_${design.productType}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (err: any) {
-      console.error('Error downloading mockup PNG:', err);
-      setError(err.message || 'Failed to download mockup image.');
-    }
+    downloadFile(`data:image/png;base64,${generatedImage}`, 'mockup.png');
   };
 
-  const handleDownloadMockupJpg = () => {
+  const onDownloadMockupJpg = () => {
     if (!generatedImage) {
-        setError(t('errorNoMockupToDownload'));
-        return;
+      setError(t('errorNoMockupToDownload'));
+      return;
     }
-    try {
-        setError(null);
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-                // Since PNG can have transparency, we fill the background
-                // with white for the JPG.
-                ctx.fillStyle = '#FFFFFF';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0);
-                
-                const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95); // 95% quality
-                
-                const a = document.createElement('a');
-                a.href = jpgDataUrl;
-                a.download = `mockup_${design.productType}.jpg`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                throw new Error('Could not get canvas context for JPG conversion.');
-            }
-        };
-        img.onerror = () => {
-             setError('Failed to load image for JPG conversion.');
-        };
-        img.src = `data:image/png;base64,${generatedImage}`;
-
-    } catch (err: any) {
-        console.error('Error downloading mockup JPG:', err);
-        setError(err.message || 'Failed to download mockup image as JPG.');
-    }
+    const imageUrl = `data:image/jpeg;base64,${generatedImage}`;
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = 'white'; // JPG doesn't support transparency, so fill background
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        const jpgUrl = canvas.toDataURL('image/jpeg', 0.9);
+        downloadFile(jpgUrl, 'mockup.jpg');
+      }
+    };
   };
+
+  const onExitPreview = () => setIsPreviewExpanded(false);
 
   return (
-    <div className="bg-gray-900 min-h-screen text-white p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-8 relative">
-          <button 
-            onClick={toggleLanguage}
-            className="absolute top-0 right-0 rtl:right-auto rtl:left-0 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-            aria-label="Toggle language"
+    <div className={`min-h-screen bg-gray-900 text-white font-sans transition-all duration-500 ${isPreviewExpanded ? 'overflow-hidden' : ''}`}>
+      <header className="p-4 bg-gray-800/50 backdrop-blur-sm border-b border-gray-700/50 sticky top-0 z-20">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <WandIcon className="w-8 h-8 text-indigo-400" />
+            <div>
+              <h1 className="text-xl font-bold">{t('headerTitle')}</h1>
+              <p className="text-xs text-gray-400">{t('headerSubtitle')}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+            className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors px-3 py-1 rounded-md bg-indigo-500/10 hover:bg-indigo-500/20"
           >
             {t('languageToggleButton')}
           </button>
-          <div className="inline-flex items-center gap-3">
-            <WandIcon className="w-10 h-10 text-indigo-400" />
-            <h1 className="text-4xl font-extrabold tracking-tight">{t('headerTitle')}</h1>
-          </div>
-          <p className="mt-2 text-lg text-gray-400">
-            {t('headerSubtitle')}
-          </p>
-        </header>
+        </div>
+      </header>
 
-        <main className="flex flex-col lg:flex-row gap-8">
-          {!isPreviewExpanded && (
-            <ControlsPanel 
-              design={design} 
-              setDesign={setDesign}
-              onGenerate={handleGenerate} 
-              isLoading={isLoading}
-              handleLogoChange={handleLogoChange}
-              imageMode={imageMode}
-              setImageMode={setImageMode}
-            />
-          )}
+      <main className={`container mx-auto p-4 lg:p-8 transition-transform duration-500 ${isPreviewExpanded ? 'transform -translate-y-full' : 'transform translate-y-0'}`}>
+        <div className="flex flex-col lg:flex-row gap-8">
+          <ControlsPanel 
+            design={design} 
+            setDesign={setDesign}
+            onGenerate={handleGenerate}
+            isLoading={isLoading}
+            handleLogoChange={handleLogoChange}
+            imageMode={imageMode}
+            setImageMode={setImageMode}
+          />
           <PreviewDisplay 
             generatedImage={generatedImage} 
-            isLoading={isLoading}
+            isLoading={isLoading} 
             error={error}
             productType={design.productType}
-            onDownloadLogoPng={handleDownloadLogoPng}
-            onDownloadTextSvg={handleDownloadTextSvg}
-            onDownloadTextPng={handleDownloadTextPng}
-            onDownloadCombinedSvg={handleDownloadCombinedSvg}
-            onDownloadCombinedPng={handleDownloadCombinedPng}
-            onDownloadEngravingSvg={handleDownloadEngravingSvg}
-            onDownloadMockupPng={handleDownloadMockupPng}
-            onDownloadMockupJpg={handleDownloadMockupJpg}
+            onDownloadLogoPng={onDownloadLogoPng}
+            onDownloadTextSvg={onDownloadTextSvg}
+            onDownloadTextPng={onDownloadTextPng}
+            onDownloadCombinedSvg={onDownloadCombinedSvg}
+            onDownloadCombinedPng={onDownloadCombinedPng}
+            onDownloadEngravingSvg={onDownloadEngravingSvg}
+            onDownloadMockupPng={onDownloadMockupPng}
+            onDownloadMockupJpg={onDownloadMockupJpg}
             imageMode={imageMode}
-            isPreviewExpanded={isPreviewExpanded}
-            onExitPreview={() => setIsPreviewExpanded(false)}
+            isPreviewExpanded={false}
+            onExitPreview={() => {}}
           />
-        </main>
-      </div>
+        </div>
+      </main>
+
+      <div className={`fixed inset-0 z-30 bg-black/80 backdrop-blur-lg transition-opacity duration-500 ${isPreviewExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div className="container mx-auto h-full p-4 lg:p-8 flex items-center justify-center">
+             <PreviewDisplay 
+              generatedImage={generatedImage} 
+              isLoading={isLoading} 
+              error={error}
+              productType={design.productType}
+              onDownloadLogoPng={onDownloadLogoPng}
+              onDownloadTextSvg={onDownloadTextSvg}
+              onDownloadTextPng={onDownloadTextPng}
+              onDownloadCombinedSvg={onDownloadCombinedSvg}
+              onDownloadCombinedPng={onDownloadCombinedPng}
+              onDownloadEngravingSvg={onDownloadEngravingSvg}
+              onDownloadMockupPng={onDownloadMockupPng}
+              onDownloadMockupJpg={onDownloadMockupJpg}
+              imageMode={'fit'}
+              isPreviewExpanded={isPreviewExpanded}
+              onExitPreview={onExitPreview}
+            />
+          </div>
+        </div>
     </div>
   );
 };
 
-const App: React.FC = () => (
-  <LanguageProvider>
-    <AppContent />
-  </LanguageProvider>
-);
+// FIX: Reconstructed the App component and added a default export to resolve the module resolution error.
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+};
 
 export default App;

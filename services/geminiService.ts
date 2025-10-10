@@ -1,7 +1,7 @@
 // FIX: Import `GenerateImagesResponse` to correctly type the response from the image generation API.
 // FIX: Removed HarmCategory and HarmBlockThreshold as safetySettings are not supported on these API calls.
 import { GoogleGenAI, GenerateContentResponse, GenerateImagesResponse, Part, Modality } from "@google/genai";
-import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground } from "../types";
+import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground, ArtisticFilter } from "../types";
 import { MODEL_AUDIENCES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_MODELS, SIPPER_GLASS_MODELS, TUMBLER_MODELS, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_SETTINGS, PHONE_CASE_MODELS, STICKER_SETTINGS, POSTER_SETTINGS, WALLET_MODELS, CAP_MODELS, BEANIE_MODELS, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_SETTINGS, PRODUCT_COLORS, TSHIRT_FONTS, PROFESSIONAL_BACKGROUNDS } from "../constants";
 
 // IMPORTANT: This key is read from environment variables and should not be hardcoded.
@@ -626,6 +626,22 @@ const getTextStyleDescription = (style: TextStyle, contrastColor: 'white' | 'bla
     }
 }
 
+const getArtisticFilterDescription = (filter: ArtisticFilter): string => {
+    switch (filter) {
+        case 'sepia':
+            return "Apply a warm, brownish sepia tone filter to the entire final image, giving it an antique photograph look.";
+        case 'grayscale':
+            return "Convert the entire final image to grayscale (black and white).";
+        case 'vintage':
+            return "Apply a vintage photo filter to the entire final image, with slightly faded colors, reduced contrast, and a subtle warm yellow tint.";
+        case 'noir':
+            return "Apply a high-contrast black and white 'film noir' filter to the entire final image, with deep blacks and dramatic shadows.";
+        case 'none':
+        default:
+            return "No filter.";
+    }
+};
+
 /**
  * Step 1: Generate a base image of a model with a blank product.
  * This uses a text-to-image model to create a safe "canvas" for editing.
@@ -852,7 +868,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
  * the logo and text design using an image editing model.
  */
 export const generateMockup = async (logoFile: File, options: DesignOptions): Promise<string> => {
-    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture } = options;
+    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture, artisticFilter } = options;
 
     // Step 1: Generate the base image of the product with a model/setting.
     const baseImageB64 = await generateBaseImage(options);
@@ -871,6 +887,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
     const contrastColor = getContrastColor(options.productColor);
     const textStyleDesc = getTextStyleDescription(textStyle, contrastColor, getColorName(gradientStartColor), getColorName(gradientEndColor));
     const fontName = TSHIRT_FONTS.find(f => f.id === font)?.name || 'Impact';
+    const artisticFilterDesc = getArtisticFilterDescription(artisticFilter);
 
     let designPlacement;
     let overallStyle = `a ${style.replace(/_/g, ' ')} style.`; // Default style description
@@ -1091,6 +1108,9 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
         - **Overall Style:** The design should be in ${overallStyle}
         - **Placement:** ${designPlacement}
         - **Instructions:** ${productInstruction}
+
+        **Final Filter Effect:**
+        - ${artisticFilterDesc}
 
         ${criticalRealismInstructions}
     `;

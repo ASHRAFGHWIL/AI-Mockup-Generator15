@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory, ArtisticFilter } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -519,6 +519,14 @@ export const TEXT_STYLES: {id: TextStyle, nameKey: string}[] = [
     { id: 'glitch', nameKey: 'textStyle_glitch' },
     { id: 'script', nameKey: 'textStyle_script' },
     { id: 'varsity', nameKey: 'textStyle_varsity' },
+];
+
+export const ARTISTIC_FILTERS: {id: ArtisticFilter, nameKey: string}[] = [
+    { id: 'none', nameKey: 'artisticFilter_none' },
+    { id: 'sepia', nameKey: 'artisticFilter_sepia' },
+    { id: 'grayscale', nameKey: 'artisticFilter_grayscale' },
+    { id: 'vintage', nameKey: 'artisticFilter_vintage' },
+    { id: 'noir', nameKey: 'artisticFilter_noir' },
 ];
 
 export const BACKGROUND_STYLES: {id: BackgroundStyle, nameKey: string}[] = [
