@@ -100,7 +100,7 @@ export type WritingTemplateCategory = {
 
 export type ArtisticFilter = 'none' | 'sepia' | 'grayscale' | 'vintage' | 'noir';
 export type DesignPlacement = 'center' | 'center_right' | 'center_left' | 'top_center' | 'top_right' | 'top_left' | 'bottom_center' | 'bottom_right' | 'bottom_left';
-export type ProductTexture = 'none' | 'watercolor_splash_pale' | 'watercolor_splash_vibrant';
+export type ProductTexture = 'none' | 'watercolor_splash_pale' | 'watercolor_splash_vibrant' | 'watercolor_splash_artistic';
 
 export interface DesignOptions {
   productType: ProductType;

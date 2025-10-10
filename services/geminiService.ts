@@ -645,6 +645,8 @@ const getWatercolorBackgroundInstruction = (texture: ProductTexture): string => 
             return "A soft, dreamy watercolor splash must be placed directly behind the main logo and text design, acting as a background for it. The effect should look like a real watercolor wash with a textured, cloudy shape. The colors should be a soft and muted blend of dusty blue, lilac purple, and light teal, with realistic bleeding edges.";
         case 'watercolor_splash_vibrant':
             return "A vibrant, bold watercolor splash must be placed directly behind the main logo and text design, acting as a background for it. The effect should look like a real watercolor wash with a textured, cloudy shape. The colors should be a rich and moody blend of deep teal, indigo blue, dark purple, and hints of earthy brown, with high-contrast bleeding edges and visible granulation texture.";
+        case 'watercolor_splash_artistic':
+            return "An artistic watercolor splash must be placed directly behind the main logo and text design, acting as a background for it. The effect should look like a real watercolor wash with a textured, cloudy shape. The colors should be an artistic blend of light blue, green, and light orange, combining nature and imagination. The lighting should be soft and focused on the center of the design to highlight the beauty of the colors and texture.";
         case 'none':
         default:
             return '';

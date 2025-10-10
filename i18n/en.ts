@@ -684,4 +684,5 @@ export const en = {
   productTexture_none: "None",
   productTexture_watercolor_splash_pale: "Watercolor Splash (Pale)",
   productTexture_watercolor_splash_vibrant: "Watercolor Splash (Vibrant)",
+  productTexture_watercolor_splash_artistic: "Watercolor Splash (Artistic)",
 };

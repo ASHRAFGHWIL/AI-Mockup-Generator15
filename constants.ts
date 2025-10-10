@@ -113,6 +113,7 @@ export const PRODUCT_TEXTURES: {id: ProductTexture, nameKey: string}[] = [
     { id: 'none', nameKey: 'productTexture_none' },
     { id: 'watercolor_splash_pale', nameKey: 'productTexture_watercolor_splash_pale' },
     { id: 'watercolor_splash_vibrant', nameKey: 'productTexture_watercolor_splash_vibrant' },
+    { id: 'watercolor_splash_artistic', nameKey: 'productTexture_watercolor_splash_artistic' },
 ];
 
 export const FRAME_DIMENSIONS: {id: FrameDimension, nameKey: string, description: string}[] = [
@@ -427,10 +428,10 @@ export const FLAT_LAY_STYLES: {id: FlatLayStyle, nameKey: string, description: s
     { id: 'cherry_blossom_dreamscape', nameKey: 'flatLayStyle_cherry_blossom_dreamscape', description: "a dreamy, close-up flat lay of the t-shirt on a soft, light-colored surface. The scene is framed with delicate, out-of-focus cherry blossom branches and scattered petals, creating a soft and feminine atmosphere." },
     { id: 'watercolor_artist_studio', nameKey: 'flatLayStyle_watercolor_artist_studio', description: "a creative and feminine close-up flat lay of the t-shirt in a bright artist's studio. The scene features beautifully arranged, out-of-focus props like a watercolor palette, fine brushes, a sketchbook with a floral painting, and a delicate teacup." },
     { id: 'vintage_love_letters', nameKey: 'flatLayStyle_vintage_love_letters', description: 'a romantic flat lay featuring aged love letters, a fountain pen, a wax seal, and scattered dried rose petals.' },
-    { id: 'ballet_core_elegance', nameKey: 'flatLayStyle_ballet_core_elegance', description: 'an elegant "balletcore" themed flat lay with ballet slippers, a silk ribbon, pearls, and delicate tulle fabric.' },
+    { id: 'ballet_core_elegance', nameKey: 'flatLayStyle_ballet_core_elegance', description: 'an elegant "balletcore" themed flat lay with ballet slippers, a silk ribbon, pearls, and a delicate tulle fabric.' },
     { id: 'luxe_skincare_shelfie', nameKey: 'flatLayStyle_luxe_skincare_shelfie', description: 'a luxurious "shelfie" flat lay with beautifully packaged skincare products, a jade roller, and a silk eye mask.' },
     { id: 'afternoon_high_tea', nameKey: 'flatLayStyle_afternoon_high_tea', description: 'a delicate afternoon high tea flat lay with a vintage teacup, a macaron, a silver spoon, and a small bouquet of flowers.' },
-    { id: 'princess_dream_vanity', nameKey: 'flatLayStyle_princess_dream_vanity', description: 'a dreamy "princesscore" flat lay on a vanity with a vintage hand mirror, a crystal perfume bottle, a tiara, and sparkling jewelry.' },
+    { id: 'princess_dream_vanity', nameKey: 'flatLayStyle_princess_dream_vanity', description: 'a dreamy "princesscore" flat lay on a vanity with a vintage hand mirror, a crystal perfume bottle, a tiara, and a sparkling jewelry.' },
 ];
 
 export const PUZZLE_STYLES: {id: PuzzleStyle, nameKey: string}[] = [
