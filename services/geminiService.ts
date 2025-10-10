@@ -296,9 +296,9 @@ const getFrameTextureDescription = (texture: FrameTexture): string => {
 
 const getProductTextureDescription = (texture: ProductTexture): string => {
     switch (texture) {
-        case 'watercolor_swirl_pale':
+        case 'watercolor_splash_pale':
             return 'a beautiful, all-over pale and dreamy watercolor swirl texture with soft, blended pastel colors.';
-        case 'watercolor_swirl_vibrant':
+        case 'watercolor_splash_vibrant':
             return 'a beautiful, all-over vibrant and bold watercolor swirl texture with bright, saturated colors.';
         case 'none':
         default:
@@ -641,10 +641,10 @@ const getTextStyleDescription = (style: TextStyle, contrastColor: 'white' | 'bla
 
 const getWatercolorBackgroundInstruction = (texture: ProductTexture): string => {
     switch (texture) {
-        case 'watercolor_swirl_pale':
-            return "A soft, dreamy, circular watercolor splash with pale pastel colors must be placed directly behind the main logo and text design, acting as a background for it.";
-        case 'watercolor_swirl_vibrant':
-            return "A vibrant, bold, circular watercolor splash with bright, saturated colors must be placed directly behind the main logo and text design, acting as a background for it.";
+        case 'watercolor_splash_pale':
+            return "A soft, dreamy watercolor splash must be placed directly behind the main logo and text design, acting as a background for it. The effect should look like a real watercolor wash with a textured, cloudy shape. The colors should be a soft and muted blend of dusty blue, lilac purple, and light teal, with realistic bleeding edges.";
+        case 'watercolor_splash_vibrant':
+            return "A vibrant, bold watercolor splash must be placed directly behind the main logo and text design, acting as a background for it. The effect should look like a real watercolor wash with a textured, cloudy shape. The colors should be a rich and moody blend of deep teal, indigo blue, dark purple, and hints of earthy brown, with high-contrast bleeding edges and visible granulation texture.";
         case 'none':
         default:
             return '';

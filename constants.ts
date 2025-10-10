@@ -111,8 +111,8 @@ export const FRAME_TEXTURES: {id: FrameTexture, nameKey: string}[] = [
 
 export const PRODUCT_TEXTURES: {id: ProductTexture, nameKey: string}[] = [
     { id: 'none', nameKey: 'productTexture_none' },
-    { id: 'watercolor_swirl_pale', nameKey: 'productTexture_watercolor_swirl_pale' },
-    { id: 'watercolor_swirl_vibrant', nameKey: 'productTexture_watercolor_swirl_vibrant' },
+    { id: 'watercolor_splash_pale', nameKey: 'productTexture_watercolor_splash_pale' },
+    { id: 'watercolor_splash_vibrant', nameKey: 'productTexture_watercolor_splash_vibrant' },
 ];
 
 export const FRAME_DIMENSIONS: {id: FrameDimension, nameKey: string, description: string}[] = [

@@ -682,6 +682,6 @@ export const en = {
   artisticFilter_noir: "Noir",
 
   productTexture_none: "None",
-  productTexture_watercolor_swirl_pale: "Watercolor Swirl (Pale)",
-  productTexture_watercolor_swirl_vibrant: "Watercolor Swirl (Vibrant)",
+  productTexture_watercolor_splash_pale: "Watercolor Splash (Pale)",
+  productTexture_watercolor_splash_vibrant: "Watercolor Splash (Vibrant)",
 };
