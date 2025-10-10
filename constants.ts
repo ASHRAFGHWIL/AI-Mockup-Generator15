@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory, ArtisticFilter, DesignPlacement } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory, ArtisticFilter, DesignPlacement, ProductTexture } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -107,6 +107,12 @@ export const FRAME_TEXTURES: {id: FrameTexture, nameKey: string}[] = [
     { id: 'canvas', nameKey: 'frameTexture_canvas' },
     { id: 'rough', nameKey: 'frameTexture_rough' },
     { id: 'smooth', nameKey: 'frameTexture_smooth' },
+];
+
+export const PRODUCT_TEXTURES: {id: ProductTexture, nameKey: string}[] = [
+    { id: 'none', nameKey: 'productTexture_none' },
+    { id: 'watercolor_swirl_pale', nameKey: 'productTexture_watercolor_swirl_pale' },
+    { id: 'watercolor_swirl_vibrant', nameKey: 'productTexture_watercolor_swirl_vibrant' },
 ];
 
 export const FRAME_DIMENSIONS: {id: FrameDimension, nameKey: string, description: string}[] = [

@@ -57,6 +57,7 @@ const initialDesignState: DesignOptions = {
     professionalBackground: 'white_marble',
     artisticFilter: 'none',
     designPlacement: 'center',
+    productTexture: 'none',
     bagMaterial: 'canvas',
     frameStyle: 'classic_ornate',
     frameModel: 'elegant_woman_street',

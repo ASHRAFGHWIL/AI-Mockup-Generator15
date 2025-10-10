@@ -100,6 +100,7 @@ export type WritingTemplateCategory = {
 
 export type ArtisticFilter = 'none' | 'sepia' | 'grayscale' | 'vintage' | 'noir';
 export type DesignPlacement = 'center' | 'center_right' | 'center_left' | 'top_center' | 'top_right' | 'top_left' | 'bottom_center' | 'bottom_right' | 'bottom_left';
+export type ProductTexture = 'none' | 'watercolor_swirl_pale' | 'watercolor_swirl_vibrant';
 
 export interface DesignOptions {
   productType: ProductType;
@@ -116,6 +117,7 @@ export interface DesignOptions {
   professionalBackground: ProfessionalBackground;
   artisticFilter: ArtisticFilter;
   designPlacement: DesignPlacement;
+  productTexture: ProductTexture;
   
   // T-shirt specific
   style: DesignStyle;
