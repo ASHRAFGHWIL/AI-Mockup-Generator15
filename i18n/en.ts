@@ -366,6 +366,7 @@ export const en = {
 
   frameTextureLabel: "Add Texture Effect",
   frameTexture_none: "None",
+  frameTexture_grainy: "Grainy",
   frameTexture_canvas: "Canvas",
   frameTexture_rough: "Rough",
   frameTexture_smooth: "Smooth",
