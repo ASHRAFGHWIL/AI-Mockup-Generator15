@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
-import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
+import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground } from '../types';
+import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_TEXTURES, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES } from '../constants';
 import { UploadIcon, TrashIcon, WandIcon, FitIcon, FitBlurIcon, FitTransparentIcon, CropIcon, StretchIcon, AspectRatioSquareIcon, AspectRatioHorizontalIcon, AspectRatioVerticalIcon } from './icons';
 import ColorPicker from './ColorPicker';
 import { useTranslation } from '../hooks/useTranslation';
@@ -482,6 +482,21 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
             </select>
         </div>
         <div>
+            <label htmlFor="frame-texture" className="block text-sm font-medium text-gray-300">{t('frameTextureLabel' as keyof typeof import('../i18n/en').en)}</label>
+            <select
+            id="frame-texture"
+            value={design.frameTexture}
+            onChange={(e) => setDesign(d => ({ ...d, frameTexture: e.target.value as FrameTexture }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+            >
+            {FRAME_TEXTURES.map(texture => (
+                <option key={texture.id} value={texture.id}>
+                {t(texture.nameKey as keyof typeof import('../i18n/en').en)}
+                </option>
+            ))}
+            </select>
+        </div>
+        <div>
             <label htmlFor="frame-model" className="block text-sm font-medium text-gray-300">{t('frameModelLabel')}</label>
             <select
             id="frame-model"
@@ -889,7 +904,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
             >
             {BEANIE_STYLES.map(style => (
                 <option key={style.id} value={style.id}>
-                {t(style.nameKey as keyof typeof import('../i18n/en').en)}
+                    {t(style.nameKey as keyof typeof import('../i18n/en').en)}
                 </option>
             ))}
             </select>
@@ -948,9 +963,8 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
         </>
       )}
 
-       {/* Flat Lay Specific */}
+      {/* Flat Lay Specific */}
       {design.productType === 'flat_lay' && (
-        <>
         <div>
             <label htmlFor="flat-lay-style" className="block text-sm font-medium text-gray-300">{t('flatLayStyleLabel')}</label>
             <select
@@ -966,10 +980,9 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
             ))}
             </select>
         </div>
-        </>
       )}
 
-       {/* Puzzle Specific */}
+      {/* Puzzle Specific */}
       {design.productType === 'jigsaw_puzzle' && (
         <>
         <div>
@@ -1005,7 +1018,7 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
         </>
       )}
 
-       {/* Laptop Sleeve Specific */}
+      {/* Laptop Sleeve Specific */}
       {design.productType === 'laptop_sleeve' && (
         <>
         <div>
@@ -1040,22 +1053,35 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
         </div>
         </>
       )}
-      
+
       {/* Generate Button */}
-      <div className="pt-4">
-        <button
-          onClick={onGenerate}
-          disabled={isLoading || !design.logo}
-          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
-        >
-          <WandIcon className="w-5 h-5" />
-          <span>{isLoading ? t('generatingButton') : (design.productType === 'laser_engraving' ? t('generateEngravingButton') : t('generateButton'))}</span>
-        </button>
-        {!design.logo && <p className="text-xs text-yellow-400 mt-2 text-center">{t('uploadLogoWarning')}</p>}
-      </div>
+      <button
+        onClick={onGenerate}
+        disabled={isLoading || !design.logo}
+        className="w-full flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
+      >
+        {isLoading ? (
+          <>
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{t('generatingButton')}</span>
+          </>
+        ) : (
+          <>
+            <WandIcon className="w-6 h-6" />
+            <span>{t(design.productType === 'laser_engraving' ? 'generateEngravingButton' : 'generateButton')}</span>
+          </>
+        )}
+      </button>
+
+      {!design.logo && (
+        <p className="text-center text-sm text-yellow-400">{t('uploadLogoWarning')}</p>
+      )}
+
     </div>
   );
 };
 
-// FIX: Add a default export for the ControlsPanel component.
 export default ControlsPanel;

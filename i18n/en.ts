@@ -1,4 +1,3 @@
-
 export const en = {
   headerTitle: "AI Mockup Generator",
   headerSubtitle: "Bring your designs to life with the power of Gemini",
@@ -349,6 +348,13 @@ export const en = {
   frameModel_school_counselor_office: "School Counselor Office",
   frameModel_psychologist_office: "Psychologist Office",
   frameModel_luxurious_american_office: "Luxury American Office",
+
+  frameTextureLabel: "Add Texture Effect",
+  frameTexture_none: "None",
+  frameTexture_grainy: "Grainy",
+  frameTexture_canvas: "Canvas",
+  frameTexture_rough: "Rough",
+  frameTexture_smooth: "Smooth",
 
   mugStyle_classic_ceramic: "Classic Ceramic",
   mugStyle_modern_glass: "Modern Glass",

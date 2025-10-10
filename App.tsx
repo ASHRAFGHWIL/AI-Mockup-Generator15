@@ -61,6 +61,8 @@ const AppContent: React.FC = () => {
     bagMaterial: 'canvas',
     frameStyle: 'classic_ornate',
     frameModel: 'elegant_woman_street',
+    frameTexture: 'none',
+    frameDimension: '8.5x11',
     mugStyle: 'classic_ceramic',
     mugModel: 'woman_cafe',
     sipperGlassStyle: 'classic_can_shape',

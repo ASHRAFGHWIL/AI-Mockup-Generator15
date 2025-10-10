@@ -1,4 +1,3 @@
-
 export const ar = {
   headerTitle: "مولّد النماذج بالذكاء الاصطناعي",
   headerSubtitle: "أضف الحياة إلى تصميماتك بقوة Gemini",
@@ -349,6 +348,13 @@ export const ar = {
   frameModel_school_counselor_office: "مكتب مستشار مدرسي",
   frameModel_psychologist_office: "مكتب طبيب نفسي",
   frameModel_luxurious_american_office: "مكتب أمريكي فاخر",
+
+  frameTextureLabel: "أضف تأثير الملمس",
+  frameTexture_none: "بدون ملمس",
+  frameTexture_grainy: "محبب",
+  frameTexture_canvas: "قماشي",
+  frameTexture_rough: "خشن",
+  frameTexture_smooth: "ناعم",
 
   mugStyle_classic_ceramic: "سيراميك كلاسيكي",
   mugStyle_modern_glass: "زجاج حديث",

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -99,6 +99,14 @@ export const FRAME_STYLES: {id: FrameStyle, nameKey: string}[] = [
     { id: 'velvet_lined_shadow_box', nameKey: 'frameStyle_velvet_lined_shadow_box' },
     { id: 'lace_carved_wood', nameKey: 'frameStyle_lace_carved_wood' },
     { id: 'shabby_chic_distressed', nameKey: 'frameStyle_shabby_chic_distressed' },
+];
+
+export const FRAME_TEXTURES: {id: FrameTexture, nameKey: string}[] = [
+    { id: 'none', nameKey: 'frameTexture_none' },
+    { id: 'grainy', nameKey: 'frameTexture_grainy' },
+    { id: 'canvas', nameKey: 'frameTexture_canvas' },
+    { id: 'rough', nameKey: 'frameTexture_rough' },
+    { id: 'smooth', nameKey: 'frameTexture_smooth' },
 ];
 
 export const FRAME_DIMENSIONS: {id: FrameDimension, nameKey: string, description: string}[] = [

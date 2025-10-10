@@ -1,7 +1,7 @@
 // FIX: Import `GenerateImagesResponse` to correctly type the response from the image generation API.
 // FIX: Removed HarmCategory and HarmBlockThreshold as safetySettings are not supported on these API calls.
 import { GoogleGenAI, GenerateContentResponse, GenerateImagesResponse, Part, Modality } from "@google/genai";
-import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground } from "../types";
+import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground } from "../types";
 import { MODEL_AUDIENCES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_MODELS, SIPPER_GLASS_MODELS, TUMBLER_MODELS, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_SETTINGS, PHONE_CASE_MODELS, STICKER_SETTINGS, POSTER_SETTINGS, WALLET_MODELS, CAP_MODELS, BEANIE_MODELS, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_SETTINGS, PRODUCT_COLORS, TSHIRT_FONTS, PROFESSIONAL_BACKGROUNDS } from "../constants";
 
 // IMPORTANT: This key is read from environment variables and should not be hardcoded.
@@ -278,6 +278,18 @@ const getFrameStyleDescription = (style: FrameStyle): string => {
         case 'lace_carved_wood': return 'a unique wooden frame, intricately carved with a delicate, lace-like pattern and finished with a soft, matte paint';
         case 'shabby_chic_distressed': return 'a romantic, shabby chic style wooden frame with a distressed, soft pastel paint finish and gently worn edges';
         default: return 'a high-quality wooden frame';
+    }
+}
+
+const getFrameTextureDescription = (texture: FrameTexture): string => {
+    switch (texture) {
+        case 'grainy': return 'The image inside the frame must have a subtle, fine film grain texture applied to it, giving it a slightly vintage, photographic look.';
+        case 'canvas': return 'The image inside the frame must look like it is printed on a high-quality artist\'s canvas, with a visible, realistic canvas weave texture.';
+        case 'rough': return 'The image inside the frame must appear to be printed on a rough, textured paper, like high-quality watercolor paper, with a noticeable surface texture.';
+        case 'smooth': return 'The image inside the frame must appear printed on a perfectly smooth, matte paper with no visible texture.';
+        case 'none':
+        default:
+            return 'The image inside the frame must be rendered cleanly with no additional texture applied.';
     }
 }
 
@@ -840,7 +852,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
  * the logo and text design using an image editing model.
  */
 export const generateMockup = async (logoFile: File, options: DesignOptions): Promise<string> => {
-    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType } = options;
+    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture } = options;
 
     // Step 1: Generate the base image of the product with a model/setting.
     const baseImageB64 = await generateBaseImage(options);
@@ -1032,7 +1044,8 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
              productInstruction = 'Apply the design realistically onto the center of the pillow.';
              break;
         case 'frame':
-             productInstruction = 'Apply the provided logo as the picture inside the empty wooden frame. Ignore any text prompts.';
+             const textureDescription = getFrameTextureDescription(frameTexture);
+             productInstruction = `Apply the provided logo as the picture inside the empty wooden frame. Ignore any text prompts. ${textureDescription}`;
              break;
         case 'mug':
         case 'sipper_glass':
@@ -1086,8 +1099,9 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
 
     // Step 4: Call the editing model.
 // FIX: The `safetySettings` parameter is not supported by the `generateContent` API call and has been removed.
+// FIX: Update model name to conform to guidelines.
     const apiCall = () => ai.models.generateContent({
-        model: 'gemini-2.5-flash-image-preview',
+        model: 'gemini-2.5-flash-image',
         contents: { parts: contents },
         config: {
             responseModalities: [Modality.IMAGE, Modality.TEXT],
