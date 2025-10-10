@@ -149,6 +149,12 @@ export const AspectRatioVerticalIcon = ({ className }: { className?: string }) =
   </svg>
 );
 
+export const ExpandIcon = ({ className }: { className?: string }) => (
+  <svg {...IconProps} className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4h4m12 4V4h-4M4 16v4h4m12-4v4h-4" />
+  </svg>
+);
+
 export const ZoomInIcon = ({ className }: { className?: string }) => (
   <svg {...IconProps} className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3h-6" />

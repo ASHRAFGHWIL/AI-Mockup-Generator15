@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { WandIcon, DownloadIcon, BackArrowIcon, ZoomInIcon, ZoomOutIcon } from './icons';
+import { WandIcon, DownloadIcon, BackArrowIcon, ZoomInIcon, ZoomOutIcon, ExpandIcon } from './icons';
 import type { ProductType, ImageMode } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -16,10 +16,12 @@ interface PreviewDisplayProps {
   imageMode: ImageMode;
   isPreviewExpanded: boolean;
   onExitPreview: () => void;
+  onExpandPreview?: () => void;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview, onExpandPreview }) => {
     const { t } = useTranslation();
+    const [isHovered, setIsHovered] = useState(false);
     const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
     const downloadMenuRef = useRef<HTMLDivElement>(null);
     const [isZoomed, setIsZoomed] = useState(false);
@@ -75,7 +77,11 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
 
   return (
     <div className="w-full flex-grow flex flex-col items-center justify-center gap-6">
-      <div className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center overflow-hidden transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}>
+      <div 
+        className={`w-full bg-gray-900/50 rounded-lg p-4 lg:p-8 relative flex items-center justify-center overflow-hidden transition-colors ${imageMode === 'fit_transparent' ? '!bg-transparent' : ''}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         
         {isLoading && (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center z-10 text-white transition-opacity">
@@ -118,14 +124,65 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
               alt="Generated mockup" 
               className={imageClasses}
             />
-            <button
-              onClick={() => setIsZoomed(!isZoomed)}
-              className="absolute bottom-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-all backdrop-blur-sm"
-              aria-label={isZoomed ? t('zoomOut') : t('zoomIn')}
-              title={isZoomed ? t('zoomOut') : t('zoomIn')}
-            >
-              {isZoomed ? <ZoomOutIcon className="w-6 h-6" /> : <ZoomInIcon className="w-6 h-6" />}
-            </button>
+            
+            {/* Floating Action Menu */}
+            {!isPreviewExpanded && (
+              <div
+                className={`absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center gap-4 transition-opacity duration-300 ease-in-out ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                aria-hidden={!isHovered}
+              >
+                {/* Expand Button */}
+                {onExpandPreview && (
+                  <button
+                    onClick={onExpandPreview}
+                    className="p-3 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-transform transform hover:scale-110"
+                    aria-label={t('expandPreview' as keyof typeof import('../i18n/en').en)}
+                    title={t('expandPreview' as keyof typeof import('../i18n/en').en)}
+                  >
+                    <ExpandIcon className="w-7 h-7" />
+                  </button>
+                )}
+                
+                {/* Zoom Button */}
+                <button
+                  onClick={() => setIsZoomed(!isZoomed)}
+                  className="p-3 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-transform transform hover:scale-110"
+                  aria-label={isZoomed ? t('zoomOut') : t('zoomIn')}
+                  title={isZoomed ? t('zoomOut') : t('zoomIn')}
+                >
+                  {isZoomed ? <ZoomOutIcon className="w-7 h-7" /> : <ZoomInIcon className="w-7 h-7" />}
+                </button>
+
+                {/* Download Button */}
+                <div className="relative" ref={downloadMenuRef}>
+                  <button
+                    onClick={() => setIsDownloadMenuOpen(prev => !prev)}
+                    className="p-3 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-transform transform hover:scale-110"
+                    aria-label={t('downloadButton')}
+                    title={t('downloadButton')}
+                  >
+                    <DownloadIcon className="w-7 h-7" />
+                  </button>
+                  {isDownloadMenuOpen && (
+                    <div className="absolute bottom-full mb-2 w-56 bg-gray-700 rounded-lg shadow-2xl overflow-hidden z-20 border border-gray-600 left-1/2 -translate-x-1/2">
+                      {productType === 'laser_engraving' ? (
+                        <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadEngravingSvg); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadEngravingSvg')}</a>
+                      ) : (
+                        <>
+                          <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">{t('downloadMockupLabel')}</div>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadMockupPng); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadMockupPng')}</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadMockupJpg); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadMockupJpg')}</a>
+                          <div className="border-t border-gray-600 my-1"></div>
+                          <div className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">{t('downloadDesignLabel')}</div>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadCombinedSvg); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadDesignSvg')}</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); handleDownloadClick(onDownloadCombinedPng); }} className="block px-4 py-3 text-sm text-gray-200 hover:bg-indigo-500 hover:text-white transition-colors">{t('downloadDesignPng')}</a>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

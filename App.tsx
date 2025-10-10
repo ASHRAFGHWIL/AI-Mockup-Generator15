@@ -408,6 +408,7 @@ const AppContent: React.FC = () => {
             imageMode={imageMode}
             isPreviewExpanded={false}
             onExitPreview={() => {}}
+            onExpandPreview={() => setIsPreviewExpanded(true)}
           />
         </div>
       </main>

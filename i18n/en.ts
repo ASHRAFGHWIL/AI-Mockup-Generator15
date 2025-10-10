@@ -94,6 +94,7 @@ export const en = {
   errorNoTextForSvg: "There is no text to generate an SVG for.",
   errorNoLogoForLayout: "Cannot generate text file without a logo for layout.",
   errorNoMockupToDownload: "There is no mockup image to download.",
+  expandPreview: "Expand Preview",
   zoomIn: "Zoom In",
   zoomOut: "Zoom Out",
 
@@ -365,7 +366,6 @@ export const en = {
 
   frameTextureLabel: "Add Texture Effect",
   frameTexture_none: "None",
-  frameTexture_grainy: "Grainy",
   frameTexture_canvas: "Canvas",
   frameTexture_rough: "Rough",
   frameTexture_smooth: "Smooth",
