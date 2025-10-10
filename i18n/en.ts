@@ -62,6 +62,7 @@ export const en = {
   photoFormatLabel: "Photo Format (Aspect Ratio)",
   logoPlacementLabel: "Logo Placement",
   productColorLabel: "Product Color",
+  productTextureLabel: "Product Texture",
   generateButton: "Generate Mockup",
   generateEngravingButton: "Generate Preview",
   generatingButton: "Generating...",
@@ -677,4 +678,8 @@ export const en = {
   artisticFilter_grayscale: "Grayscale",
   artisticFilter_vintage: "Vintage",
   artisticFilter_noir: "Noir",
+
+  productTexture_none: "None",
+  productTexture_watercolor_swirl_pale: "Watercolor Swirl (Pale)",
+  productTexture_watercolor_swirl_vibrant: "Watercolor Swirl (Vibrant)",
 };

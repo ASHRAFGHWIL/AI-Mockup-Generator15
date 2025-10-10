@@ -62,6 +62,7 @@ export const ar = {
   photoFormatLabel: "تنسيق الصورة (نسبة العرض إلى الارتفاع)",
   logoPlacementLabel: "موضع الشعار",
   productColorLabel: "لون المنتج",
+  productTextureLabel: "نسيج المنتج",
   generateButton: "إنشاء نموذج",
   generateEngravingButton: "إنشاء معاينة",
   generatingButton: "جارٍ الإنشاء...",
@@ -670,4 +671,8 @@ export const ar = {
   artisticFilter_grayscale: "تدرج الرمادي",
   artisticFilter_vintage: "عتيق",
   artisticFilter_noir: "نوار",
+
+  productTexture_none: "لا شيء",
+  productTexture_watercolor_swirl_pale: "دوامة ألوان مائية (باهتة)",
+  productTexture_watercolor_swirl_vibrant: "دوامة ألوان مائية (زاهية)",
 };
