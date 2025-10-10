@@ -207,7 +207,7 @@ const AppContent: React.FC = () => {
     try {
       const imageB64 = await generateMockupFromApi(logoFileRef.current, design);
       setGeneratedImage(imageB64);
-      setIsPreviewExpanded(true);
+      // setIsPreviewExpanded(true); // Removed as per user request
     } catch (e: any) {
       console.error(e);
       setError(e.message || 'An unknown error occurred.');

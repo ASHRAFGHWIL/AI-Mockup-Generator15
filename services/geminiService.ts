@@ -639,6 +639,18 @@ const getTextStyleDescription = (style: TextStyle, contrastColor: 'white' | 'bla
     }
 }
 
+const getWatercolorBackgroundInstruction = (texture: ProductTexture): string => {
+    switch (texture) {
+        case 'watercolor_swirl_pale':
+            return "A soft, dreamy, circular watercolor splash with pale pastel colors must be placed directly behind the main logo and text design, acting as a background for it.";
+        case 'watercolor_swirl_vibrant':
+            return "A vibrant, bold, circular watercolor splash with bright, saturated colors must be placed directly behind the main logo and text design, acting as a background for it.";
+        case 'none':
+        default:
+            return '';
+    }
+};
+
 const getArtisticFilterDescription = (filter: ArtisticFilter): string => {
     switch (filter) {
         case 'sepia':
@@ -680,11 +692,10 @@ const getDesignPlacementDescription = (placement: DesignPlacement): string => {
  * This uses a text-to-image model to create a safe "canvas" for editing.
  */
 const generateBaseImage = async (options: DesignOptions): Promise<string> => {
-    const { productType, productColor, pose, audience, backgroundStyle, professionalBackground, bagMaterial, frameStyle, frameModel, frameDimension, mugStyle, mugModel, sipperGlassStyle, sipperGlassModel, tumblerStyle, tumblerModel, halloweenTumblerStyle, halloweenTumblerSetting, tumblerTrioStyle, tumblerTrioSetting, phoneCaseStyle, phoneCaseModel, stickerStyle, stickerSetting, posterStyle, posterSetting, walletStyle, walletModel, capStyle, capModel, beanieStyle, beanieModel, pillowStyle, pillowSetting, flatLayStyle, puzzleStyle, puzzleSetting, laptopSleeveStyle, laptopSleeveSetting, aspectRatio, productTexture } = options;
+    const { productType, productColor, pose, audience, backgroundStyle, professionalBackground, bagMaterial, frameStyle, frameModel, frameDimension, mugStyle, mugModel, sipperGlassStyle, sipperGlassModel, tumblerStyle, tumblerModel, halloweenTumblerStyle, halloweenTumblerSetting, tumblerTrioStyle, tumblerTrioSetting, phoneCaseStyle, phoneCaseModel, stickerStyle, stickerSetting, posterStyle, posterSetting, walletStyle, walletModel, capStyle, capModel, beanieStyle, beanieModel, pillowStyle, pillowSetting, flatLayStyle, puzzleStyle, puzzleSetting, laptopSleeveStyle, laptopSleeveSetting, aspectRatio } = options;
     let prompt;
     const backgroundDescription = getBackgroundDescription(backgroundStyle);
     const proBackgroundDescription = getProfessionalBackgroundDescription(professionalBackground);
-    const textureDescription = getProductTextureDescription(productTexture);
 
     switch (productType) {
         case 'tshirt':
@@ -699,10 +710,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
                 productGarment = 'hoodie';
             }
 
-            let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment}`;
-            if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded ${productGarment} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} ${productGarment}`;
 
             if (pose === 'flat_lay_simple') {
                 prompt = `Top-down commercial product photo. ${garmentDescription} is laid perfectly flat on ${proBackgroundDescription}. The ${productGarment} has a few subtle, natural-looking wrinkles to show fabric texture. The lighting is soft and even, creating gentle, realistic shadows. The background is simple and out of focus. ${qualityPrompt}`;
@@ -719,10 +727,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt`;
-             if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded t-shirt featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt`;
 
             prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing ${garmentDescription} with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
@@ -733,10 +738,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle);
 
-            let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt`;
-             if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded sweatshirt featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt`;
 
             prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a mug. The model is wearing ${garmentDescription} with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the mug are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
@@ -747,10 +749,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-             let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt`;
-             if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded sweatshirt featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} sweatshirt`;
 
             prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing ${garmentDescription} with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
@@ -761,20 +760,14 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             const poseDescription = getPoseDescription(effectivePose);
             const mugStyleDescription = getMugStyleDescription(mugStyle); // reusing mug style for teacup
 
-             let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} hoodie`;
-             if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded hoodie featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} hoodie`;
 
             prompt = `Commercial product mockup photo, close-up portrait from the torso up. A photorealistic model, ${audienceDescription}, in a ${poseDescription} with a natural expression, holding a teacup. The model is wearing ${garmentDescription} with detailed fabric weave and texture visible. The model is holding a plain, unbranded ${mugStyleDescription} in the same ${getColorName(productColor)} color. Both the garment and the teacup are shown clearly for a mockup and take up a large portion of the frame. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'bag': {
              const bagMaterialDescription = getBagMaterialDescription(bagMaterial);
-             let productDescription = `a plain, unbranded bag made of ${bagMaterialDescription} in ${getColorName(productColor)}`;
-             if (textureDescription) {
-                productDescription = `a bag made of ${bagMaterialDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const productDescription = `a plain, unbranded bag made of ${bagMaterialDescription} in ${getColorName(productColor)}`;
              prompt = `Close-up commercial product lifestyle photo. A person's hand and arm with natural skin texture, holding ${productDescription}. The focus is on the bag, which takes up a large area of the image, highlighting its detailed material texture. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
@@ -784,10 +777,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             if (walletModel === 'flat_lay_desk') {
                 sceneDescription = `${sceneDescription} on ${proBackgroundDescription}.`;
             }
-             let productDescription = `a plain, unbranded ${walletStyleDescription} in a ${getColorName(productColor)} color`;
-             if (textureDescription) {
-                productDescription = `a ${walletStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const productDescription = `a plain, unbranded ${walletStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo of ${productDescription}, taking up a large area of the image and highlighting the detailed leather texture. Scene: ${sceneDescription}. The background is beautifully blurred with strong bokeh. ${qualityPrompt}`;
             break;
         }
@@ -845,10 +835,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
              if (phoneCaseModel === 'flat_lay' || phoneCaseModel === 'on_desk') {
                 sceneDescription = `${sceneDescription} on ${proBackgroundDescription}.`;
             }
-             let productDescription = `a plain, unbranded phone case with a ${phoneCaseStyleDescription} in a ${getColorName(productColor)} color`;
-             if (textureDescription) {
-                productDescription = `a phone case with a ${phoneCaseStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const productDescription = `a plain, unbranded phone case with a ${phoneCaseStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo. ${productDescription} is shown, taking up a large area of the image. Scene: ${sceneDescription}. The focus is on the phone case, highlighting its material and realistic reflections. The background is beautifully blurred with strong bokeh. ${qualityPrompt}`;
             break;
         }
@@ -870,10 +857,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
              if (capModel === 'flat_lay') {
                 sceneDescription = `${sceneDescription} on ${proBackgroundDescription}.`;
             }
-             let productDescription = `a plain, unbranded ${capStyleDescription} in a ${getColorName(productColor)} color`;
-             if (textureDescription) {
-                productDescription = `a ${capStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const productDescription = `a plain, unbranded ${capStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo. ${productDescription} is shown, taking up a large portion of the frame. Scene: ${sceneDescription}. The focus is on the cap, highlighting its fabric texture. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
@@ -883,29 +867,20 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             if (beanieModel === 'flat_lay') {
                 sceneDescription = `${sceneDescription} on ${proBackgroundDescription}.`;
             }
-            let productDescription = `a plain, unbranded ${beanieStyleDescription} in a ${getColorName(productColor)} color`;
-             if (textureDescription) {
-                productDescription = `a ${beanieStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const productDescription = `a plain, unbranded ${beanieStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo. ${productDescription} is shown, taking up a large portion of the frame. Scene: ${sceneDescription}. The focus is on the beanie, highlighting its knit texture. ${backgroundDescription} ${qualityPrompt}`;
             break;
         }
         case 'pillow': {
             const pillowStyleDescription = getPillowStyleDescription(pillowStyle);
             const pillowSettingDescription = getPillowSettingDescription(pillowSetting);
-             let productDescription = `a plain, unbranded ${pillowStyleDescription} in a ${getColorName(productColor)} color`;
-             if (textureDescription) {
-                productDescription = `a ${pillowStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+             const productDescription = `a plain, unbranded ${pillowStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo. ${productDescription} is placed on ${pillowSettingDescription}. The focus is on the pillow, which fills most of the frame, highlighting its fabric texture and softness. The background is beautifully blurred with strong bokeh. ${qualityPrompt}`;
             break;
         }
         case 'flat_lay': {
             const flatLayStyleDescription = getFlatLayStyleDescription(flatLayStyle);
-            let garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt`;
-            if (textureDescription) {
-                garmentDescription = `a high-quality, unbranded t-shirt featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const garmentDescription = `a plain, unbranded, high-quality ${getColorName(productColor)} t-shirt`;
             if (flatLayStyle.includes('close_up')) {
                 prompt = `Top-down commercial product photo of ${garmentDescription}. The shot is ${flatLayStyleDescription}. The scene is arranged on ${proBackgroundDescription}. The lighting is soft and even, creating gentle, realistic shadows. The background is simple and out of focus. ${qualityPrompt}`;
             } else {
@@ -928,10 +903,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
             if (laptopSleeveSetting === 'flat_lay_minimalist') {
                 laptopSleeveSettingDescription = `${laptopSleeveSettingDescription} on ${proBackgroundDescription}.`;
             }
-            let productDescription = `a plain, unbranded ${laptopSleeveStyleDescription} in a ${getColorName(productColor)} color`;
-            if (textureDescription) {
-                productDescription = `a ${laptopSleeveStyleDescription} featuring ${textureDescription}. The base color is ${getColorName(productColor)}, which should be integrated into the texture`;
-            }
+            const productDescription = `a plain, unbranded ${laptopSleeveStyleDescription} in a ${getColorName(productColor)} color`;
             prompt = `Close-up commercial product photo. ${productDescription} is shown, taking up a large portion of the frame. Scene: ${laptopSleeveSettingDescription}. The focus is on the sleeve, highlighting its material texture. The background is beautifully blurred with strong bokeh. ${qualityPrompt}`;
             break;
         }
@@ -966,7 +938,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
  * the logo and text design using an image editing model.
  */
 export const generateMockup = async (logoFile: File, options: DesignOptions): Promise<string> => {
-    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture, artisticFilter, designPlacement } = options;
+    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture, artisticFilter, designPlacement, productTexture } = options;
 
     // Step 1: Generate the base image of the product with a model/setting.
     const baseImageB64 = await generateBaseImage(options);
@@ -986,6 +958,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
     const textStyleDesc = getTextStyleDescription(textStyle, contrastColor, getColorName(gradientStartColor), getColorName(gradientEndColor));
     const fontName = TSHIRT_FONTS.find(f => f.id === font)?.name || 'Impact';
     const artisticFilterDesc = getArtisticFilterDescription(artisticFilter);
+    const watercolorInstruction = getWatercolorBackgroundInstruction(productTexture);
 
     let designPlacementInstruction;
     let overallStyle = `a ${style.replace(/_/g, ' ')} style.`; // Default style description
@@ -1206,6 +1179,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
 
         **Placement & Style Instructions:**
         - **Overall Style:** The design should be in ${overallStyle}
+        - **Background Effect:** ${watercolorInstruction || 'None.'}
         - **Placement:** ${designPlacementInstruction}
         - **Instructions:** ${productInstruction}
 
