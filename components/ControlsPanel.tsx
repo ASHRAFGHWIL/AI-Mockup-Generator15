@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground, ArtisticFilter } from '../types';
-import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_TEXTURES, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES, ARTISTIC_FILTERS } from '../constants';
+import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground, ArtisticFilter, DesignPlacement } from '../types';
+import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_TEXTURES, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES, ARTISTIC_FILTERS, DESIGN_PLACEMENTS } from '../constants';
 import { UploadIcon, TrashIcon, WandIcon, FitIcon, FitBlurIcon, FitTransparentIcon, CropIcon, StretchIcon, AspectRatioSquareIcon, AspectRatioHorizontalIcon, AspectRatioVerticalIcon } from './icons';
 import ColorPicker from './ColorPicker';
 import { useTranslation } from '../hooks/useTranslation';
@@ -461,6 +461,25 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                 </select>
             </div>
         </>
+      )}
+
+      {/* Design Placement */}
+      {design.productType !== 'laser_engraving' && design.productType !== 'frame' && (
+        <div>
+          <label htmlFor="design-placement" className="block text-sm font-medium text-gray-300">{t('designPlacementLabel')}</label>
+          <select
+            id="design-placement"
+            value={design.designPlacement}
+            onChange={(e) => setDesign(d => ({ ...d, designPlacement: e.target.value as DesignPlacement }))}
+            className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+          >
+            {DESIGN_PLACEMENTS.map(placement => (
+              <option key={placement.id} value={placement.id}>
+                {t(placement.nameKey as keyof typeof import('../i18n/en').en)}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
 
       {/* Bag Specific */}

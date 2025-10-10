@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import ControlsPanel from './components/ControlsPanel';
 import PreviewDisplay from './components/PreviewDisplay';
 import { WandIcon, UndoIcon, RedoIcon, ResetIcon } from './components/icons';
-import type { DesignOptions, ImageMode } from './types';
+import type { DesignOptions, ImageMode, TshirtFont } from './types';
 import { generateMockup as generateMockupFromApi } from './services/geminiService';
 import { generateCombinedSvg, generateCombinedPng, generateEngravingSvg, generateTextOnlySvg, generateTextOnlyPng } from './services/svgService';
 import { LanguageContext, useTranslation, Language } from './hooks/useTranslation';
@@ -56,6 +56,7 @@ const initialDesignState: DesignOptions = {
     backgroundStyle: 'studio',
     professionalBackground: 'white_marble',
     artisticFilter: 'none',
+    designPlacement: 'center',
     bagMaterial: 'canvas',
     frameStyle: 'classic_ornate',
     frameModel: 'elegant_woman_street',
@@ -141,6 +142,15 @@ const AppContent: React.FC = () => {
   const [imageMode, setImageMode] = useState<ImageMode>('fit_blur');
   const [isPreviewExpanded, setIsPreviewExpanded] = useState(false);
   const logoFileRef = useRef<File | null>(null);
+
+  useEffect(() => {
+    // When switching to Arabic, if the font is still the English default,
+    // switch it to Cairo for a better user experience with Arabic text.
+    if (language === 'ar' && design.font === initialDesignState.font) {
+      setDesign(d => ({ ...d, font: 'cairo' }));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
 
   useEffect(() => {
     // Initialize with sample logo

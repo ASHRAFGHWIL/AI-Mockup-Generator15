@@ -1,7 +1,7 @@
 // FIX: Import `GenerateImagesResponse` to correctly type the response from the image generation API.
 // FIX: Removed HarmCategory and HarmBlockThreshold as safetySettings are not supported on these API calls.
 import { GoogleGenAI, GenerateContentResponse, GenerateImagesResponse, Part, Modality } from "@google/genai";
-import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground, ArtisticFilter } from "../types";
+import type { DesignOptions, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, AspectRatio, ProductType, ProfessionalBackground, ArtisticFilter, DesignPlacement } from "../types";
 import { MODEL_AUDIENCES, FRAME_MODELS, FRAME_DIMENSIONS, MUG_MODELS, SIPPER_GLASS_MODELS, TUMBLER_MODELS, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_SETTINGS, PHONE_CASE_MODELS, STICKER_SETTINGS, POSTER_SETTINGS, WALLET_MODELS, CAP_MODELS, BEANIE_MODELS, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_SETTINGS, PRODUCT_COLORS, TSHIRT_FONTS, PROFESSIONAL_BACKGROUNDS } from "../constants";
 
 // IMPORTANT: This key is read from environment variables and should not be hardcoded.
@@ -643,6 +643,26 @@ const getArtisticFilterDescription = (filter: ArtisticFilter): string => {
 };
 
 /**
+ * Gets a descriptive string for the design's placement on the product.
+ * @param placement The design placement enum.
+ * @returns A human-readable string for the AI prompt.
+ */
+const getDesignPlacementDescription = (placement: DesignPlacement): string => {
+    switch (placement) {
+        case 'center': return 'in the center';
+        case 'center_right': return 'in the center-right area';
+        case 'center_left': return 'in the center-left area';
+        case 'top_center': return 'in the top-center area';
+        case 'top_right': return 'in the top-right area';
+        case 'top_left': return 'in the top-left area';
+        case 'bottom_center': return 'in the bottom-center area';
+        case 'bottom_right': return 'in the bottom-right area';
+        case 'bottom_left': return 'in the bottom-left area';
+        default: return 'in the center';
+    }
+}
+
+/**
  * Step 1: Generate a base image of a model with a blank product.
  * This uses a text-to-image model to create a safe "canvas" for editing.
  */
@@ -868,7 +888,7 @@ const generateBaseImage = async (options: DesignOptions): Promise<string> => {
  * the logo and text design using an image editing model.
  */
 export const generateMockup = async (logoFile: File, options: DesignOptions): Promise<string> => {
-    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture, artisticFilter } = options;
+    const { text, textColor, font, style, textStyle, gradientStartColor, gradientEndColor, productType, frameTexture, artisticFilter, designPlacement } = options;
 
     // Step 1: Generate the base image of the product with a model/setting.
     const baseImageB64 = await generateBaseImage(options);
@@ -889,7 +909,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
     const fontName = TSHIRT_FONTS.find(f => f.id === font)?.name || 'Impact';
     const artisticFilterDesc = getArtisticFilterDescription(artisticFilter);
 
-    let designPlacement;
+    let designPlacementInstruction;
     let overallStyle = `a ${style.replace(/_/g, ' ')} style.`; // Default style description
 
     // Some products don't have a "style" dropdown, so we default to 'classic' for text placement.
@@ -899,23 +919,23 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
     switch (effectiveStyle) {
         case 'classic':
         case 'lower_half_circle':
-            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, semi-circular arc.`;
+            designPlacementInstruction = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, semi-circular arc.`;
             break;
         case 'upper_half_circle':
-            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, semi-circular arc.`;
+            designPlacementInstruction = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, semi-circular arc.`;
             break;
         case 'upper_oval':
-            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, oval-shaped arc.`;
+            designPlacementInstruction = `Apply the logo to the center of the product. The text "${text}" should be placed above the logo in a gentle, oval-shaped arc.`;
             break;
         case 'lower_oval':
-            designPlacement = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, oval-shaped arc.`;
+            designPlacementInstruction = `Apply the logo to the center of the product. The text "${text}" should be placed below the logo in a gentle, oval-shaped arc.`;
             break;
         case 'full_circle': {
             const circleWords = text.split(/\s+/);
             const circleMidPoint = Math.ceil(circleWords.length / 2);
             const topCircleText = circleWords.slice(0, circleMidPoint).join(' ');
             const bottomCircleText = circleWords.slice(circleMidPoint).join(' ');
-            designPlacement = `Place the logo in the center. Arc the text "${topCircleText}" above the logo, and arc the text "${bottomCircleText}" below the logo to create a full circular text effect around the logo.`;
+            designPlacementInstruction = `Place the logo in the center. Arc the text "${topCircleText}" above the logo, and arc the text "${bottomCircleText}" below the logo to create a full circular text effect around the logo.`;
             break;
         }
         case 'split': {
@@ -923,7 +943,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
             const midPoint = Math.ceil(words.length / 2);
             const leftText = words.slice(0, midPoint).join(' ');
             const rightText = words.slice(midPoint).join(' ');
-            designPlacement = `Place the logo in the absolute center. Place the text "${leftText}" to the left of the logo, and the text "${rightText}" to the right of the logo.`;
+            designPlacementInstruction = `Place the logo in the absolute center. Place the text "${leftText}" to the left of the logo, and the text "${rightText}" to the right of the logo.`;
             break;
         }
         case 'vintage_stamp':
@@ -932,98 +952,100 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
             const stampMidPoint = Math.ceil(stampWords.length / 2);
             const topText = stampWords.slice(0, stampMidPoint).join(' ');
             const bottomText = stampWords.slice(stampMidPoint).join(' ');
-            designPlacement = `Place the logo in the center. Arc the text "${topText}" above the logo, and arc the text "${bottomText}" below the logo to create a circular emblem or stamp effect.`;
+            designPlacementInstruction = `Place the logo in the center. Arc the text "${topText}" above the logo, and arc the text "${bottomText}" below the logo to create a circular emblem or stamp effect.`;
             break;
         }
         case 'minimalist_line':
-            designPlacement = `Place the logo on the left side, and place the text "${text}" vertically (rotated 90 degrees counter-clockwise) on the right side.`;
+            designPlacementInstruction = `Place the logo on the left side, and place the text "${text}" vertically (rotated 90 degrees counter-clockwise) on the right side.`;
             break;
         case 'stacked_text':
-            designPlacement = `Place the logo in the upper center. Below the logo, stack the words of the text "${text}" on top of each other, with each word centered.`;
+            designPlacementInstruction = `Place the logo in the upper center. Below the logo, stack the words of the text "${text}" on top of each other, with each word centered.`;
             break;
         case 'grunge_overlay':
         case 'photo_text':
-            designPlacement = `Overlay the text "${text}" directly on top of the logo image, both centered together on the product.`;
+            designPlacementInstruction = `Overlay the text "${text}" directly on top of the logo image, both centered together on the product.`;
             break;
         case 'slasher':
             overallStyle = 'a gritty, horror movie title style, like a slasher film poster from the 1980s. The text should look menacing, perhaps with a dripping or scratched effect.';
-            designPlacement = `Place the logo and text "${text}" together in the center.`;
+            designPlacementInstruction = `Place the logo and text "${text}" together in the center.`;
             break;
         case 'sketch':
              overallStyle = 'a hand-drawn, gritty, monochrome pencil sketch style. The entire design should look like it was sketched directly onto the fabric.';
-             designPlacement = `Place the logo and text "${text}" together in the center.`;
+             designPlacementInstruction = `Place the logo and text "${text}" together in the center.`;
             break;
         case 'retro_wave':
              overallStyle = 'a 1980s retro wave or synthwave aesthetic. Think chrome, neon, and grid lines.';
-             designPlacement = `Place the logo centrally, with the text "${text}" below it in a bold, retro font.`;
+             designPlacementInstruction = `Place the logo centrally, with the text "${text}" below it in a bold, retro font.`;
             break;
         case 'cyberpunk_glitch':
              overallStyle = 'a futuristic cyberpunk theme with a digital glitch effect. The text and logo should have distorted, chromatic aberration effects.';
-             designPlacement = `Place the logo and text "${text}" together in the center.`;
+             designPlacementInstruction = `Place the logo and text "${text}" together in the center.`;
             break;
         case 'boho_floral_wreath':
              overallStyle = 'a delicate, hand-drawn bohemian style.';
-             designPlacement = `Place the logo in the center. Surround the logo with a beautiful wreath of hand-drawn wildflowers and foliage. Place the text "${text}" in a gentle arc underneath the wreath.`;
+             designPlacementInstruction = `Place the logo in the center. Surround the logo with a beautiful wreath of hand-drawn wildflowers and foliage. Place the text "${text}" in a gentle arc underneath the wreath.`;
             break;
         case 'girly_script_heart':
              overallStyle = 'a cute, feminine, and girly style.';
-             designPlacement = `Place the logo in the center. Below the logo, render the text "${text}" in an elegant, flowing script font. Add a small, cute, hand-drawn heart icon next to the text.`;
+             designPlacementInstruction = `Place the logo in the center. Below the logo, render the text "${text}" in an elegant, flowing script font. Add a small, cute, hand-drawn heart icon next to the text.`;
             break;
         case 'celestial_moon_phases':
              overallStyle = 'a mystical, celestial theme with gold and silver accents.';
-             designPlacement = `Place the logo centrally. Arrange a graceful arc of moon phase icons (waxing, full, waning) above the logo. Place the text "${text}" below the logo in a serif or mystical-style font.`;
+             designPlacementInstruction = `Place the logo centrally. Arrange a graceful arc of moon phase icons (waxing, full, waning) above the logo. Place the text "${text}" below the logo in a serif or mystical-style font.`;
             break;
         case 'glam_leopard_print':
              overallStyle = 'a bold, chic, and glamorous fashion style.';
-             designPlacement = `Place the logo in the center. Apply a realistic and fashionable leopard print pattern as an accent around the edges of the logo and text. Place the text "${text}" below the logo.`;
+             designPlacementInstruction = `Place the logo in the center. Apply a realistic and fashionable leopard print pattern as an accent around the edges of the logo and text. Place the text "${text}" below the logo.`;
             break;
         case 'kawaii_cute_doodle':
              overallStyle = 'a fun, playful, and cute Japanese kawaii style.';
-             designPlacement = `Place the logo in the center. Surround the logo and text with small, cute, simple hand-drawn doodles like stars, sparkles, hearts, and happy faces. Place the text "${text}" below the logo in a rounded, bubbly font.`;
+             designPlacementInstruction = `Place the logo in the center. Surround the logo and text with small, cute, simple hand-drawn doodles like stars, sparkles, hearts, and happy faces. Place the text "${text}" below the logo in a rounded, bubbly font.`;
             break;
         case 'watercolor_blooms':
             overallStyle = 'a soft, artistic, and delicate watercolor style.';
-            designPlacement = `Place the logo in the center. Beautifully integrate soft, translucent watercolor flowers (like peonies and roses in pastel pinks and purples) blooming around and behind the logo. Place the text "${text}" below the logo.`;
+            designPlacementInstruction = `Place the logo in the center. Beautifully integrate soft, translucent watercolor flowers (like peonies and roses in pastel pinks and purples) blooming around and behind the logo. Place the text "${text}" below the logo.`;
             break;
         case 'gold_foil_accents':
             overallStyle = 'an elegant, luxurious, and chic style.';
-            designPlacement = `Place the logo centrally. Add delicate, shimmering gold foil accents and splatters around the logo and text to give it a touch of glamour. Place the text "${text}" below the logo.`;
+            designPlacementInstruction = `Place the logo centrally. Add delicate, shimmering gold foil accents and splatters around the logo and text to give it a touch of glamour. Place the text "${text}" below the logo.`;
             break;
         case 'lace_trim_border':
             overallStyle = 'a sophisticated, intricate, and romantic style.';
-            designPlacement = `Place the logo and text "${text}" in the center. Frame the entire design with an elegant and intricate white lace border, creating a sophisticated and delicate look.`;
+            designPlacementInstruction = `Place the logo and text "${text}" in the center. Frame the entire design with an elegant and intricate white lace border, creating a sophisticated and delicate look.`;
             break;
         case 'pastel_tie_dye':
             overallStyle = 'a dreamy, soft, and trendy pastel tie-dye style.';
-            designPlacement = `Create a subtle, circular pastel tie-dye effect (using colors like baby pink, lavender, and mint green) as a background for the main design elements. Place the logo and text "${text}" in the center, on top of the tie-dye pattern.`;
+            designPlacementInstruction = `Create a subtle, circular pastel tie-dye effect (using colors like baby pink, lavender, and mint green) as a background for the main design elements. Place the logo and text "${text}" in the center, on top of the tie-dye pattern.`;
             break;
         case 'starry_night_sky':
             overallStyle = 'a magical, mystical, and dreamy celestial style.';
-            designPlacement = `Place the logo in the center. Create a backdrop of a dark navy night sky with twinkling stars and faint, glowing constellations around the logo. Place the text "${text}" below the logo in an elegant font.`;
+            designPlacementInstruction = `Place the logo in the center. Create a backdrop of a dark navy night sky with twinkling stars and faint, glowing constellations around the logo. Place the text "${text}" below the logo in an elegant font.`;
             break;
         case 'cherry_blossom_dream':
             overallStyle = 'a soft, delicate, and romantic Japanese-inspired style.';
-            designPlacement = `Place the logo and text centrally. Frame the design with elegant, soft-focus cherry blossom branches that appear to be gently blowing in the wind, with a few petals scattered across the design.`;
+            designPlacementInstruction = `Place the logo and text centrally. Frame the design with elegant, soft-focus cherry blossom branches that appear to be gently blowing in the wind, with a few petals scattered across the design.`;
             break;
         case 'satin_lace_trim':
             overallStyle = 'a stylish, luxurious, and elegant boudoir-inspired style.';
-            designPlacement = `Place the logo and text in the center. Create a sophisticated border around the design using a combination of shimmering satin ribbon and delicate, intricate black or white lace.`;
+            designPlacementInstruction = `Place the logo and text in the center. Create a sophisticated border around the design using a combination of shimmering satin ribbon and delicate, intricate black or white lace.`;
             break;
         case 'rose_gold_glitter':
             overallStyle = 'a glamorous, chic, and stylish style.';
-            designPlacement = `Place the logo and text in the center. The design should be accented with a spray of fine, shimmering rose gold glitter that looks like it was just sprinkled on, with some particles catching the light.`;
+            designPlacementInstruction = `Place the logo and text in the center. The design should be accented with a spray of fine, shimmering rose gold glitter that looks like it was just sprinkled on, with some particles catching the light.`;
             break;
         case 'dreamy_angel_wings':
             overallStyle = 'a soft, ethereal, and dreamy angelic style.';
-            designPlacement = `Place the logo and text in the center. Position a pair of large, soft, and ethereal white feathered angel wings so they gracefully arch around the central design.`;
+            designPlacementInstruction = `Place the logo and text in the center. Position a pair of large, soft, and ethereal white feathered angel wings so they gracefully arch around the central design.`;
             break;
         case 'mystical_smoke_perfume':
             overallStyle = 'a mysterious, elegant, and mystical style.';
-            designPlacement = `Place the logo and text in the center. Have wisps of soft, colored smoke (in shades of deep purple and soft pink, like perfume) swirling elegantly around and partially through the design, creating a sense of mystery and allure.`;
+            designPlacementInstruction = `Place the logo and text in the center. Have wisps of soft, colored smoke (in shades of deep purple and soft pink, like perfume) swirling elegantly around and partially through the design, creating a sense of mystery and allure.`;
             break;
         default:
-             designPlacement = `Apply the logo to the center of the product. If there is text, place the text "${text}" below the logo.`;
+             designPlacementInstruction = `Apply the logo to the center of the product. If there is text, place the text "${text}" below the logo.`;
     }
+
+    const placementDescription = getDesignPlacementDescription(designPlacement);
 
     let productInstruction = `Apply the design realistically onto the product in the image.`; // Default
     switch (productType) {
@@ -1031,34 +1053,34 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
         case 'sweatshirt':
         case 'hoodie':
         case 'flat_lay':
-            productInstruction = 'Apply the design realistically onto the center of the apparel.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} of the apparel.`;
             break;
         case 'tshirt_teacup_scene':
-            productInstruction = 'Apply the design realistically onto the center of the t-shirt AND onto the front of the teacup.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} of the t-shirt AND onto the front of the teacup.`;
             break;
         case 'sweatshirt_mug_scene':
-            productInstruction = 'Apply the design realistically onto the center of the sweatshirt AND onto the front of the mug.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} of the sweatshirt AND onto the front of the mug.`;
             break;
         case 'sweatshirt_teacup_scene':
-            productInstruction = 'Apply the design realistically onto the center of the sweatshirt AND onto the front of the teacup.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} of the sweatshirt AND onto the front of the teacup.`;
             break;
         case 'hoodie_teacup_scene':
-            productInstruction = 'Apply the design realistically onto the center of the hoodie AND onto the front of the teacup.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} of the hoodie AND onto the front of the teacup.`;
             break;
         case 'bag':
-            productInstruction = 'Apply the design realistically onto the front face of the bag.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} on the front face of the bag.`;
             break;
         case 'wallet':
-            productInstruction = 'Apply the design realistically onto the front of the wallet.';
+            productInstruction = `Apply the design realistically, placing it ${placementDescription} on the front of the wallet.`;
             break;
         case 'cap':
-             productInstruction = 'Apply the design realistically onto the front of the cap.';
+             productInstruction = `Apply the design realistically, placing it ${placementDescription} on the front of the cap.`;
              break;
         case 'beanie':
-             productInstruction = 'Apply the design realistically onto the front (cuffed area if visible) of the beanie.';
+             productInstruction = `Apply the design realistically, placing it ${placementDescription} on the front (cuffed area if visible) of the beanie.`;
              break;
         case 'pillow':
-             productInstruction = 'Apply the design realistically onto the center of the pillow.';
+             productInstruction = `Apply the design realistically, placing it ${placementDescription} on the pillow.`;
              break;
         case 'frame':
              const textureDescription = getFrameTextureDescription(frameTexture);
@@ -1068,16 +1090,16 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
         case 'sipper_glass':
         case 'tumbler_wrap':
         case 'halloween_tumbler':
-             productInstruction = 'Apply the design realistically, wrapping it around the center of the drinkware.';
+             productInstruction = `Apply the design realistically onto the drinkware, centering the design ${placementDescription} of the product.`;
              break;
         case 'tumbler_trio':
-             productInstruction = 'Apply the same design realistically to the front of all three tumblers.';
+             productInstruction = `Apply the same design realistically to the front of all three tumblers, placing it ${placementDescription} on each tumbler.`;
              break;
         case 'laser_engraving':
-             productInstruction = 'Apply the provided design onto the wooden surface. The design must look like a high-quality, precise, and clean laser engraving. The engraving should have realistic depth and a slightly darkened, burnt-in appearance that follows the material\'s grain and texture. The logo image and text must be converted into a monochrome format suitable for engraving.';
+             productInstruction = `Apply the provided design onto the surface ${placementDescription}. The design must look like a high-quality, precise, and clean laser engraving. The engraving should have realistic depth and a slightly darkened, burnt-in appearance that follows the material's grain and texture. The logo image and text must be converted into a monochrome format suitable for engraving.`;
              break;
         case 'phone_case':
-             productInstruction = 'Apply the design realistically onto the back of the phone case.';
+             productInstruction = `Apply the design realistically, placing it ${placementDescription} on the back of the phone case.`;
              break;
         case 'sticker':
              productInstruction = 'Apply the design to the blank sticker, making it look like a single, cohesive sticker design.';
@@ -1089,7 +1111,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
              productInstruction = 'Apply the design as the image for the entire jigsaw puzzle.';
              break;
         case 'laptop_sleeve':
-             productInstruction = 'Apply the design realistically onto the front of the laptop sleeve.';
+             productInstruction = `Apply the design realistically, placing it ${placementDescription} on the front of the laptop sleeve.`;
              break;
     }
 
@@ -1106,7 +1128,7 @@ export const generateMockup = async (logoFile: File, options: DesignOptions): Pr
 
         **Placement & Style Instructions:**
         - **Overall Style:** The design should be in ${overallStyle}
-        - **Placement:** ${designPlacement}
+        - **Placement:** ${designPlacementInstruction}
         - **Instructions:** ${productInstruction}
 
         **Final Filter Effect:**

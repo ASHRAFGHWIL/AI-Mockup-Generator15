@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory, ArtisticFilter } from './types';
+import type { DesignStyle, ModelPose, ModelAudience, TshirtFont, ProductType, BagMaterial, TextStyle, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, WalletStyle, WalletModel, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProfessionalBackground, WritingTemplateCategory, ArtisticFilter, DesignPlacement } from './types';
 // FIX: Added missing icon imports (TumblerIcon, etc.) to resolve module export errors.
 import { TshirtIcon, SweatshirtIcon, HoodieIcon, BagIcon, FrameIcon, MugIcon, SipperGlassIcon, TumblerIcon, HalloweenTumblerIcon, TumblerTrioIcon, LaserIcon, PhoneCaseIcon, StickerIcon, PosterIcon, WalletIcon, CapIcon, BeanieIcon, PillowIcon, FlatLayIcon, PuzzleIcon, LaptopSleeveIcon, TshirtAndMugIcon, SweatshirtAndMugIcon } from './components/productIcons';
 
@@ -500,6 +500,18 @@ export const DESIGN_STYLES: {id: DesignStyle, nameKey: string}[] = [
     { id: 'mystical_smoke_perfume', nameKey: 'designStyle_mystical_smoke_perfume' },
 ];
 
+export const DESIGN_PLACEMENTS: {id: DesignPlacement, nameKey: string}[] = [
+    { id: 'center', nameKey: 'designPlacement_center' },
+    { id: 'center_right', nameKey: 'designPlacement_center_right' },
+    { id: 'center_left', nameKey: 'designPlacement_center_left' },
+    { id: 'top_center', nameKey: 'designPlacement_top_center' },
+    { id: 'top_right', nameKey: 'designPlacement_top_right' },
+    { id: 'top_left', nameKey: 'designPlacement_top_left' },
+    { id: 'bottom_center', nameKey: 'designPlacement_bottom_center' },
+    { id: 'bottom_right', nameKey: 'designPlacement_bottom_right' },
+    { id: 'bottom_left', nameKey: 'designPlacement_bottom_left' },
+];
+
 export const TEXT_STYLES: {id: TextStyle, nameKey: string}[] = [
     { id: 'none', nameKey: 'textStyle_none' },
     { id: 'outline', nameKey: 'textStyle_outline' },
@@ -673,6 +685,7 @@ export const MODEL_AUDIENCES: {id: ModelAudience, nameKey: string, description: 
 ];
 
 export const TSHIRT_FONTS: {id: TshirtFont, name: string}[] = [
+    { id: 'cairo', name: 'Cairo' },
     { id: 'anton', name: 'Anton' },
     { id: 'archivo_black', name: 'Archivo Black' },
     { id: 'bangers', name: 'Bangers' },

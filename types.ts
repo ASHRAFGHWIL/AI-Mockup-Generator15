@@ -18,7 +18,7 @@ export type ModelAudience =
   'man_40s_business' |
   'man_50s_distinguished';
 
-export type TshirtFont = 'impact' | 'bebas_neue' | 'lobster' | 'montserrat' | 'oswald' | 'anton' | 'archivo_black' | 'pacifico' | 'bangers' | 'permanent_marker' | 'roboto' | 'playfair_display' | 'creepster' | 'nosifier' | 'merriweather' | 'lato' | 'poppins' | 'zilla_slab' | 'caveat' | 'dancing_script' | 'rock_salt' | 'special_elite' | 'press_start_2p' | 'monoton';
+export type TshirtFont = 'cairo' | 'impact' | 'bebas_neue' | 'lobster' | 'montserrat' | 'oswald' | 'anton' | 'archivo_black' | 'pacifico' | 'bangers' | 'permanent_marker' | 'roboto' | 'playfair_display' | 'creepster' | 'nosifier' | 'merriweather' | 'lato' | 'poppins' | 'zilla_slab' | 'caveat' | 'dancing_script' | 'rock_salt' | 'special_elite' | 'press_start_2p' | 'monoton';
 
 // New types
 export type ProductType = 'tshirt' | 'sweatshirt' | 'hoodie' | 'bag' | 'frame' | 'mug' | 'sipper_glass' | 'tumbler_wrap' | 'halloween_tumbler' | 'tumbler_trio' | 'laser_engraving' | 'phone_case' | 'sticker' | 'poster' | 'wallet' | 'cap' | 'beanie' | 'pillow' | 'flat_lay' | 'jigsaw_puzzle' | 'laptop_sleeve' | 'tshirt_teacup_scene' | 'sweatshirt_mug_scene' | 'hoodie_teacup_scene' | 'sweatshirt_teacup_scene';
@@ -99,6 +99,7 @@ export type WritingTemplateCategory = {
 };
 
 export type ArtisticFilter = 'none' | 'sepia' | 'grayscale' | 'vintage' | 'noir';
+export type DesignPlacement = 'center' | 'center_right' | 'center_left' | 'top_center' | 'top_right' | 'top_left' | 'bottom_center' | 'bottom_right' | 'bottom_left';
 
 export interface DesignOptions {
   productType: ProductType;
@@ -114,6 +115,7 @@ export interface DesignOptions {
   backgroundStyle: BackgroundStyle;
   professionalBackground: ProfessionalBackground;
   artisticFilter: ArtisticFilter;
+  designPlacement: DesignPlacement;
   
   // T-shirt specific
   style: DesignStyle;
