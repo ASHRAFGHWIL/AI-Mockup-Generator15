@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import type { DesignOptions, SetDesignOptions, TextStyle, ImageMode, DesignStyle, ModelPose, ModelAudience, TshirtFont, BagMaterial, WalletStyle, WalletModel, FrameStyle, FrameModel, FrameDimension, FrameTexture, MugStyle, MugModel, SipperGlassStyle, SipperGlassModel, TumblerStyle, TumblerModel, HalloweenTumblerStyle, HalloweenTumblerSetting, TumblerTrioStyle, TumblerTrioSetting, PhoneCaseStyle, PhoneCaseModel, StickerStyle, StickerSetting, PosterStyle, PosterSetting, CapStyle, CapModel, BeanieStyle, BeanieModel, PillowStyle, PillowSetting, FlatLayStyle, PuzzleStyle, PuzzleSetting, LaptopSleeveStyle, LaptopSleeveSetting, BackgroundStyle, ProductType, AspectRatio, ProfessionalBackground, ArtisticFilter, DesignPlacement, ProductTexture } from '../types';
 import { PRODUCT_COLORS, DESIGN_STYLES, MODEL_POSES, MODEL_AUDIENCES, TSHIRT_FONTS, PRODUCT_TYPES, BAG_MATERIALS, TEXT_STYLES, BACKGROUND_STYLES, PROFESSIONAL_BACKGROUNDS, FRAME_STYLES, FRAME_MODELS, FRAME_TEXTURES, FRAME_DIMENSIONS, MUG_STYLES, MUG_MODELS, SIPPER_GLASS_STYLES, SIPPER_GLASS_MODELS, TUMBLER_STYLES, TUMBLER_MODELS, HALLOWEEN_TUMBLER_STYLES, HALLOWEEN_TUMBLER_SETTINGS, TUMBLER_TRIO_STYLES, TUMBLER_TRIO_SETTINGS, PHONE_CASE_STYLES, PHONE_CASE_MODELS, STICKER_STYLES, STICKER_SETTINGS, POSTER_STYLES, POSTER_SETTINGS, WALLET_STYLES, WALLET_MODELS, CAP_STYLES, CAP_MODELS, BEANIE_STYLES, BEANIE_MODELS, PILLOW_STYLES, PILLOW_SETTINGS, FLAT_LAY_STYLES, PUZZLE_STYLES, PUZZLE_SETTINGS, LAPTOP_SLEEVE_STYLES, LAPTOP_SLEEVE_SETTINGS, WRITING_TEMPLATES, ARTISTIC_FILTERS, DESIGN_PLACEMENTS, PRODUCT_TEXTURES } from '../constants';
 import { UploadIcon, TrashIcon, WandIcon, FitIcon, FitBlurIcon, FitTransparentIcon, CropIcon, StretchIcon, AspectRatioSquareIcon, AspectRatioHorizontalIcon, AspectRatioVerticalIcon } from './icons';
-import ColorPicker from './ColorPicker';
 import { useTranslation } from '../hooks/useTranslation';
 
 interface ControlsPanelProps {
@@ -14,6 +13,23 @@ interface ControlsPanelProps {
   imageMode: ImageMode;
   setImageMode: React.Dispatch<React.SetStateAction<ImageMode>>;
 }
+
+// Helper to decide if text should be black or white on a colored background
+const getContrastColor = (hex: string): 'white' | 'black' => {
+  if (!hex || hex.length < 4) return 'white';
+  let cleanHex = hex.startsWith('#') ? hex.slice(1) : hex;
+  if (cleanHex.length === 3) {
+    cleanHex = cleanHex.split('').map(char => char + char).join('');
+  }
+  if (cleanHex.length !== 6) return 'white';
+
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 128 ? 'black' : 'white';
+};
 
 const getTextStylePreview = (styleId: TextStyle): React.CSSProperties => {
     const baseStyle: React.CSSProperties = {
@@ -331,13 +347,34 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
                 })}
               </select>
             </div>
-
-            <ColorPicker
-                label={t('textColorLabel')}
-                colors={PRODUCT_COLORS}
-                selectedValue={design.textColor}
-                onChange={(color) => setDesign(d => ({ ...d, textColor: color }))}
-            />
+            
+            {/* Text Color Dropdown */}
+            <div>
+              <label htmlFor="text-color" className="block text-sm font-medium text-gray-300">{t('textColorLabel')}</label>
+              <select
+                id="text-color"
+                value={design.textColor}
+                onChange={(e) => setDesign(d => ({ ...d, textColor: e.target.value }))}
+                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+                style={{
+                  backgroundColor: design.textColor,
+                  color: getContrastColor(design.textColor),
+                }}
+              >
+                {PRODUCT_COLORS.map(color => (
+                  <option
+                    key={color.name}
+                    value={color.value}
+                    style={{
+                      backgroundColor: color.value,
+                      color: getContrastColor(color.value),
+                    }}
+                  >
+                    {color.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             {design.textStyle === 'gradient' && (
               <>
@@ -378,12 +415,32 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({ design, setDesign, onGene
 
       {/* Product Color */}
       {design.productType !== 'jigsaw_puzzle' && design.productType !== 'poster' && design.productType !== 'sticker' && design.productType !== 'laser_engraving' && (
-         <ColorPicker
-            label={productColorLabel}
-            colors={PRODUCT_COLORS}
-            selectedValue={design.productColor}
-            onChange={(color) => setDesign(d => ({ ...d, productColor: color }))}
-        />
+         <div>
+            <label htmlFor="product-color" className="block text-sm font-medium text-gray-300">{productColorLabel}</label>
+            <select
+                id="product-color"
+                value={design.productColor}
+                onChange={(e) => setDesign(d => ({ ...d, productColor: e.target.value }))}
+                className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"
+                style={{
+                  backgroundColor: design.productColor,
+                  color: getContrastColor(design.productColor),
+                }}
+              >
+                {PRODUCT_COLORS.map(color => (
+                  <option
+                    key={color.name}
+                    value={color.value}
+                    style={{
+                      backgroundColor: color.value,
+                      color: getContrastColor(color.value),
+                    }}
+                  >
+                    {color.name}
+                  </option>
+                ))}
+            </select>
+        </div>
       )}
 
       {/* Product Texture */}

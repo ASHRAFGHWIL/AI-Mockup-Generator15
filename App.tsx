@@ -409,6 +409,8 @@ const AppContent: React.FC = () => {
             isPreviewExpanded={false}
             onExitPreview={() => {}}
             onExpandPreview={() => setIsPreviewExpanded(true)}
+            onUndo={handleUndo}
+            canUndo={canUndo}
           />
         </div>
       </main>

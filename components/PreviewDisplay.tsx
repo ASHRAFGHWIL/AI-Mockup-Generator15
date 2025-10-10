@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { WandIcon, DownloadIcon, BackArrowIcon, ZoomInIcon, ZoomOutIcon, ExpandIcon } from './icons';
+import { WandIcon, DownloadIcon, BackArrowIcon, ZoomInIcon, ZoomOutIcon, ExpandIcon, UndoIcon } from './icons';
 import type { ProductType, ImageMode } from '../types';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -17,9 +17,11 @@ interface PreviewDisplayProps {
   isPreviewExpanded: boolean;
   onExitPreview: () => void;
   onExpandPreview?: () => void;
+  onUndo?: () => void;
+  canUndo?: boolean;
 }
 
-const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview, onExpandPreview }) => {
+const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoading, error, productType, onDownloadCombinedSvg, onDownloadCombinedPng, onDownloadEngravingSvg, onDownloadMockupPng, onDownloadMockupJpg, imageMode, isPreviewExpanded, onExitPreview, onExpandPreview, onUndo, canUndo }) => {
     const { t } = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
     const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
@@ -131,6 +133,18 @@ const PreviewDisplay: React.FC<PreviewDisplayProps> = ({ generatedImage, isLoadi
                 className={`absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center gap-4 transition-opacity duration-300 ease-in-out ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                 aria-hidden={!isHovered}
               >
+                {/* Undo Button */}
+                {onUndo && (
+                  <button
+                    onClick={onUndo}
+                    disabled={!canUndo}
+                    className="p-3 bg-black/40 text-white rounded-full hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white transition-transform transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                    aria-label={t('undo')}
+                    title={t('undo')}
+                  >
+                    <UndoIcon className="w-7 h-7" />
+                  </button>
+                )}
                 {/* Expand Button */}
                 {onExpandPreview && (
                   <button
